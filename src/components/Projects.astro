@@ -2,6 +2,13 @@
 import GitHub from "./icons/GitHub.astro"
 import NextJS from "./icons/NextJS.astro"
 import Tailwind from "./icons/Tailwind.astro"
+import Django from "./icons/Django.astro"
+import Python from "./icons/Python.astro"
+import AWS from "./icons/AWS.astro"
+import NodeJS from "./icons/NodeJS.astro"
+import ReactJS from "./icons/ReactJS.astro"
+import MongoDB from "./icons/MongoDB.astro"
+import MYSQL from "./icons/MYSQL.astro"
 import Link from "./icons/Link.astro"
 import LinkButton from "./LinkButton.astro"
 
@@ -12,28 +19,63 @@ const TAGS = {
     icon: NextJS,
   },
   TAILWIND: {
-    name: "Tailwind CSS",
-    class: "bg-[#003159] text-white",
+    name: "Tailwind",
+   class: "bg-[#fff] text-black",
     icon: Tailwind,
   },
+  DJANGO: {
+    name: "Django",
+    class: "bg-[#fff] text-black",
+    icon: Django,
+  },
+  PYTHON: {
+    name: "Python",
+    class: "bg-[#fff] text-black",
+    icon: Python,
+  },
+  AWS: {
+    name: "AWS",
+    class: "bg-[#fff] text-black",
+    icon: AWS,
+  },
+  NODEJS: {
+    name: "NodeJS",
+    class: "bg-[#fff] text-black",
+    icon: NodeJS,
+  },
+  REACTJS: {
+    name: "ReactJS",
+    class: "bg-[#fff] text-black",
+    icon: ReactJS,
+  },
+  MONGODB: {
+    name: "MongoDB",
+    class: "bg-[#fff] text-black",
+    icon: MongoDB,
+  },
+  MYSQL: {
+    name: "MYSQL",
+    class: "bg-[#fff] text-black",
+    icon: MYSQL,
+  }
 }
 const PROJECTS = [
   {
-    title: "SVGL - A beautiful library with SVG logos",
-    description:
-      "Biblioteca de logos SVG de las marcas más populares. +10k visitas al mes. +2K svgs descargados. Creado desde cero con Next.js, React y Tailwind CSS.",
-    link: "https://svgl.vercel.app/",
-    github: "https://github.com/pheralb/svgl",
-    image: "/projects/svgl.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    title: "RoboInk: Automated 3D Card Printing System",
+    description: "RoboInk is an automated 3D card printing system that streamlines personalized print jobs for e-commerce, reducing manual effort by 90%. It leverages Django and AWS to convert SVG designs to G-code, ensuring reliable, end-to-end automation from order to printer.",
+    link: "https://roboink.de/",
+    github: "https://github.com/ahmedazhar2299/",
+    image: "/projects/Roboink.webp",
+    tags: [TAGS.PYTHON, TAGS.DJANGO,  TAGS.AWS, TAGS.MYSQL],
   },
   {
-    title: "AdventJS - Retos de programación con JavaScript y TypeScript",
+    title: "Artsy: Real-Time Art Auction Platform",
     description:
-      "Plataforma gratuita con retos de programación. Más de 1 millón de visitas en un mes. +50K retos completados. Creada desde cero con Next.js, React y Tailwind CSS.",
-    link: "https://adventjs.dev",
-    image: "/projects/adventjs.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+      "Artsy is a real-time digital art auction platform enabling live bidding and secure payments, enhancing user engagement and trust. Built with NodeJS, ReactJS, and WebSockets, it ensures low-latency, scalable auctions with seamless concurrent bidding.",
+    link: "https://artsy-delta.vercel.app/signin",
+    github: "https://github.com/MusaMalikx/Artsy",
+    image: "/projects/Artsy.webp",
+    tags: [TAGS.REACTJS, TAGS.TAILWIND, TAGS.NODEJS, TAGS.MONGODB, TAGS.MYSQL],
   },
 ]
 ---
@@ -53,7 +95,7 @@ const PROJECTS = [
       {title}
     </h3>
     <div class="flex flex-wrap mt-2">
-      <ul class="flex flex-row mb-2 gap-x-2">
+      <ul class="flex flex-wrap flex-row mb-2 gap-x-2 gap-y-2">
           {tags.map((tag) => (
             <li>
               <span
