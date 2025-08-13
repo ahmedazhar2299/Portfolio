@@ -1,5 +1,4 @@
-# 👨🏻‍💻 Porfolio para programadores y desarrolladores
-
+# 👨🏻‍💻 Portfolio for programmers and developers
 <div align="center">
 <a href="https://porfolio.dev/">
 <img src="./public/porfolio.webp">
