@@ -347,6 +347,70 @@ export default function App() {
             </motion.section>
 
             <motion.section
+              id="experience"
+              className="doc-block"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <SectionHeading
+                icon="timeline"
+                title="Experience"
+                note="Applied backend, GenAI, and research work across production engineering and healthcare ML."
+              />
+
+              <div className="experience-grid">
+                {experienceEntries.map((entry, index) => (
+                  <motion.article
+                    key={`${entry.period}-${entry.company}-${entry.role}`}
+                    className="experience-card"
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.4, delay: index * 0.04, ease: "easeOut" }}
+                  >
+                    <header className="experience-head">
+                      <div className="experience-brand">
+                        <figure className="experience-logo">
+                          <img src={entry.logo} alt={entry.logoAlt} width={160} height={64} loading="lazy" />
+                        </figure>
+                        <div className="experience-title">
+                          <h3>{entry.role}</h3>
+                          <h4>{entry.company}</h4>
+                        </div>
+                      </div>
+
+                      <div className="experience-meta">
+                        <p>{entry.period}</p>
+                        <span>{entry.location}</span>
+                      </div>
+                    </header>
+
+                    <p className="experience-summary">{entry.summary}</p>
+
+                    <ul className="experience-list">
+                      {entry.highlights.map((item) => (
+                        <li key={item}>
+                          <Icon name="check" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {entry.href ? (
+                      <a href={entry.href} target="_blank" rel="noreferrer" className="experience-link">
+                        Reference
+                        <Icon name="external" />
+                      </a>
+                    ) : null}
+                  </motion.article>
+                ))}
+              </div>
+            </motion.section>
+
+            <motion.section
               id="projects"
               className="doc-block"
               variants={fadeUp}
@@ -399,31 +463,6 @@ export default function App() {
                       <small>{item.imageCredit}</small>
                     </div>
                   </motion.article>
-                ))}
-              </div>
-            </motion.section>
-
-            <motion.section
-              id="experience"
-              className="doc-block"
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            >
-              <SectionHeading icon="timeline" title="Experience" note="Chronological highlights from industry and graduate study." />
-
-              <div className="timeline-table">
-                {experienceEntries.map((entry) => (
-                  <article key={`${entry.period}-${entry.company}`} className="timeline-row">
-                    <p>{entry.period}</p>
-                    <div>
-                      <h3>{entry.role}</h3>
-                      <h4>{entry.company}</h4>
-                      <span>{entry.note}</span>
-                    </div>
-                  </article>
                 ))}
               </div>
             </motion.section>

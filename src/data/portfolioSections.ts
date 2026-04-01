@@ -17,8 +17,8 @@ export type IconName =
 
 export const navSections = [
   { id: "about", label: "About", icon: "profile" as IconName },
-  { id: "projects", label: "Projects", icon: "projects" as IconName },
   { id: "experience", label: "Experience", icon: "timeline" as IconName },
+  { id: "projects", label: "Projects", icon: "projects" as IconName },
   { id: "stack", label: "Stack", icon: "stack" as IconName },
   { id: "contact", label: "Contact", icon: "mail" as IconName },
 ] as const
@@ -99,30 +99,101 @@ export const projectEntries = [
   },
 ]
 
-export const experienceEntries = [
+export type ExperienceEntry = {
+  period: string
+  role: string
+  company: string
+  location: string
+  summary: string
+  highlights: string[]
+  logo: string
+  logoAlt: string
+  href?: string
+}
+
+export const experienceEntries: ExperienceEntry[] = [
   {
-    period: "2024 - 2025",
+    period: "2025 - Present",
+    role: "Research Assistant, Machine Learning for Stroke Neurorehabilitation",
+    company: "Chapman University",
+    location: "Orange, California",
+    summary:
+      "Designing ML workflows on wearable-sensor activity data to support clinically relevant, remote stroke rehabilitation monitoring.",
+    highlights: [
+      "Collect and curate naturalistic movement data from stroke and healthy cohorts using L5/S1 wearable sensor setups.",
+      "Build feature-engineering and preprocessing workflows for multi-day time-series data, including segmentation and quality filtering.",
+      "Develop and evaluate activity-classification models (RNN and baseline models) for stroke-versus-healthy movement differentiation.",
+      "Translate model outputs into clinician-friendly analyses; related published dataset work in this research line reports up to 97.3% classification accuracy.",
+    ],
+    logo: "/experience/logos/chapman.gif",
+    logoAlt: "Chapman University logo",
+    href: "https://digitalcommons.chapman.edu/pt_data/3/",
+  },
+  {
+    period: "Dec 2024 - Jul 2025",
     role: "Software Engineer",
     company: "Paismo",
-    note: "Led backend services for attendance and hiring systems across enterprise customers.",
+    location: "Lahore, Pakistan",
+    summary:
+      "Owned backend architecture for attendance policy execution and AI-assisted hiring workflows on a high-throughput SaaS platform.",
+    highlights: [
+      "Designed and rolled out a high-availability attendance policy microservice serving 5K+ employees across 40+ organizations and 100K+ requests/day.",
+      "Cut policy-evaluation latency by 80% through schema redesign, targeted indexing, query-plan tuning, and cache-aside reads.",
+      "Built a RAG-based resume-to-job matching engine processing 1K+ resumes/day and indexing 50K+ embeddings.",
+      "Added an offline evaluation harness with hybrid relevance scoring that improved top-K precision by 18%.",
+    ],
+    logo: "/experience/logos/paismo.png",
+    logoAlt: "Paismo logo",
+    href: "https://paismo.com/",
   },
   {
-    period: "2023 - 2024",
+    period: "Jul 2023 - Dec 2024",
     role: "Software Engineer",
     company: "xiQ, Inc.",
-    note: "Built production backend services for a multi-tenant GenAI platform.",
+    location: "Lahore, Pakistan",
+    summary:
+      "Built and operated backend services for a multi-tenant B2B GenAI email platform with strong tenant isolation and reliability guardrails.",
+    highlights: [
+      "Supported 50+ enterprise tenants and 8K+ daily active users across LLM-powered, API-driven workflow surfaces.",
+      "Improved performance at 300K+ workflow executions/month using batching, pagination, connection pooling, and cache improvements.",
+      "Reduced end-to-end latency by 35% through profiling and targeted database/query optimizations.",
+      "Strengthened production operations with dashboards, alerts, and deploy checks, enabling 10+ safe deploys/week and 40% faster incident detection.",
+    ],
+    logo: "/experience/logos/xiq.svg",
+    logoAlt: "xiQ logo",
+    href: "https://xiqinc.com/",
   },
   {
-    period: "2022",
+    period: "Jul 2022 - Sep 2022",
     role: "Software Engineering Intern",
     company: "Tintash",
-    note: "Delivered API endpoints and relational models for client applications.",
+    location: "Lahore, Pakistan",
+    summary:
+      "Shipped backend features for client-facing products with a focus on clean API contracts and dependable data modeling.",
+    highlights: [
+      "Built production REST endpoints and relational data models used by web product teams.",
+      "Implemented validation, pagination, and consistent error contracts to simplify downstream frontend integration.",
+      "Contributed to maintainable service patterns that improved handoff quality for production delivery.",
+    ],
+    logo: "/experience/logos/tintash.svg",
+    logoAlt: "Tintash logo",
+    href: "https://tintash.com/",
   },
   {
     period: "2025 - 2027",
-    role: "M.S. Computer Science (AI)",
+    role: "M.S. Computer Science (Artificial Intelligence)",
     company: "California State University, Long Beach",
-    note: "Graduate study focused on AI systems, machine learning, and software architecture.",
+    location: "Long Beach, California",
+    summary:
+      "Graduate study focused on AI systems, distributed computing, and production-grade software engineering.",
+    highlights: [
+      "Current GPA: 4.0.",
+      "Coursework includes Distributed Computing, Machine Vision, Reinforcement Learning, and LLM-focused advanced AI topics.",
+      "Applying graduate research and systems thinking directly to production engineering work.",
+    ],
+    logo: "/experience/logos/csulb.png",
+    logoAlt: "California State University, Long Beach logo",
+    href: "https://www.csulb.edu/",
   },
 ]
 
