@@ -1,126 +1,482 @@
-import { AnimatePresence, MotionConfig, motion, useReducedMotion } from "framer-motion"
-import { type ReactNode } from "react"
-import { BrowserRouter, Link, NavLink, Route, Routes, useLocation } from "react-router-dom"
-import { ContactPage } from "./pages/ContactPage"
-import { HomePage } from "./pages/HomePage"
-import { NotFoundPage } from "./pages/NotFoundPage"
-import { PlaygroundPage } from "./pages/PlaygroundPage"
-import { ProjectPage } from "./pages/ProjectPage"
-import { StoryPage } from "./pages/StoryPage"
-import { WorkPage } from "./pages/WorkPage"
+import { motion, useReducedMotion } from "framer-motion"
+import { useEffect, useMemo, useState } from "react"
+import { Seo } from "./components/Seo"
+import { profile } from "./data/profile"
+import {
+  type IconName,
+  aboutParagraphs,
+  contactLinks,
+  experienceEntries,
+  introBadges,
+  navSections,
+  nowList,
+  projectEntries,
+  stackGroups,
+} from "./data/portfolioSections"
 
-const navItems = [
-  { to: "/", label: "Home", end: true },
-  { to: "/story", label: "Story" },
-  { to: "/work", label: "Work" },
-  { to: "/playground", label: "Playground" },
-  { to: "/contact", label: "Contact" },
-]
+type SectionId = (typeof navSections)[number]["id"]
 
-function RouteScene() {
-  const location = useLocation()
-  const reducedMotion = useReducedMotion()
-
-  return (
-    <main id="main-content" className="route-root">
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={location.pathname}
-          className="route-layer"
-          initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 26, filter: "blur(8px)" }}
-          animate={reducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, filter: "blur(0px)" }}
-          exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -14, filter: "blur(8px)" }}
-          transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Routes location={location}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/story" element={<StoryPage />} />
-            <Route path="/work" element={<WorkPage />} />
-            <Route path="/work/:slug" element={<ProjectPage />} />
-            <Route path="/playground" element={<PlaygroundPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </motion.div>
-      </AnimatePresence>
-    </main>
-  )
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
 }
 
-function SiteChrome({ children }: { children: ReactNode }) {
-  const reducedMotion = useReducedMotion()
+function Icon({ name, className }: { name: IconName; className?: string }) {
+  const cls = className ?? "icon"
 
+  switch (name) {
+    case "profile":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <circle cx="12" cy="8" r="3.3" />
+          <path d="M5 20c0-3.7 3.2-6 7-6s7 2.3 7 6" />
+        </svg>
+      )
+    case "projects":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="3.5" y="5" width="17" height="14" rx="2.2" />
+          <path d="M3.5 9h17M10 9V5" />
+        </svg>
+      )
+    case "timeline":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M6 5v14M18 5v14M6 12h12" />
+          <circle cx="12" cy="12" r="2.2" />
+        </svg>
+      )
+    case "stack":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="m12 3 8 4.2-8 4.2-8-4.2L12 3Z" />
+          <path d="m4 12 8 4.2 8-4.2" />
+          <path d="m4 16.5 8 4.2 8-4.2" />
+        </svg>
+      )
+    case "mail":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
+          <path d="m4.5 7 7.5 6 7.5-6" />
+        </svg>
+      )
+    case "location":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M12 20s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z" />
+          <circle cx="12" cy="10" r="2.1" />
+        </svg>
+      )
+    case "status":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <circle cx="12" cy="12" r="8" />
+          <path d="M8.5 12.5 11 15l4.5-5" />
+        </svg>
+      )
+    case "spark":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M12 3v5M12 16v5M3 12h5M16 12h5" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      )
+    case "external":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M10 5H5v14h14v-5" />
+          <path d="M14 5h5v5M10 14 19 5" />
+        </svg>
+      )
+    case "check":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="m5 12 4 4 10-10" />
+        </svg>
+      )
+    case "resume":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M7 3h7l4 4v14H7z" />
+          <path d="M14 3v4h4M10 12h6M10 16h6" />
+        </svg>
+      )
+    case "github":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="m9 8-4 4 4 4M15 8l4 4-4 4" />
+          <path d="m14 6-4 12" />
+        </svg>
+      )
+    case "linkedin":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="3" y="3" width="18" height="18" rx="3" />
+          <path d="M8 10v7M8 7h.01M12 17v-4a2 2 0 1 1 4 0v4" />
+        </svg>
+      )
+    default:
+      return null
+  }
+}
+
+function SectionHeading({ icon, title, note }: { icon: IconName; title: string; note: string }) {
   return (
-    <>
-      <a className="skip-link" href="#main-content">
-        Skip to content
-      </a>
-
-      <div className="site-bg" aria-hidden="true">
-        <div className="site-grid" />
-        {!reducedMotion && (
-          <>
-            <motion.div
-              className="site-glow glow-a"
-              animate={{ x: [0, 32, -18, 0], y: [0, -18, 22, 0] }}
-              transition={{ duration: 21, ease: "easeInOut", repeat: Infinity }}
-            />
-            <motion.div
-              className="site-glow glow-b"
-              animate={{ x: [0, -24, 30, 0], y: [0, 18, -24, 0] }}
-              transition={{ duration: 19, ease: "easeInOut", repeat: Infinity }}
-            />
-          </>
-        )}
-      </div>
-
-      <div className="site-wordmark" aria-hidden="true">
-        AHMED
-      </div>
-
-      <header className="site-header shell glass-panel">
-        <Link to="/" className="brand">
-          <span>MA</span>
-          <small>Muhammad Ahmed</small>
-        </Link>
-
-        <nav aria-label="Primary navigation">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.end}
-              className={({ isActive }) =>
-                isActive ? "nav-link is-active" : "nav-link"
-              }
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
-
-        <a href="/resume/resume.pdf" target="_blank" rel="noreferrer" className="header-resume-link">
-          Resume
-        </a>
-      </header>
-
-      {children}
-
-      <footer className="shell site-footer">
-        <p>© {new Date().getFullYear()} Muhammad Ahmed. Built with React and Framer Motion.</p>
-      </footer>
-    </>
+    <header className="block-header">
+      <p className="block-label">
+        <Icon name={icon} />
+        {title}
+      </p>
+      <p>{note}</p>
+    </header>
   )
 }
 
 export default function App() {
+  const reducedMotion = useReducedMotion()
+  const [activeSection, setActiveSection] = useState<SectionId>("about")
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  const sectionIds = useMemo(() => navSections.map((item) => item.id), [])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  useEffect(() => {
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((node): node is HTMLElement => node !== null)
+
+    if (!sections.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+
+        if (visible[0]) {
+          const id = visible[0].target.id as SectionId
+          setActiveSection(id)
+        }
+      },
+      {
+        rootMargin: "-36% 0px -48% 0px",
+        threshold: [0.25, 0.5, 0.75],
+      },
+    )
+
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [sectionIds])
+
+  const scrollToSection = (id: SectionId) => {
+    const section = document.getElementById(id)
+    if (!section) return
+
+    section.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" })
+    setMobileMenuOpen(false)
+  }
+
   return (
-    <MotionConfig reducedMotion="user">
-      <BrowserRouter>
-        <SiteChrome>
-          <RouteScene />
-        </SiteChrome>
-      </BrowserRouter>
-    </MotionConfig>
+    <>
+      <Seo
+        title="Home"
+        description="Muhammad Ahmed portfolio featuring backend architecture, AI systems, and cloud engineering work."
+        pathname="/"
+      />
+
+      <div className="notion-root">
+        <header className={scrolled ? "topbar is-scrolled" : "topbar"}>
+          <div className="topbar-shell">
+            <div className="crumbs">
+              <button type="button" onClick={() => scrollToSection("about")}>
+                {profile.name}
+              </button>
+              <span>/</span>
+              <p>Portfolio</p>
+            </div>
+
+            <nav className="topbar-links" aria-label="Primary">
+              {navSections.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={activeSection === item.id ? "is-active" : ""}
+                  onClick={() => scrollToSection(item.id)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+
+            <a href={profile.resume} target="_blank" rel="noreferrer" className="topbar-resume">
+              Resume
+            </a>
+
+            <button
+              type="button"
+              className={mobileMenuOpen ? "mobile-toggle is-open" : "mobile-toggle"}
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-expanded={mobileMenuOpen}
+              aria-label="Toggle menu"
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          </div>
+
+          <div className={mobileMenuOpen ? "mobile-panel is-open" : "mobile-panel"}>
+            {navSections.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={activeSection === item.id ? "is-active" : ""}
+                onClick={() => scrollToSection(item.id)}
+              >
+                <Icon name={item.icon} />
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </header>
+
+        <div className="workspace">
+          <aside className="left-rail">
+            <div className="rail-card profile-card">
+              <img src="/ahmed.webp" alt="Portrait of Muhammad Ahmed" width={360} height={420} loading="lazy" />
+              <h1>{profile.name}</h1>
+              <p>{profile.role}</p>
+              <small>{profile.location}</small>
+            </div>
+
+            <div className="rail-card">
+              <p className="rail-heading">Contents</p>
+              <nav aria-label="Section index" className="rail-nav">
+                {navSections.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={activeSection === item.id ? "is-active" : ""}
+                    onClick={() => scrollToSection(item.id)}
+                  >
+                    <Icon name={item.icon} />
+                    {item.label}
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            <div className="rail-card quick-links">
+              <p className="rail-heading">Links</p>
+              <a href={profile.github} target="_blank" rel="noreferrer">
+                <Icon name="github" />
+                GitHub
+              </a>
+              <a href={profile.linkedin} target="_blank" rel="noreferrer">
+                <Icon name="linkedin" />
+                LinkedIn
+              </a>
+              <a href={`mailto:${profile.email}`}>
+                <Icon name="mail" />
+                Email
+              </a>
+            </div>
+          </aside>
+
+          <main className="document">
+            <motion.section
+              id="about"
+              className="doc-block about-block"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <div className="page-cover" aria-hidden="true" />
+
+              <div className="page-title-row">
+                <div className="page-icon">
+                  <Icon name="profile" />
+                </div>
+                <div>
+                  <h2>{profile.name}</h2>
+                  <p>{profile.heroStatement}</p>
+                </div>
+              </div>
+
+              <div className="badge-row">
+                {introBadges.map((badge) => (
+                  <span key={badge.text}>
+                    <Icon name={badge.icon} />
+                    {badge.text}
+                  </span>
+                ))}
+              </div>
+
+              <div className="about-layout">
+                <div className="about-copy">
+                  {aboutParagraphs.map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+                </div>
+
+                <div className="callout">
+                  <p>
+                    <Icon name="status" />
+                    Currently
+                  </p>
+                  <ul>
+                    {nowList.map((item) => (
+                      <li key={item}>
+                        <Icon name="check" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </motion.section>
+
+            <motion.section
+              id="projects"
+              className="doc-block"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <SectionHeading icon="projects" title="Projects" note="Selected work presented in a Notion-style gallery view." />
+
+              <div className="project-grid">
+                {projectEntries.map((item, index) => (
+                  <motion.article
+                    key={item.title}
+                    className="project-card"
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
+                  >
+                    <img src={item.image} alt={`${item.title} preview`} width={960} height={560} loading="lazy" />
+                    <div className="project-body">
+                      <h3>{item.title}</h3>
+                      <p className="project-subtitle">{item.subtitle}</p>
+                      <p>{item.summary}</p>
+                      <p className="project-result">{item.result}</p>
+                      <div className="tag-row">
+                        {item.tech.map((tech) => (
+                          <span key={tech}>{tech}</span>
+                        ))}
+                      </div>
+                      <a href={item.href} target="_blank" rel="noreferrer">
+                        Source
+                        <Icon name="external" />
+                      </a>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+            </motion.section>
+
+            <motion.section
+              id="experience"
+              className="doc-block"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <SectionHeading icon="timeline" title="Experience" note="Chronological highlights from industry and graduate study." />
+
+              <div className="timeline-table">
+                {experienceEntries.map((entry) => (
+                  <article key={`${entry.period}-${entry.company}`} className="timeline-row">
+                    <p>{entry.period}</p>
+                    <div>
+                      <h3>{entry.role}</h3>
+                      <h4>{entry.company}</h4>
+                      <span>{entry.note}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </motion.section>
+
+            <motion.section
+              id="stack"
+              className="doc-block"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <SectionHeading icon="stack" title="Stack" note="Core tools and engineering areas I rely on most." />
+
+              <div className="stack-grid">
+                {stackGroups.map((group) => (
+                  <article key={group.title} className="stack-card">
+                    <h3>{group.title}</h3>
+                    <ul>
+                      {group.items.map((item) => (
+                        <li key={item}>
+                          <Icon name="check" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            </motion.section>
+
+            <motion.section
+              id="contact"
+              className="doc-block"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <SectionHeading icon="mail" title="Contact" note="Open to software engineering and applied AI opportunities." />
+
+              <div className="contact-grid">
+                {contactLinks.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target={item.href.startsWith("/") || item.href.startsWith("mailto:") ? undefined : "_blank"}
+                    rel="noreferrer"
+                    className="contact-item"
+                  >
+                    <p>
+                      <Icon name={item.icon} />
+                      {item.label}
+                    </p>
+                    <strong>{item.value}</strong>
+                  </a>
+                ))}
+              </div>
+            </motion.section>
+          </main>
+        </div>
+
+        <footer className="footer-note">
+          <p>(c) {new Date().getFullYear()} {profile.name}. Built with React and Framer Motion.</p>
+        </footer>
+      </div>
+    </>
   )
 }
