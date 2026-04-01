@@ -1,0 +1,21 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Computer Vision SIMD placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#1B2B42"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect x="220" y="140" width="840" height="420" rx="18" stroke="#87B8FF" stroke-width="3"/>
+  <g stroke="#6EA3F5" stroke-width="2" opacity="0.8">
+    <path d="M300 200H980"/><path d="M300 280H980"/><path d="M300 360H980"/><path d="M300 440H980"/>
+    <path d="M300 200V500"/><path d="M420 200V500"/><path d="M540 200V500"/><path d="M660 200V500"/><path d="M780 200V500"/><path d="M900 200V500"/>
+  </g>
+  <g stroke="#D2E5FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M360 470L470 330L560 390L700 250L860 330L960 220"/>
+    <path d="M960 220H910"/>
+    <path d="M960 220V270"/>
+  </g>
+  <text x="70" y="598" fill="#ECF4FF" font-size="54" font-family="Inter, Arial, sans-serif" font-weight="700">Edge Detection Systems</text>
+  <text x="70" y="644" fill="#A7BED9" font-size="28" font-family="Inter, Arial, sans-serif">Vectorized image kernels on SIMD hardware</text>
+</svg>

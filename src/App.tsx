@@ -355,7 +355,11 @@ export default function App() {
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              <SectionHeading icon="projects" title="Projects" note="Selected work presented in a Notion-style gallery view." />
+              <SectionHeading
+                icon="projects"
+                title="Projects"
+                note="Top 4 GitHub projects aligned with AI engineering and distributed systems."
+              />
 
               <div className="project-grid">
                 {projectEntries.map((item, index) => (

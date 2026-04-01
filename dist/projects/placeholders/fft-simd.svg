@@ -1,0 +1,26 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FFT SIMD placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111827"/>
+      <stop offset="1" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="130" y1="240" x2="1150" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#C084FC"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <g stroke="#334155" stroke-width="1" opacity="0.55">
+    <path d="M130 200H1150"/><path d="M130 280H1150"/><path d="M130 360H1150"/><path d="M130 440H1150"/><path d="M130 520H1150"/>
+    <path d="M130 200V520"/><path d="M290 200V520"/><path d="M450 200V520"/><path d="M610 200V520"/><path d="M770 200V520"/><path d="M930 200V520"/><path d="M1090 200V520"/>
+  </g>
+  <path d="M130 410C210 420 250 260 330 270C410 280 450 470 530 460C610 450 650 240 730 245C810 250 850 440 930 432C1010 424 1050 285 1150 295" stroke="url(#wave)" stroke-width="8" stroke-linecap="round"/>
+  <g fill="#93C5FD" opacity="0.82">
+    <rect x="170" y="300" width="24" height="170" rx="6"/>
+    <rect x="220" y="245" width="24" height="225" rx="6"/>
+    <rect x="1020" y="250" width="24" height="220" rx="6"/>
+    <rect x="1070" y="320" width="24" height="150" rx="6"/>
+  </g>
+  <text x="70" y="598" fill="#EAF2FF" font-size="54" font-family="Inter, Arial, sans-serif" font-weight="700">FFT + SIMD Optimization</text>
+  <text x="70" y="644" fill="#9CB2CF" font-size="28" font-family="Inter, Arial, sans-serif">High-throughput transform computation</text>
+</svg>

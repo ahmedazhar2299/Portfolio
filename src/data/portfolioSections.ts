@@ -1,4 +1,4 @@
-import { caseStudies, profile } from "./profile"
+import { profile } from "./profile"
 
 export type IconName =
   | "profile"
@@ -40,15 +40,52 @@ export const nowList = [
   "Pursuing an M.S. in Computer Science (AI) at California State University, Long Beach.",
 ]
 
-export const projectEntries = caseStudies.slice(0, 4).map((item, index) => ({
-  title: item.title,
-  subtitle: item.subtitle,
-  summary: item.summary,
-  result: item.outcomes[0] ?? "Delivered a measurable production improvement.",
-  tech: item.tech.slice(0, 4),
-  image: item.heroImage ?? (index % 2 === 0 ? "/projects/Roboink.webp" : "/projects/Artsy.webp"),
-  href: item.links.repo,
-}))
+export const projectEntries = [
+  {
+    title: "Federated Learning on CIFAR-10",
+    subtitle: "Distributed model training across IID and non-IID clients",
+    summary:
+      "Built a Flower-based federated learning setup to compare global convergence under different client data distributions and training strategies.",
+    result:
+      "Tracks round-level global accuracy and highlights how decentralized collaboration outperforms isolated local training.",
+    tech: ["Python", "Flower", "TensorFlow", "Federated Learning"],
+    image: "/projects/placeholders/federated-systems.svg",
+    href: "https://github.com/ahmedazhar2299/federated-learning-cifar10-analysis",
+  },
+  {
+    title: "Pix2CT",
+    subtitle: "GAN reconstruction and transfer learning for medical CT analysis",
+    summary:
+      "Combined Pix2Pix conditional GAN reconstruction with MobileNetV2-based classification for brain CT workflows in low-data settings.",
+    result:
+      "Delivers realistic reconstruction and diagnostic classification stages in one reproducible deep learning pipeline.",
+    tech: ["PyTorch", "TensorFlow", "Pix2Pix GAN", "MobileNetV2"],
+    image: "/projects/placeholders/medical-ai.svg",
+    href: "https://github.com/ahmedazhar2299/Pix2CT",
+  },
+  {
+    title: "FFT-SIMD",
+    subtitle: "High-performance transforms for large-scale polynomial computation",
+    summary:
+      "Implemented FFT and NTT workflows with SIMD acceleration to improve throughput for large integer polynomial multiplication.",
+    result:
+      "Demonstrates substantial speed improvements over scalar baselines using AVX/NEON vectorized compute paths.",
+    tech: ["C++", "FFT", "SIMD", "Performance Engineering"],
+    image: "/projects/placeholders/fft-simd.svg",
+    href: "https://github.com/ahmedazhar2299/FFT-SIMD",
+  },
+  {
+    title: "Sobel-Laplacian-SIMD",
+    subtitle: "Edge detection kernels optimized for modern parallel hardware",
+    summary:
+      "Optimized Sobel and Laplacian image kernels with ARM NEON intrinsics to reduce branching and improve memory-locality in hot loops.",
+    result:
+      "Shows practical parallel systems optimization patterns for low-latency image processing workloads.",
+    tech: ["C", "ARM NEON", "Image Processing", "Systems Optimization"],
+    image: "/projects/placeholders/vision-simd.svg",
+    href: "https://github.com/ahmedazhar2299/Sobel-Laplacian-SIMD",
+  },
+]
 
 export const experienceEntries = [
   {
