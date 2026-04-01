@@ -1,15 +1,14 @@
-import { defineConfig } from 'astro/config'
+import { defineConfig } from "astro/config"
 import tailwind from "@astrojs/tailwind"
-
+import react from "@astrojs/react"
 import robotsTxt from "astro-robots-txt"
 
-// https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), robotsTxt()],
-  site: 'https://porfolio.dev/',
+  integrations: [tailwind(), react(), robotsTxt()],
+  site: "https://muhammad-ahmed-dev.vercel.app/",
   vite: {
     define: {
-      'process.env.DEBUG': false,
+      "process.env.DEBUG": false,
     },
   },
 })

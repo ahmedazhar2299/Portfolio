@@ -5,47 +5,54 @@ import AboutMe from "@/components/AboutMe.astro"
 import Briefcase from "@/components/icons/Briefcase.astro"
 import CodeIcon from "@/components/icons/Code.astro"
 import Experience from "@/components/Experience.astro"
+import GitHubIcon from "@/components/icons/GitHub.astro"
 import ProfileCheck from "@/components/icons/ProfileCheck.astro"
 import Projects from "@/components/Projects.astro"
-import SectionContainer from "@/components/SectionContainer.astro"
 import Hero from "@/components/Hero.astro"
-import TitleSection from "@/components/TitleSection.astro"
+import GitHubPulse from "@/components/GitHubPulse.astro"
 ---
 
 <Layout
-  title="Ahmed Portolio - Engeering Cloud Scalable Architectures and AI Powered Platforms"
-  description="Building scalable cloud architectures and AI-powered platforms that drive real impact. Passionate about innovation, open to collaborate with teams to create high-performance, reliable software solutions in AI."
+  title="Muhammad Ahmed | Software Engineer - AI & Cloud Systems"
+  description="Software engineer in Los Angeles building AI-powered products, cloud-scale platforms, and performance-focused systems. Explore experience, projects, and GitHub work."
 >
-  <main class="px-4">
-    <SectionContainer class="py-16 md:py-36">
-      <Hero>
-      </slot>
-    </Hero>
-    </SectionContainer>
-    <div class="space-y-24">
-    <SectionContainer id="experience">
-      <TitleSection>
-        <Briefcase class="size-8" />
-        Work Experience
-      </TitleSection>
-      <Experience />
-    </SectionContainer>
+  <main id="main-content" class="mx-auto w-full max-w-5xl px-4 pb-4 pt-28 md:pt-36">
+    <section class="pb-12 md:pb-16">
+      <Hero />
+    </section>
 
-    <SectionContainer id="projects">
-      <TitleSection>
-        <CodeIcon class="size-7" />
-        Projects
-      </TitleSection>
-      <Projects />
-    </SectionContainer>
+    <div class="space-y-20 md:space-y-24">
+      <section id="experience" class="scroll-m-28">
+        <h2 class="section-title mb-6 flex items-center gap-x-3">
+          <Briefcase class="size-7" />
+          Experience
+        </h2>
+        <Experience />
+      </section>
 
-    <SectionContainer id="about-me">
-      <TitleSection>
-        <ProfileCheck class="size-8" />
-        About me
-      </TitleSection>
-      <AboutMe />
-    </SectionContainer>
-  </div>
+      <section id="github-pulse" class="scroll-m-28">
+        <h2 class="section-title mb-6 flex items-center gap-x-3">
+          <GitHubIcon class="size-7" />
+          GitHub Pulse
+        </h2>
+        <GitHubPulse />
+      </section>
+
+      <section id="projects" class="scroll-m-28">
+        <h2 class="section-title mb-6 flex items-center gap-x-3">
+          <CodeIcon class="size-7" />
+          Featured Projects
+        </h2>
+        <Projects />
+      </section>
+
+      <section id="about-me" class="scroll-m-28 pb-2">
+        <h2 class="section-title mb-6 flex items-center gap-x-3">
+          <ProfileCheck class="size-7" />
+          About
+        </h2>
+        <AboutMe />
+      </section>
+    </div>
   </main>
 </Layout>

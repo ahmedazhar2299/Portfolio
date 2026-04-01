@@ -1,43 +1,122 @@
 ---
 import "@fontsource-variable/onest"
+import "@fontsource-variable/space-grotesk"
 
-import Header from "../components/Header.astro"
-import Footer from "../components/Footer.astro"
 import { ViewTransitions } from "astro:transitions"
+import Header from "@/components/Header.astro"
+import Footer from "@/components/Footer.astro"
+import FloatingOrbs from "@/components/react/FloatingOrbs"
 
 interface Props {
   title: string
   description: string
+  image?: string
 }
 
-const { description, title } = Astro.props
+const { description, title, image = "/porfolio.webp" } = Astro.props
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site)
+const imageUrl = new URL(image, Astro.site)
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Muhammad Ahmed",
+  url: canonicalUrl.href,
+  image: imageUrl.href,
+  jobTitle: "Software Engineer",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Los Angeles",
+    addressRegion: "CA",
+    addressCountry: "US",
+  },
+  sameAs: [
+    "https://github.com/ahmedazhar2299",
+    "https://www.linkedin.com/in/ahmedazhar2299/",
+  ],
+}
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+
+    <link rel="canonical" href={canonicalUrl.href} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
     <title>{title}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta property="og:image" content={imageUrl.href} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl.href} />
+
+    <script is:inline>
+      const storedTheme = localStorage.getItem("theme") ?? "system"
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+      const isDark = storedTheme === "dark" || (storedTheme === "system" && prefersDark)
+      document.documentElement.classList.toggle("dark", isDark)
+    </script>
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)}></script>
     <ViewTransitions />
   </head>
 
-  <body class="relative text-black dark:text-white">
-    <div
-      class="absolute top-0 bottom-0 z-[-2] min-h-screen w-full bg-gray-50 dark:bg-gray-950
-      bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
-      dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
-    >
+  <body class="relative text-slate-900 dark:text-slate-100">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <div class="page-background" aria-hidden="true">
+      <div class="grid-overlay"></div>
+      <div class="spotlight"></div>
     </div>
+
+    <FloatingOrbs client:load />
+
     <Header />
     <slot />
     <Footer />
+
     <style is:global>
       :root {
         color-scheme: light dark;
+        --bg-main: #f8fafc;
+        --bg-soft: #eef2ff;
+        --surface: rgba(255, 255, 255, 0.72);
+        --surface-border: rgba(15, 23, 42, 0.08);
+        --text-main: #0f172a;
+        --text-muted: #334155;
+        --brand: #0ea5e9;
+        --brand-strong: #0284c7;
+      }
+
+      .dark {
+        --bg-main: #020617;
+        --bg-soft: #0f172a;
+        --surface: rgba(15, 23, 42, 0.56);
+        --surface-border: rgba(148, 163, 184, 0.22);
+        --text-main: #e2e8f0;
+        --text-muted: #94a3b8;
+        --brand: #67e8f9;
+        --brand-strong: #22d3ee;
+      }
+
+      * {
+        box-sizing: border-box;
       }
 
       html {
@@ -46,68 +125,137 @@ const { description, title } = Astro.props
       }
 
       body {
-        color: rgba(17, 17, 17, 0.9);
-        display: flex;
-        flex-direction: column;
+        margin: 0;
         min-height: 100vh;
+        background: var(--bg-main);
+        color: var(--text-main);
         overscroll-behavior: none;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Space Grotesk Variable", "Onest Variable", system-ui, sans-serif;
+        letter-spacing: -0.02em;
+      }
+
+      p {
+        color: var(--text-muted);
+      }
+
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        z-index: 100;
+        border-radius: 0.75rem;
+        background: #0f172a;
+        color: #f8fafc;
+        padding: 0.6rem 0.85rem;
+      }
+
+      .skip-link:focus {
+        left: 1rem;
+        top: 1rem;
+      }
+
+      .page-background {
+        position: fixed;
+        inset: 0;
+        z-index: -3;
+        background:
+          radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--brand) 16%, transparent), transparent 40%),
+          radial-gradient(circle at 85% 12%, color-mix(in srgb, #34d399 18%, transparent), transparent 42%),
+          linear-gradient(180deg, var(--bg-main), var(--bg-soft));
+      }
+
+      .grid-overlay {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(to right, color-mix(in srgb, var(--surface-border) 40%, transparent) 1px, transparent 1px),
+          linear-gradient(to bottom, color-mix(in srgb, var(--surface-border) 40%, transparent) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: radial-gradient(circle at center, black 25%, transparent 80%);
+      }
+
+      .spotlight {
+        position: absolute;
+        inset: 0;
+        backdrop-filter: blur(38px);
+      }
+
+      .floating-orbs {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        pointer-events: none;
+      }
+
+      .floating-orbs .orb {
+        position: absolute;
+        border-radius: 9999px;
+        filter: blur(50px);
+        opacity: 0.34;
+      }
+
+      .floating-orbs .orb-one {
+        width: 260px;
+        height: 260px;
+        left: 4%;
+        top: 18%;
+        background: color-mix(in srgb, #38bdf8 90%, white 10%);
+      }
+
+      .floating-orbs .orb-two {
+        width: 220px;
+        height: 220px;
+        right: 4%;
+        top: 32%;
+        background: color-mix(in srgb, #4ade80 82%, white 18%);
+      }
+
+      .floating-orbs .orb-three {
+        width: 180px;
+        height: 180px;
+        left: 35%;
+        bottom: 4%;
+        background: color-mix(in srgb, #22d3ee 80%, white 20%);
+      }
+
+      .surface-card {
+        border: 1px solid var(--surface-border);
+        background: var(--surface);
+        backdrop-filter: blur(14px);
+        border-radius: 1rem;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        border: 1px solid var(--surface-border);
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        line-height: 1;
+        padding: 0.45rem 0.75rem;
+        color: var(--text-muted);
+        background: color-mix(in srgb, var(--surface) 74%, transparent);
+      }
+
+      .section-title {
+        font-size: clamp(1.55rem, 2vw, 2rem);
+        line-height: 1.1;
+      }
+
+      ::selection {
+        background: color-mix(in srgb, var(--brand) 42%, transparent);
       }
 
       @media (prefers-reduced-motion: reduce) {
         html {
           scroll-behavior: auto;
-        }
-      }
-
-      @media (prefers-color-scheme: dark) {
-        body {
-          color: rgba(255, 255, 255, 0.9);
-        }
-      }
-
-      #header-nav {
-        animation: blur linear both 0.5s;
-        animation-timeline: scroll();
-        animation-range: 0 500px;
-      }
-
-      @keyframes blur {
-        to {
-          backdrop-filter: blur(20px);
-          border-width: 1px;
-          border-color: rgba(0, 0, 0);
-          padding: 0.25rem 0.75rem;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          background-color: rgb(229, 229, 229);
-          border-radius: 9999px;
-        }
-      }
-
-      @media (prefers-color-scheme: dark) {
-        @keyframes blur {
-          from {
-            border: 0px;
-          }
-          to {
-            box-shadow:
-              0px 5px 50px -5px rgba(0, 0, 0, 0.1),
-              0px 0px 0 1px rgba(0, 0, 0, 0.3);
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border-width: 1px;
-            border-color: rgba(0, 0, 0);
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
-            padding-top: 0.25rem;
-            padding-bottom: 0.25rem;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 9999px;
-          }
         }
       }
     </style>

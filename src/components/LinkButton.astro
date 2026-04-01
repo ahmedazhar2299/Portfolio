@@ -1,12 +1,44 @@
 ---
-const { href } = Astro.props;
+const { href, target = "_blank" } = Astro.props
 ---
 
 <a
-    target="_blank"
-    href={href}
-    role="link"
-    class="inline-flex bg-gray-100 text-gray-800 border-gray-300 items-center justify-center gap-2 px-3 py-2 space-x-2 text-base transition dark:text-white dark:bg-gray-800 border dark:border-gray-600 focus-visible:ring-yellow-500/80 text-md hover:bg-gray-800 hover:border-gray-900 group max-w-fit rounded-xl hover:text-white focus:outline-none focus-visible:outline-none focus-visible:ring focus-visible:ring-white focus-visible:ring-offset-2 active:bg-black"
+  href={href}
+  target={target}
+  rel="noopener noreferrer"
+  role="link"
+  class="link-button"
 >
-    <slot />
+  <slot />
 </a>
+
+<style>
+  .link-button {
+    align-items: center;
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    border: 1px solid var(--surface-border);
+    border-radius: 0.8rem;
+    color: var(--text-main);
+    display: inline-flex;
+    font-size: 0.88rem;
+    font-weight: 520;
+    gap: 0.45rem;
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
+    transition:
+      transform 170ms ease,
+      border-color 170ms ease,
+      background-color 170ms ease;
+  }
+
+  .link-button:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--brand) 36%, var(--surface-border));
+    background: color-mix(in srgb, var(--surface) 98%, transparent);
+  }
+
+  .link-button:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--brand) 70%, white 30%);
+    outline-offset: 2px;
+  }
+</style>

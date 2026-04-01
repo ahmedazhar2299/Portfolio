@@ -2,109 +2,114 @@
 import ThemeToggle from "./ThemeToggle.astro"
 
 const navItems = [
-  {
-    title: "Experience",
-    label: "experience",
-    url: "/#experience",
-  },
-  {
-    title: "Projects",
-    label: "projects",
-    url: "/#projects",
-  },
-  {
-    title: "About me",
-    label: "about-me",
-    url: "/#about-me",
-  },
-  {
-    title: "Contact",
-    label: "Contact",
-    url: "mailto:ahmed.azhar2299@gmail.com",
-  },
+  { title: "Experience", label: "experience", url: "/#experience" },
+  { title: "GitHub Labs", label: "github-pulse", url: "/#github-pulse" },
+  { title: "Projects", label: "projects", url: "/#projects" },
+  { title: "About", label: "about-me", url: "/#about-me" },
 ]
 ---
 
-<header
-  class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
->
-  <nav
-    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
-  >
-    {
-      navItems.map((link) => (
-        <a
-          class="relative block px-2 py-2 transition hover:text-blue-500 dark:hover:text-blue-500"
-          aria-label={link.label}
-          href={link.url}
-        >
-          {link.title}
-        </a>
-      ))
-    }
-    <ThemeToggle />
-  </nav>
+<header class="fixed top-0 z-30 w-full pt-3">
+  <div class="mx-auto flex w-full max-w-5xl items-center justify-center px-4">
+    <nav
+      id="header-nav"
+      class="surface-card flex items-center gap-1 rounded-full px-2 py-1.5 text-sm text-slate-700 dark:text-slate-100"
+      aria-label="Primary"
+    >
+      {
+        navItems.map((link) => (
+          <a
+            class="nav-link"
+            aria-label={link.label}
+            href={link.url}
+            data-link-kind="section"
+          >
+            {link.title}
+          </a>
+        ))
+      }
+
+      <a
+        class="nav-link nav-link-cta"
+        href="mailto:ahmed.azhar2299@gmail.com"
+        aria-label="contact"
+      >
+        Contact
+      </a>
+
+      <ThemeToggle />
+    </nav>
+  </div>
 </header>
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const sections = document.querySelectorAll("section")
-    const navItems = document.querySelectorAll("header nav a")
+    const sections = document.querySelectorAll("section[id]")
+    const navItems = document.querySelectorAll('header nav a[data-link-kind="section"]')
 
-    const callback = (entries: any[]) => {
+    const callback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          navItems.forEach((item) => {
-            if (item.getAttribute("aria-label") == entry.target.id) {
-              item.classList.add("text-blue-500")
-            } else {
-              item.classList.remove("text-blue-500")
-            }
-          })
-        }
+        if (!entry.isIntersecting) return
+
+        navItems.forEach((item) => {
+          const isActive = item.getAttribute("aria-label") === entry.target.id
+          item.classList.toggle("is-active", isActive)
+        })
       })
     }
 
     const observer = new IntersectionObserver(callback, {
       root: null,
-      rootMargin: "0px",
-      threshold: 0.3,
+      rootMargin: "-30% 0px -55% 0px",
+      threshold: 0.05,
     })
 
-    sections.forEach((section) => {
-      observer.observe(section)
-    })
+    sections.forEach((section) => observer.observe(section))
 
-    // Cleanup function
     document.onvisibilitychange = () => {
       if (document.visibilityState === "hidden") {
         observer.disconnect()
       } else {
-        sections.forEach((section) => {
-          observer.observe(section)
-        })
+        sections.forEach((section) => observer.observe(section))
       }
     }
   })
 </script>
 
 <style>
-  nav {
-    animation: nav-shadown 1s linear both;
-    animation-timeline: scroll();
-    animation-range: 0 100px;
+  #header-nav {
+    transition: all 220ms ease;
   }
 
-  nav {
-    @apply dark:bg-gray-800/90 bg-white/50;
+  .nav-link {
+    border-radius: 999px;
+    color: var(--text-muted);
+    font-weight: 520;
+    padding: 0.45rem 0.75rem;
+    transition:
+      color 180ms ease,
+      background-color 180ms ease,
+      transform 180ms ease;
   }
 
-  @keyframes nav-shadown {
-    0% {
-      @apply dark:bg-gray-800/0 bg-white/0;
-    }
-    to {
-      @apply shadow-lg ring-1 backdrop-blur ring-white/10;
-    }
+  .nav-link:hover {
+    color: var(--text-main);
+    background: color-mix(in srgb, var(--surface) 90%, transparent);
+  }
+
+  .nav-link-cta {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 86%, white 14%), var(--brand-strong));
+    color: #f8fafc;
+  }
+
+  .nav-link-cta:hover {
+    color: #f8fafc;
+    transform: translateY(-1px);
+  }
+
+  .nav-link.is-active {
+    color: var(--text-main);
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--surface-border) 60%, transparent) inset;
   }
 </style>

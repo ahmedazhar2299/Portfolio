@@ -1,37 +1,52 @@
 ---
 import ExperienceItem from "./ExperienceItem.astro"
+
 const EXPERIENCE = [
   {
-    date: "December 2024 - July 2025",
+    date: "Dec 2024 – Jul 2025",
     title: "Software Engineer II",
     company: "Paismo",
     description:
-      "I engineered scalable backend solutions and drove product innovation. I won a company-wide hackathon by building a semantic RAG pipeline for resume–job matching, led the development of a high-performance attendance policy manager, and refactored the payroll microservice to support country-specific payment plans with full test coverage. I also implemented secure Auth0-based machine-to-machine communication and conducted market-fit analysis for Pakistan, contributing features that boosted engagement and revenue.",
+      "Built scalable backend services and shipped AI-backed product capabilities across payroll, attendance, and matching workflows.",
+    highlights: [
+      "Won a company hackathon by creating a semantic RAG pipeline for resume-job matching.",
+      "Refactored payroll microservices for country-specific plans with robust test coverage.",
+      "Implemented secure Auth0 machine-to-machine auth for service-to-service communication.",
+    ],
     link: "https://paismo.com/",
   },
   {
-    date: "July 2023 - December 2024",
+    date: "Jul 2023 – Dec 2024",
     title: "Software Engineer",
     company: "xiQ, Inc.",
     description:
-      "I contributed to the development of the company’s B2B GenAI email marketing platform, xiQ Workbench, delivering features like campaign management, audience segmentation, advanced analytics, and workflow automation. I led end-to-end feature development, optimized system performance through database query improvements, enhanced centralized logging for better user activity tracking, and collaborated across teams to ensure high-quality, scalable releases.",
+      "Contributed to xiQ Workbench, a B2B GenAI marketing platform focused on campaign management, segmentation, analytics, and workflow automation.",
+    highlights: [
+      "Led end-to-end feature delivery from requirement to production rollout.",
+      "Optimized database query paths to improve responsiveness and throughput.",
+      "Strengthened centralized logging for better activity tracking and debugging.",
+    ],
     link: "https://xiqinc.com/",
   },
   {
-    date: "July 2022 - September 2022",
+    date: "Jul 2022 – Sep 2022",
     title: "Software Engineer Intern",
     company: "Tintash",
     description:
-      "I engaged in brainstorming sessions, problem-solving, and cross-functional teamwork. Participated in an immersive project collaboration session, contributing to the development of two full-stack projects within the MERN stack framework. One project involved crafting a to-do application using embedded JavaScript, providing exposure to template engines in the backend. The other project centered around creating a collaborative blogging platform, enabling multiple users to read and share articles seamlessly.",
+      "Worked in collaborative product sprints and delivered MERN stack features across multiple full-stack projects.",
+    highlights: [
+      "Built a server-rendered task app to deepen backend and templating fundamentals.",
+      "Delivered a collaborative blogging platform with multi-user content flows.",
+    ],
     link: "https://tintash.com/",
   },
 ]
 ---
 
-<ol class="relative mt-16">
+<ol class="relative mt-8 grid gap-4 md:gap-5">
   {
     EXPERIENCE.map((experience) => (
-      <li class="">
+      <li>
         <ExperienceItem {...experience} />
       </li>
     ))

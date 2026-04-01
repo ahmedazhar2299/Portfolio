@@ -3,36 +3,36 @@ import SunIcon from "./icons/Sun.astro"
 import MoonIcon from "./icons/Moon.astro"
 import SystemIcon from "./icons/System.astro"
 
-const THEMES = ["Light", "Dark", "System"]
+const THEMES = ["light", "dark", "system"]
 ---
 
 <div class="relative ml-1 mr-1">
   <button
     transition:persist
     id="theme-toggle-btn"
-    class="appearance-none border-none flex hover:scale-125 transition"
+    type="button"
+    class="theme-trigger"
+    aria-expanded="false"
+    aria-controls="themes-menu"
+    aria-label="Choose color theme"
   >
-    <span class="sr-only">Elige el tema</span>
-    <SunIcon id="light" class="theme-toggle-icon size-5 transition-all" />
-    <MoonIcon
-      id="dark"
-      class="theme-toggle-icon absolute size-5 transition-all"
-    />
-    <SystemIcon
-      id="system"
-      class="theme-toggle-icon absolute size-5 transition-all"
-    />
+    <SunIcon id="light" class="theme-toggle-icon size-4 transition-all" />
+    <MoonIcon id="dark" class="theme-toggle-icon absolute size-4 transition-all" />
+    <SystemIcon id="system" class="theme-toggle-icon absolute size-4 transition-all" />
   </button>
+
   <div
     transition:persist
     id="themes-menu"
-    class="absolute hidden scale-80 top-8 right-0 text-sm p-1 min-w-[8rem] rounded-md border border-gray-100 bg-white/90 dark:bg-gray-900/90 dark:border-gray-500/20 shadow-[0_3px_10px_rgb(0,0,0,0.2)] backdrop-blur-md"
+    class="theme-menu absolute hidden top-9 right-0 min-w-[8rem] rounded-xl p-1"
   >
-    <ul>
+    <ul class="space-y-0.5">
       {
         THEMES.map((theme) => (
-          <li class="themes-menu-option px-2 py-1.5 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm">
-            {theme}
+          <li>
+            <button type="button" class="themes-menu-option block w-full rounded-lg px-2.5 py-1.5 text-left capitalize" data-theme={theme}>
+              {theme}
+            </button>
           </li>
         ))
       }
@@ -41,14 +41,50 @@ const THEMES = ["Light", "Dark", "System"]
 </div>
 
 <style>
-  #themes-menu.open {
+  .theme-trigger {
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid var(--surface-border);
+    color: var(--text-main);
+    display: inline-flex;
+    height: 1.95rem;
+    justify-content: center;
+    position: relative;
+    transition: all 180ms ease;
+    width: 1.95rem;
+  }
+
+  .theme-trigger:hover {
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    transform: translateY(-1px);
+  }
+
+  .theme-menu {
+    border: 1px solid var(--surface-border);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 14px 36px rgba(2, 6, 23, 0.15);
+  }
+
+  .themes-menu-option {
+    color: var(--text-main);
+    font-size: 0.8rem;
+    transition: background-color 160ms ease;
+  }
+
+  .themes-menu-option:hover,
+  .themes-menu-option:focus-visible {
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+  }
+
+  .theme-menu.open {
     display: inline;
     animation: scale-up-center 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
 
   @keyframes scale-up-center {
     from {
-      transform: scale(0.8);
+      transform: scale(0.86);
       opacity: 0;
     }
 
@@ -63,15 +99,14 @@ const THEMES = ["Light", "Dark", "System"]
   let remove = null
   const matchMedia = window.matchMedia("(prefers-color-scheme: dark)")
   const themesMenu = document.getElementById("themes-menu")
+  const toggleButton = document.getElementById("theme-toggle-btn")
 
   const getThemePreference = () => {
     if (typeof localStorage !== "undefined") {
       return localStorage.getItem("theme") ?? "system"
     }
 
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light"
+    return matchMedia.matches ? "dark" : "light"
   }
 
   const updateIcon = (themePreference) => {
@@ -81,9 +116,8 @@ const THEMES = ["Light", "Dark", "System"]
   }
 
   const updateTheme = () => {
-    if (remove != null) {
-      remove()
-    }
+    if (remove != null) remove()
+
     matchMedia.addEventListener("change", updateTheme)
     remove = () => {
       matchMedia.removeEventListener("change", updateTheme)
@@ -95,28 +129,41 @@ const THEMES = ["Light", "Dark", "System"]
       (themePreference === "system" && matchMedia.matches)
 
     updateIcon(themePreference)
-    document.documentElement.classList[isDark ? "add" : "remove"]("dark")
+    document.documentElement.classList.toggle("dark", isDark)
+  }
+
+  const closeMenu = () => {
+    themesMenu.classList.remove("open")
+    toggleButton.setAttribute("aria-expanded", "false")
+  }
+
+  const toggleMenu = () => {
+    const shouldOpen = !themesMenu.classList.contains("open")
+    themesMenu.classList.toggle("open", shouldOpen)
+    toggleButton.setAttribute("aria-expanded", String(shouldOpen))
   }
 
   updateTheme()
 
-  document.addEventListener("click", () => themesMenu.classList.remove("open"))
+  document.addEventListener("click", closeMenu)
 
-  document.getElementById("theme-toggle-btn").addEventListener("click", (e) => {
+  toggleButton.addEventListener("click", (e) => {
     e.stopPropagation()
-    const isClosed = !themesMenu.classList.contains("open")
-    themesMenu.classList[isClosed ? "add" : "remove"]("open")
+    toggleMenu()
   })
 
   document.querySelectorAll(".themes-menu-option").forEach((element) => {
     element.addEventListener("click", (e) => {
-      localStorage.setItem("theme", e.target.innerText.toLowerCase().trim())
+      const chosenTheme = e.currentTarget.getAttribute("data-theme")
+      localStorage.setItem("theme", chosenTheme)
       updateTheme()
+      closeMenu()
     })
   })
 
-  document.addEventListener('astro:after-swap', () => {
-    updateTheme();
-    window.scrollTo({ left: 0, top: 0, behavior: 'instant' });
+  document.addEventListener("astro:after-swap", () => {
+    updateTheme()
+    closeMenu()
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
   })
 </script>

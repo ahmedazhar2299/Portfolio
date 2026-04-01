@@ -2,27 +2,17 @@
 const currentYear = new Date().getFullYear()
 ---
 
-<footer
-  class="opacity-80 m-4 min-[375px]:pl-4 md:pl-0 mt-16 w-full mx-auto container lg:max-w-4xl md:max-w-2xl mb-10 flex justify-center"
->
-  <div
-    class="rounded-lg w-full max-w-screen-xl mx-auto md:flex md:items-center md:justify-between py-4"
-  >
-    <span class="text-sm sm:text-center text-zinc-800/90 dark:text-zinc-200/90"
-      >&copy; {currentYear}
-      <a href="https://github.com/ahmedazhar2299/Portfolio" class="hover:underline">Muhammad Ahmed</a>. All rights reserved.
-    </span>
-    <ul
-      class="flex flex-wrap items-center mt-3 text-sm font-medium dark:text-white/90 sm:mt-0"
-    >
-      <li>
-        <a href="/#about-me" class="hover:underline me-4 md:me-6">About me</a>
-      </li>
-      <li>
-        <a id="contact" href="mailto:ahmed.azhar2299@gmail.com" class="hover:underline"
-          >Contact</a
-        >
-      </li>
+<footer class="mt-16 px-4 pb-10">
+  <div class="surface-card mx-auto flex w-full max-w-5xl flex-col items-start justify-between gap-4 rounded-2xl px-5 py-4 md:flex-row md:items-center">
+    <p class="text-sm text-slate-700 dark:text-slate-300">
+      © {currentYear} <a href="https://github.com/ahmedazhar2299" class="font-medium text-cyan-700 hover:text-cyan-500 dark:text-cyan-300">Muhammad Ahmed</a>.
+      Built with Astro, Tailwind, and Framer Motion.
+    </p>
+
+    <ul class="flex flex-wrap items-center gap-4 text-sm text-slate-700 dark:text-slate-300">
+      <li><a href="/#experience" class="hover:text-cyan-600 dark:hover:text-cyan-300">Experience</a></li>
+      <li><a href="/#projects" class="hover:text-cyan-600 dark:hover:text-cyan-300">Projects</a></li>
+      <li><a href="mailto:ahmed.azhar2299@gmail.com" class="hover:text-cyan-600 dark:hover:text-cyan-300">Contact</a></li>
     </ul>
   </div>
 </footer>
