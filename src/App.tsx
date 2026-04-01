@@ -596,9 +596,17 @@ export default function App() {
               <SectionHeading icon="stack" title="Stack" note="Core tools and engineering areas I rely on most." />
 
               <div className="stack-grid">
-                {stackGroups.map((group) => (
-                  <article key={group.title} className="stack-card">
+                {stackGroups.map((group, index) => (
+                  <motion.article
+                    key={group.title}
+                    className="stack-card"
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.4, delay: index * 0.04, ease: "easeOut" }}
+                  >
                     <h3>{group.title}</h3>
+                    <p className="stack-note">{group.note}</p>
                     <ul>
                       {group.items.map((item) => (
                         <li key={item}>
@@ -607,7 +615,7 @@ export default function App() {
                         </li>
                       ))}
                     </ul>
-                  </article>
+                  </motion.article>
                 ))}
               </div>
             </motion.section>

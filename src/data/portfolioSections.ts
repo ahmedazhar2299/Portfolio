@@ -228,18 +228,27 @@ export const educationEntries: EducationEntry[] = [
   },
 ]
 
-export const stackGroups = [
+export type SkillGroup = {
+  title: string
+  note: string
+  items: string[]
+}
+
+export const stackGroups: SkillGroup[] = [
   {
-    title: "Backend + Infra",
-    items: ["Node.js", "Django", "FastAPI", "PostgreSQL", "Redis", "AWS", "GCP", "Docker"],
+    title: "Backend + Distributed APIs",
+    note: "Reliable service design for high-volume, production-facing workflows.",
+    items: ["Node.js", "Django", "FastAPI", "REST APIs", "PostgreSQL", "Redis", "SQL"],
   },
   {
-    title: "AI + Data",
-    items: ["RAG Pipelines", "Embeddings", "PyTorch", "TensorFlow", "OpenCV", "Evaluation Workflows"],
+    title: "AI Engineering + ML Systems",
+    note: "Practical model pipelines with retrieval, evaluation, and measurable impact.",
+    items: ["Python", "RAG Pipelines", "Embeddings", "PyTorch", "TensorFlow", "OpenCV", "Evaluation Workflows"],
   },
   {
-    title: "Engineering",
-    items: ["System Design", "Observability", "Performance Tuning", "CI/CD", "API Architecture"],
+    title: "Cloud + Delivery Engineering",
+    note: "Production operations, deployment safety, and observability.",
+    items: ["AWS", "Google Cloud", "Docker", "Git", "CI/CD", "Observability", "Runbooks", "Performance Tuning"],
   },
 ]
 

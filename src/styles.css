@@ -825,23 +825,40 @@ a:focus-visible {
 }
 
 .stack-card h3 {
-  font-size: 0.9rem;
+  font-size: 0.93rem;
+  line-height: 1.32;
+}
+
+.stack-note {
+  margin-top: 0.28rem;
+  color: #4f4d45;
+  font-size: 0.83rem;
 }
 
 .stack-card ul {
-  margin: 0.45rem 0 0;
+  margin: 0.5rem 0 0;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 0.35rem;
+  gap: 0.34rem;
 }
 
 .stack-card li {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  font-size: 0.84rem;
+  gap: 0.32rem;
+  font-size: 0.83rem;
   color: #4f4d45;
+  padding: 0.28rem 0.42rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.stack-card li .icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  color: var(--accent);
 }
 
 .contact-grid {
