@@ -358,7 +358,7 @@ export default function App() {
               <SectionHeading
                 icon="projects"
                 title="Projects"
-                note="Top 4 GitHub projects aligned with AI engineering and distributed systems."
+                note="Projects aligned with AI engineering and distributed systems."
               />
 
               <div className="project-grid">
@@ -371,7 +371,17 @@ export default function App() {
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
                   >
-                    <img src={item.image} alt={`${item.title} preview`} width={960} height={560} loading="lazy" />
+                    <div className="project-media">
+                      <img
+                        src={item.image}
+                        alt={`${item.title} visual`}
+                        width={1600}
+                        height={900}
+                        loading="lazy"
+                        className={item.imageFit === "contain" ? "is-contain" : ""}
+                      />
+                      <span>{item.visual}</span>
+                    </div>
                     <div className="project-body">
                       <h3>{item.title}</h3>
                       <p className="project-subtitle">{item.subtitle}</p>
@@ -386,6 +396,7 @@ export default function App() {
                         Source
                         <Icon name="external" />
                       </a>
+                      <small>{item.imageCredit}</small>
                     </div>
                   </motion.article>
                 ))}

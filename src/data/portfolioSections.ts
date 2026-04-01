@@ -49,7 +49,10 @@ export const projectEntries = [
     result:
       "Tracks round-level global accuracy and highlights how decentralized collaboration outperforms isolated local training.",
     tech: ["Python", "Flower", "TensorFlow", "Federated Learning"],
-    image: "/projects/placeholders/federated-systems.svg",
+    image: "/projects/covers/federated-network.svg",
+    imageFit: "contain",
+    visual: "Distributed Graph",
+    imageCredit: "Wikimedia Commons",
     href: "https://github.com/ahmedazhar2299/federated-learning-cifar10-analysis",
   },
   {
@@ -60,7 +63,10 @@ export const projectEntries = [
     result:
       "Delivers realistic reconstruction and diagnostic classification stages in one reproducible deep learning pipeline.",
     tech: ["PyTorch", "TensorFlow", "Pix2Pix GAN", "MobileNetV2"],
-    image: "/projects/placeholders/medical-ai.svg",
+    image: "/projects/covers/medical-ct.jpg",
+    imageFit: "cover",
+    visual: "Medical CT",
+    imageCredit: "Wikimedia Commons",
     href: "https://github.com/ahmedazhar2299/Pix2CT",
   },
   {
@@ -71,7 +77,10 @@ export const projectEntries = [
     result:
       "Demonstrates substantial speed improvements over scalar baselines using AVX/NEON vectorized compute paths.",
     tech: ["C++", "FFT", "SIMD", "Performance Engineering"],
-    image: "/projects/placeholders/fft-simd.svg",
+    image: "/projects/covers/fft-spectrum.png",
+    imageFit: "contain",
+    visual: "Frequency Analysis",
+    imageCredit: "Wikimedia Commons",
     href: "https://github.com/ahmedazhar2299/FFT-SIMD",
   },
   {
@@ -82,7 +91,10 @@ export const projectEntries = [
     result:
       "Shows practical parallel systems optimization patterns for low-latency image processing workloads.",
     tech: ["C", "ARM NEON", "Image Processing", "Systems Optimization"],
-    image: "/projects/placeholders/vision-simd.svg",
+    image: "/projects/covers/edge-detection.png",
+    imageFit: "cover",
+    visual: "Edge Detection",
+    imageCredit: "Wikimedia Commons",
     href: "https://github.com/ahmedazhar2299/Sobel-Laplacian-SIMD",
   },
 ]
