@@ -3,7 +3,7 @@ import ThemeToggle from "./ThemeToggle.astro"
 
 const navItems = [
   { title: "Experience", label: "experience", url: "/#experience" },
-  { title: "GitHub Labs", label: "github-pulse", url: "/#github-pulse" },
+  { title: "GitHub", label: "github-pulse", url: "/#github-pulse" },
   { title: "Projects", label: "projects", url: "/#projects" },
   { title: "About", label: "about-me", url: "/#about-me" },
 ]
@@ -13,7 +13,7 @@ const navItems = [
   <div class="mx-auto flex w-full max-w-5xl items-center justify-center px-4">
     <nav
       id="header-nav"
-      class="surface-card flex items-center gap-1 rounded-full px-2 py-1.5 text-sm text-slate-700 dark:text-slate-100"
+      class="surface-card flex items-center gap-1 rounded-full px-2 py-1.5 text-sm"
       aria-label="Primary"
     >
       {
@@ -60,7 +60,7 @@ const navItems = [
 
     const observer = new IntersectionObserver(callback, {
       root: null,
-      rootMargin: "-30% 0px -55% 0px",
+      rootMargin: "-28% 0px -58% 0px",
       threshold: 0.05,
     })
 
@@ -84,32 +84,53 @@ const navItems = [
   .nav-link {
     border-radius: 999px;
     color: var(--text-muted);
-    font-weight: 520;
-    padding: 0.45rem 0.75rem;
+    font-size: 0.82rem;
+    font-weight: 540;
+    letter-spacing: 0.01em;
+    padding: 0.5rem 0.8rem;
     transition:
       color 180ms ease,
       background-color 180ms ease,
-      transform 180ms ease;
+      transform 180ms ease,
+      border-color 180ms ease;
+    border: 1px solid transparent;
   }
 
   .nav-link:hover {
     color: var(--text-main);
-    background: color-mix(in srgb, var(--surface) 90%, transparent);
+    background: color-mix(in srgb, var(--surface-strong) 85%, transparent);
+    border-color: var(--surface-border);
   }
 
   .nav-link-cta {
-    background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 86%, white 14%), var(--brand-strong));
-    color: #f8fafc;
+    background: #111827;
+    color: #fafafa;
+  }
+
+  .dark .nav-link-cta {
+    background: #fafafa;
+    color: #111827;
   }
 
   .nav-link-cta:hover {
-    color: #f8fafc;
     transform: translateY(-1px);
   }
 
   .nav-link.is-active {
     color: var(--text-main);
-    background: color-mix(in srgb, var(--surface) 88%, transparent);
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--surface-border) 60%, transparent) inset;
+    background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+    border-color: var(--surface-border);
+  }
+
+  @media (max-width: 720px) {
+    #header-nav {
+      gap: 0.25rem;
+      padding-inline: 0.3rem;
+    }
+
+    .nav-link {
+      font-size: 0.74rem;
+      padding: 0.44rem 0.56rem;
+    }
   }
 </style>

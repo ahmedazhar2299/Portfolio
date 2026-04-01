@@ -10,6 +10,7 @@ import ProfileCheck from "@/components/icons/ProfileCheck.astro"
 import Projects from "@/components/Projects.astro"
 import Hero from "@/components/Hero.astro"
 import GitHubPulse from "@/components/GitHubPulse.astro"
+import MotionSection from "@/components/react/MotionSection"
 ---
 
 <Layout
@@ -17,41 +18,49 @@ import GitHubPulse from "@/components/GitHubPulse.astro"
   description="Software engineer in Los Angeles building AI-powered products, cloud-scale platforms, and performance-focused systems. Explore experience, projects, and GitHub work."
 >
   <main id="main-content" class="mx-auto w-full max-w-5xl px-4 pb-4 pt-28 md:pt-36">
-    <section class="pb-12 md:pb-16">
+    <MotionSection client:visible className="pb-12 md:pb-16" delay={0.04}>
       <Hero />
-    </section>
+    </MotionSection>
 
-    <div class="space-y-20 md:space-y-24">
+    <div class="space-y-16 md:space-y-20">
       <section id="experience" class="scroll-m-28">
-        <h2 class="section-title mb-6 flex items-center gap-x-3">
-          <Briefcase class="size-7" />
-          Experience
-        </h2>
-        <Experience />
+        <MotionSection client:visible delay={0.08} className="space-y-6">
+          <h2 class="section-title flex items-center gap-x-3">
+            <Briefcase class="size-6" />
+            Experience
+          </h2>
+          <Experience />
+        </MotionSection>
       </section>
 
       <section id="github-pulse" class="scroll-m-28">
-        <h2 class="section-title mb-6 flex items-center gap-x-3">
-          <GitHubIcon class="size-7" />
-          GitHub Pulse
-        </h2>
-        <GitHubPulse />
+        <MotionSection client:visible delay={0.1} className="space-y-6">
+          <h2 class="section-title flex items-center gap-x-3">
+            <GitHubIcon class="size-6" />
+            GitHub Pulse
+          </h2>
+          <GitHubPulse />
+        </MotionSection>
       </section>
 
       <section id="projects" class="scroll-m-28">
-        <h2 class="section-title mb-6 flex items-center gap-x-3">
-          <CodeIcon class="size-7" />
-          Featured Projects
-        </h2>
-        <Projects />
+        <MotionSection client:visible delay={0.12} className="space-y-6">
+          <h2 class="section-title flex items-center gap-x-3">
+            <CodeIcon class="size-6" />
+            Featured Projects
+          </h2>
+          <Projects />
+        </MotionSection>
       </section>
 
       <section id="about-me" class="scroll-m-28 pb-2">
-        <h2 class="section-title mb-6 flex items-center gap-x-3">
-          <ProfileCheck class="size-7" />
-          About
-        </h2>
-        <AboutMe />
+        <MotionSection client:visible delay={0.14} className="space-y-6">
+          <h2 class="section-title flex items-center gap-x-3">
+            <ProfileCheck class="size-6" />
+            About
+          </h2>
+          <AboutMe />
+        </MotionSection>
       </section>
     </div>
   </main>

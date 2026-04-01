@@ -46,6 +46,7 @@ const THEMES = ["light", "dark", "system"]
     border-radius: 999px;
     border: 1px solid var(--surface-border);
     color: var(--text-main);
+    background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
     display: inline-flex;
     height: 1.95rem;
     justify-content: center;
@@ -55,15 +56,16 @@ const THEMES = ["light", "dark", "system"]
   }
 
   .theme-trigger:hover {
-    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    background: color-mix(in srgb, var(--surface-strong) 97%, transparent);
     transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(2, 6, 23, 0.12);
   }
 
   .theme-menu {
     border: 1px solid var(--surface-border);
-    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    background: color-mix(in srgb, var(--surface-strong) 94%, transparent);
     backdrop-filter: blur(16px);
-    box-shadow: 0 14px 36px rgba(2, 6, 23, 0.15);
+    box-shadow: 0 14px 34px rgba(2, 6, 23, 0.15);
   }
 
   .themes-menu-option {
@@ -74,7 +76,7 @@ const THEMES = ["light", "dark", "system"]
 
   .themes-menu-option:hover,
   .themes-menu-option:focus-visible {
-    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    background: color-mix(in srgb, var(--surface-strong) 96%, transparent);
   }
 
   .theme-menu.open {

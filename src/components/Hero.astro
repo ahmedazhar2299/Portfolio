@@ -15,25 +15,24 @@ const stats = [
 ]
 ---
 
-<section class="hero-grid grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:items-center">
-  <div>
-    <span class="eyebrow">Los Angeles, California · Open to impactful roles</span>
+<section class="hero-grid grid gap-5 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch">
+  <div class="surface-card rounded-[1.6rem] p-6 sm:p-8">
+    <span class="eyebrow">Los Angeles, California</span>
 
-    <h1 class="mt-4 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
-      Building AI-native products and cloud systems that scale with confidence.
+    <h1 class="mt-5 text-4xl font-semibold leading-[1.03] sm:text-5xl lg:text-[3.35rem]">
+      Futuristic software experiences powered by robust AI and cloud engineering.
     </h1>
 
-    <p class="mt-5 max-w-2xl text-lg leading-relaxed">
-      I’m <strong>Muhammad Ahmed</strong>, a software engineer focused on backend-heavy systems,
-      machine-learning workflows, and reliable product delivery. I turn research-grade ideas into
-      production-grade experiences.
+    <p class="mt-5 max-w-2xl text-base leading-relaxed sm:text-[1.03rem]">
+      I’m <strong>Muhammad Ahmed</strong>, a software engineer focused on resilient backend systems,
+      AI workflows, and product execution that balances speed with reliability.
     </p>
 
     <div class="mt-6">
-      <Badge>Available for software engineering and AI platform opportunities</Badge>
+      <Badge>Open to software engineering and applied AI opportunities</Badge>
     </div>
 
-    <nav class="mt-8 flex flex-wrap gap-3" aria-label="Primary links">
+    <nav class="mt-8 flex flex-wrap gap-2.5" aria-label="Primary links">
       <SocialPill href="mailto:ahmed.azhar2299@gmail.com">
         <MailIcon class="size-4" />
         Email
@@ -52,25 +51,25 @@ const stats = [
       </SocialPill>
     </nav>
 
-    <div class="mt-8 grid gap-3 sm:grid-cols-3">
+    <div class="mt-8 grid gap-2.5 sm:grid-cols-3">
       {
         stats.map((item) => (
-          <article class="surface-card rounded-2xl p-3.5">
-            <p class="text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">{item.label}</p>
-            <p class="mt-1 text-xl font-semibold text-slate-900 dark:text-slate-100">{item.value}</p>
+          <article class="rounded-2xl border border-zinc-900/10 bg-white/55 px-3.5 py-3 dark:border-zinc-100/10 dark:bg-zinc-900/45">
+            <p class="text-[0.67rem] uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-400">{item.label}</p>
+            <p class="mt-1 text-lg font-semibold text-zinc-900 dark:text-zinc-100">{item.value}</p>
           </article>
         ))
       }
     </div>
   </div>
 
-  <aside class="surface-card relative overflow-hidden rounded-3xl p-4 sm:p-5">
-    <div class="absolute -top-12 -right-12 h-36 w-36 rounded-full bg-cyan-400/30 blur-3xl"></div>
-    <div class="absolute -bottom-14 -left-10 h-44 w-44 rounded-full bg-emerald-400/20 blur-3xl"></div>
+  <aside class="surface-card relative overflow-hidden rounded-[1.6rem] p-4 sm:p-5">
+    <div class="absolute -top-16 -right-14 h-44 w-44 rounded-full bg-white/70 blur-3xl dark:bg-white/15"></div>
+    <div class="absolute -bottom-16 -left-10 h-44 w-44 rounded-full bg-zinc-200/70 blur-3xl dark:bg-zinc-200/10"></div>
 
     <div class="relative">
       <img
-        class="aspect-square w-full rounded-2xl object-cover object-top"
+        class="aspect-[4/4.35] w-full rounded-2xl object-cover object-top"
         src="/ahmed.webp"
         alt={personalImageAlt}
         loading="eager"
@@ -78,12 +77,12 @@ const stats = [
         height="640"
       />
 
-      <div class="mt-4 rounded-xl border border-slate-200/60 bg-white/70 p-3 dark:border-slate-700/70 dark:bg-slate-900/60">
-        <p class="text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">GitHub Snapshot</p>
-        <p class="mt-1 text-sm text-slate-700 dark:text-slate-300">
-          27 public repositories spanning AI, vision, distributed learning, and systems-level optimization.
+      <div class="mt-4 rounded-xl border border-zinc-900/10 bg-white/70 p-3.5 dark:border-zinc-100/10 dark:bg-zinc-900/55">
+        <p class="text-[0.67rem] uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-400">GitHub Pulse</p>
+        <p class="mt-1.5 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+          27 public repositories across AI, performance systems, and full-stack shipping projects.
         </p>
-        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Synced from GitHub profile · March 31, 2026</p>
+        <p class="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">Synced from GitHub API on April 1, 2026.</p>
       </div>
     </div>
   </aside>
