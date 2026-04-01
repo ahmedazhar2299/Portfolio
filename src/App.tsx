@@ -1,11 +1,10 @@
 import { motion, useReducedMotion } from "framer-motion"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react"
 import { Seo } from "./components/Seo"
 import { profile } from "./data/profile"
 import {
   type IconName,
   aboutParagraphs,
-  contactLinks,
   educationEntries,
   experienceEntries,
   introBadges,
@@ -20,6 +19,20 @@ type SectionId = (typeof navSections)[number]["id"]
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0 },
+}
+
+type ContactFormState = {
+  name: string
+  email: string
+  subject: string
+  message: string
+}
+
+const initialContactForm: ContactFormState = {
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
 }
 
 function Icon({ name, className }: { name: IconName; className?: string }) {
@@ -147,6 +160,8 @@ export default function App() {
   const [activeSection, setActiveSection] = useState<SectionId>("about")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [contactForm, setContactForm] = useState<ContactFormState>(initialContactForm)
+  const [contactStatus, setContactStatus] = useState<"idle" | "error" | "sent">("idle")
 
   const sectionIds = useMemo(() => navSections.map((item) => item.id), [])
 
@@ -191,6 +206,40 @@ export default function App() {
 
     section.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" })
     setMobileMenuOpen(false)
+  }
+
+  const handleContactChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const field = event.target.name as keyof ContactFormState
+    const value = event.target.value
+
+    setContactForm((prev) => ({ ...prev, [field]: value }))
+    if (contactStatus !== "idle") setContactStatus("idle")
+  }
+
+  const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const { name, email, subject, message } = contactForm
+    if (!name.trim() || !email.trim() || !subject.trim() || !message.trim()) {
+      setContactStatus("error")
+      return
+    }
+
+    const mailSubject = `[Portfolio] ${subject.trim()}`
+    const mailBody = [
+      `Hi ${profile.name},`,
+      "",
+      `Name: ${name.trim()}`,
+      `Email: ${email.trim()}`,
+      "",
+      message.trim(),
+      "",
+      "Sent from your portfolio contact section.",
+    ].join("\n")
+
+    window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`
+    setContactStatus("sent")
+    setContactForm(initialContactForm)
   }
 
   return (
@@ -572,24 +621,80 @@ export default function App() {
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              <SectionHeading icon="mail" title="Contact" note="Open to software engineering and applied AI opportunities." />
+              <SectionHeading
+                icon="mail"
+                title="Contact"
+                note="Send a direct note here. Links remain in the sidebar for quick access."
+              />
 
-              <div className="contact-grid">
-                {contactLinks.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    target={item.href.startsWith("/") || item.href.startsWith("mailto:") ? undefined : "_blank"}
-                    rel="noreferrer"
-                    className="contact-item"
-                  >
-                    <p>
-                      <Icon name={item.icon} />
-                      {item.label}
-                    </p>
-                    <strong>{item.value}</strong>
-                  </a>
-                ))}
+              <div className="contact-compose">
+                <p className="contact-intro">Drop a concise message and your preferred email, and I will get back to you.</p>
+
+                <form className="contact-form" onSubmit={handleContactSubmit}>
+                  <div className="contact-row">
+                    <label className="contact-field">
+                      <span>Name</span>
+                      <input
+                        name="name"
+                        type="text"
+                        placeholder="Your full name"
+                        value={contactForm.name}
+                        onChange={handleContactChange}
+                        required
+                      />
+                    </label>
+
+                    <label className="contact-field">
+                      <span>Email</span>
+                      <input
+                        name="email"
+                        type="email"
+                        placeholder="you@example.com"
+                        value={contactForm.email}
+                        onChange={handleContactChange}
+                        required
+                      />
+                    </label>
+                  </div>
+
+                  <label className="contact-field">
+                    <span>Subject</span>
+                    <input
+                      name="subject"
+                      type="text"
+                      placeholder="Opportunity, project, or collaboration"
+                      value={contactForm.subject}
+                      onChange={handleContactChange}
+                      required
+                    />
+                  </label>
+
+                  <label className="contact-field">
+                    <span>Message</span>
+                    <textarea
+                      name="message"
+                      rows={7}
+                      placeholder="Write your message..."
+                      value={contactForm.message}
+                      onChange={handleContactChange}
+                      required
+                    />
+                  </label>
+
+                  <div className="contact-actions">
+                    <button type="submit" className="contact-submit">
+                      Send Message
+                    </button>
+                    <p className="contact-hint">This opens your default email app with the message prefilled.</p>
+                  </div>
+
+                  {contactStatus === "error" ? (
+                    <p className="contact-feedback is-error">Please fill all fields before sending.</p>
+                  ) : null}
+                  {contactStatus === "sent" ? (
+                    <p className="contact-feedback is-sent">Draft opened successfully. Send it from your email client.</p>
+                  ) : null}
+                </form>
               </div>
             </motion.section>
           </main>
