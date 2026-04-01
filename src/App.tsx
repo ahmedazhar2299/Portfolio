@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion"
-import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react"
+import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react"
 import { Seo } from "./components/Seo"
 import { profile } from "./data/profile"
 import {
@@ -25,11 +25,19 @@ type ContactFormState = {
   message: string
 }
 
+type ThemePreference = "light" | "dark" | "system"
+
 const initialContactForm: ContactFormState = {
   name: "",
   email: "",
   message: "",
 }
+
+const themeOptions: Array<{ value: ThemePreference; label: string }> = [
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+  { value: "system", label: "System" },
+]
 
 function Icon({ name, className }: { name: IconName; className?: string }) {
   const cls = className ?? "icon"
@@ -151,11 +159,121 @@ function SectionHeading({ icon, title, note }: { icon: IconName; title: string; 
   )
 }
 
+function ThemeGlyph({ mode }: { mode: ThemePreference }) {
+  if (mode === "light") {
+    return (
+      <svg viewBox="0 0 24 24" className="theme-glyph" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M5.2 18.8l2.1-2.1M16.7 7.3l2.1-2.1" />
+      </svg>
+    )
+  }
+
+  if (mode === "dark") {
+    return (
+      <svg viewBox="0 0 24 24" className="theme-glyph" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+        <path d="M20 14.2A8.5 8.5 0 1 1 9.8 4a7.2 7.2 0 0 0 10.2 10.2Z" />
+      </svg>
+    )
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" className="theme-glyph" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <rect x="3.5" y="4.5" width="17" height="12" rx="2.2" />
+      <path d="M8.5 19.5h7M12 16.5v3" />
+    </svg>
+  )
+}
+
+function ThemeMenu({
+  value,
+  onChange,
+  className,
+}: {
+  value: ThemePreference
+  onChange: (value: ThemePreference) => void
+  className?: string
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement | null>(null)
+  const current = themeOptions.find((option) => option.value === value) ?? themeOptions[2]
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    const onDocumentPointerDown = (event: MouseEvent) => {
+      if (!menuRef.current?.contains(event.target as Node)) setIsOpen(false)
+    }
+
+    const onDocumentKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsOpen(false)
+    }
+
+    document.addEventListener("mousedown", onDocumentPointerDown)
+    document.addEventListener("keydown", onDocumentKeyDown)
+    return () => {
+      document.removeEventListener("mousedown", onDocumentPointerDown)
+      document.removeEventListener("keydown", onDocumentKeyDown)
+    }
+  }, [isOpen])
+
+  return (
+    <div className={className ? `theme-menu ${className}` : "theme-menu"} ref={menuRef}>
+      <button
+        type="button"
+        className={isOpen ? "theme-menu-trigger is-open" : "theme-menu-trigger"}
+        onClick={() => setIsOpen((prev) => !prev)}
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+        aria-label="Theme"
+      >
+        <ThemeGlyph mode={current.value} />
+        <span>{current.label}</span>
+        <svg viewBox="0 0 24 24" className="theme-chevron" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+          <path d="m7 10 5 5 5-5" />
+        </svg>
+      </button>
+
+      {isOpen ? (
+        <div className="theme-menu-list" role="menu" aria-label="Theme options">
+          {themeOptions.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              role="menuitemradio"
+              aria-checked={value === option.value}
+              className={value === option.value ? "theme-menu-item is-active" : "theme-menu-item"}
+              onClick={() => {
+                onChange(option.value)
+                setIsOpen(false)
+              }}
+            >
+              <ThemeGlyph mode={option.value} />
+              <span>{option.label}</span>
+              {value === option.value ? <Icon name="check" className="theme-menu-check" /> : null}
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 export default function App() {
   const reducedMotion = useReducedMotion()
   const [activeSection, setActiveSection] = useState<SectionId>("about")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [themePreference, setThemePreference] = useState<ThemePreference>(() => {
+    if (typeof window === "undefined") return "system"
+    const stored = window.localStorage.getItem("theme-preference")
+    if (stored === "light" || stored === "dark" || stored === "system") return stored
+    return "system"
+  })
+  const [systemPrefersDark, setSystemPrefersDark] = useState(() => {
+    if (typeof window === "undefined") return false
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+  })
   const [contactForm, setContactForm] = useState<ContactFormState>(initialContactForm)
   const [contactStatus, setContactStatus] = useState<"idle" | "error" | "sent">("idle")
 
@@ -169,31 +287,62 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+    const updatePreference = () => setSystemPrefersDark(mediaQuery.matches)
+    updatePreference()
+    mediaQuery.addEventListener("change", updatePreference)
+    return () => mediaQuery.removeEventListener("change", updatePreference)
+  }, [])
+
+  useEffect(() => {
+    const resolvedTheme = themePreference === "system" ? (systemPrefersDark ? "dark" : "light") : themePreference
+    document.documentElement.setAttribute("data-theme", resolvedTheme)
+    window.localStorage.setItem("theme-preference", themePreference)
+  }, [systemPrefersDark, themePreference])
+
+  useEffect(() => {
     const sections = sectionIds
       .map((id) => document.getElementById(id))
       .filter((node): node is HTMLElement => node !== null)
 
     if (!sections.length) return
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+    let ticking = false
 
-        if (visible[0]) {
-          const id = visible[0].target.id as SectionId
-          setActiveSection(id)
+    const updateActiveSection = () => {
+      const anchorOffset = window.innerHeight * 0.26
+      let nextActive = sectionIds[0]
+      let nearestOffset = Number.NEGATIVE_INFINITY
+
+      sections.forEach((section) => {
+        const sectionId = section.id as SectionId
+        const top = section.getBoundingClientRect().top
+
+        if (top <= anchorOffset && top > nearestOffset) {
+          nearestOffset = top
+          nextActive = sectionId
         }
-      },
-      {
-        rootMargin: "-36% 0px -48% 0px",
-        threshold: [0.25, 0.5, 0.75],
-      },
-    )
+      })
 
-    sections.forEach((section) => observer.observe(section))
-    return () => observer.disconnect()
+      setActiveSection((prev) => (prev === nextActive ? prev : nextActive))
+    }
+
+    const onScrollOrResize = () => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(() => {
+        updateActiveSection()
+        ticking = false
+      })
+    }
+
+    updateActiveSection()
+    window.addEventListener("scroll", onScrollOrResize, { passive: true })
+    window.addEventListener("resize", onScrollOrResize)
+    return () => {
+      window.removeEventListener("scroll", onScrollOrResize)
+      window.removeEventListener("resize", onScrollOrResize)
+    }
   }, [sectionIds])
 
   const scrollToSection = (id: SectionId) => {
@@ -270,9 +419,7 @@ export default function App() {
               ))}
             </nav>
 
-            <a href={profile.resume} target="_blank" rel="noreferrer" className="topbar-resume">
-              Resume
-            </a>
+            <ThemeMenu className="topbar-theme-menu" value={themePreference} onChange={setThemePreference} />
 
             <button
               type="button"
@@ -288,6 +435,7 @@ export default function App() {
           </div>
 
           <div className={mobileMenuOpen ? "mobile-panel is-open" : "mobile-panel"}>
+            <ThemeMenu className="mobile-theme-menu" value={themePreference} onChange={setThemePreference} />
             {navSections.map((item) => (
               <button
                 key={item.id}
