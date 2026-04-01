@@ -6,6 +6,7 @@ import {
   type IconName,
   aboutParagraphs,
   contactLinks,
+  educationEntries,
   experienceEntries,
   introBadges,
   navSections,
@@ -44,6 +45,14 @@ function Icon({ name, className }: { name: IconName; className?: string }) {
         <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
           <path d="M6 5v14M18 5v14M6 12h12" />
           <circle cx="12" cy="12" r="2.2" />
+        </svg>
+      )
+    case "education":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="m3 9 9-4 9 4-9 4-9-4Z" />
+          <path d="M7 11.5V15c0 1.8 2.2 3.2 5 3.2s5-1.4 5-3.2v-3.5" />
+          <path d="M21 9v5.4" />
         </svg>
       )
     case "stack":
@@ -402,6 +411,65 @@ export default function App() {
                     {entry.href ? (
                       <a href={entry.href} target="_blank" rel="noreferrer" className="experience-link">
                         Reference
+                        <Icon name="external" />
+                      </a>
+                    ) : null}
+                  </motion.article>
+                ))}
+              </div>
+            </motion.section>
+
+            <motion.section
+              id="education"
+              className="doc-block"
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <SectionHeading
+                icon="education"
+                title="Education"
+                note="Academic foundation in artificial intelligence, systems, and core computer science."
+              />
+
+              <div className="education-grid">
+                {educationEntries.map((entry, index) => (
+                  <motion.article
+                    key={`${entry.period}-${entry.school}`}
+                    className="education-card"
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.4, delay: index * 0.06, ease: "easeOut" }}
+                  >
+                    <header className="education-head">
+                      <figure className="education-logo">
+                        <img src={entry.logo} alt={entry.logoAlt} width={220} height={70} loading="lazy" />
+                      </figure>
+                      <div className="education-meta">
+                        <p>{entry.period}</p>
+                        <span>{entry.location}</span>
+                      </div>
+                    </header>
+
+                    <h3>{entry.degree}</h3>
+                    <h4>{entry.school}</h4>
+                    <p className="education-note">{entry.note}</p>
+
+                    <ul className="education-list">
+                      {entry.details.map((item) => (
+                        <li key={item}>
+                          <Icon name="check" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {entry.href ? (
+                      <a href={entry.href} target="_blank" rel="noreferrer" className="education-link">
+                        Institution
                         <Icon name="external" />
                       </a>
                     ) : null}

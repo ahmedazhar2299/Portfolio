@@ -700,6 +700,117 @@ a:focus-visible {
   font-weight: 500;
 }
 
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.68rem;
+}
+
+.education-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+  padding: 0.82rem;
+}
+
+.education-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.62rem;
+  align-items: flex-start;
+}
+
+.education-logo {
+  margin: 0;
+  width: 162px;
+  min-height: 58px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  padding: 0.42rem;
+  display: grid;
+  place-items: center;
+}
+
+.education-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.education-meta {
+  text-align: right;
+  display: grid;
+  gap: 0.08rem;
+}
+
+.education-meta p {
+  color: var(--text-soft);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.education-meta span {
+  color: var(--text-soft);
+  font-size: 0.76rem;
+}
+
+.education-card h3 {
+  margin-top: 0.6rem;
+  font-size: 0.97rem;
+  line-height: 1.35;
+}
+
+.education-card h4 {
+  margin-top: 0.14rem;
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+.education-note {
+  margin-top: 0.45rem;
+  color: #4f4d45;
+  font-size: 0.89rem;
+}
+
+.education-list {
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.42rem;
+}
+
+.education-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: flex-start;
+  gap: 0.34rem;
+  color: var(--text);
+  font-size: 0.86rem;
+}
+
+.education-list .icon {
+  width: 0.92rem;
+  height: 0.92rem;
+  margin-top: 0.2rem;
+  color: var(--accent);
+}
+
+.education-link {
+  margin-top: 0.56rem;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
 .stack-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -823,6 +934,7 @@ a:focus-visible {
   }
 
   .project-grid,
+  .education-grid,
   .contact-grid,
   .about-layout {
     grid-template-columns: 1fr;
@@ -834,6 +946,15 @@ a:focus-visible {
   }
 
   .experience-meta {
+    text-align: left;
+  }
+
+  .education-head {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .education-meta {
     text-align: left;
   }
 }

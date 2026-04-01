@@ -4,6 +4,7 @@ export type IconName =
   | "profile"
   | "projects"
   | "timeline"
+  | "education"
   | "stack"
   | "mail"
   | "location"
@@ -18,6 +19,7 @@ export type IconName =
 export const navSections = [
   { id: "about", label: "About", icon: "profile" as IconName },
   { id: "experience", label: "Experience", icon: "timeline" as IconName },
+  { id: "education", label: "Education", icon: "education" as IconName },
   { id: "projects", label: "Projects", icon: "projects" as IconName },
   { id: "stack", label: "Stack", icon: "stack" as IconName },
   { id: "contact", label: "Contact", icon: "mail" as IconName },
@@ -179,21 +181,50 @@ export const experienceEntries: ExperienceEntry[] = [
     logoAlt: "Tintash logo",
     href: "https://tintash.com/",
   },
+]
+
+export type EducationEntry = {
+  period: string
+  degree: string
+  school: string
+  location: string
+  note: string
+  details: string[]
+  logo: string
+  logoAlt: string
+  href?: string
+}
+
+export const educationEntries: EducationEntry[] = [
   {
     period: "2025 - 2027",
-    role: "M.S. Computer Science (Artificial Intelligence)",
-    company: "California State University, Long Beach",
+    degree: "Master of Science in Computer Science (Artificial Intelligence)",
+    school: "California State University, Long Beach",
     location: "Long Beach, California",
-    summary:
-      "Graduate study focused on AI systems, distributed computing, and production-grade software engineering.",
-    highlights: [
+    note: "Graduate focus on AI systems, machine learning, and distributed software engineering.",
+    details: [
+      "Expected graduation: May 2027.",
       "Current GPA: 4.0.",
-      "Coursework includes Distributed Computing, Machine Vision, Reinforcement Learning, and LLM-focused advanced AI topics.",
-      "Applying graduate research and systems thinking directly to production engineering work.",
+      "Relevant coursework: Distributed Computing, Machine Vision, Reinforcement Learning, and advanced AI topics.",
     ],
-    logo: "/experience/logos/csulb.png",
+    logo: "/education/logos/csulb.png",
     logoAlt: "California State University, Long Beach logo",
     href: "https://www.csulb.edu/",
+  },
+  {
+    period: "2019 - 2023",
+    degree: "Bachelor of Science in Computer Science",
+    school: "National University of Computer and Emerging Sciences (FAST-NUCES)",
+    location: "Lahore, Pakistan",
+    note: "Strong foundation in computer science fundamentals, systems, and applied machine learning.",
+    details: [
+      "Graduated: July 2023.",
+      "Coursework: Data Structures and Algorithms, Operating Systems, Computer Networks, Databases, and Probability & Statistics.",
+      "Advanced study: Distributed Computing, Machine Vision, Reinforcement Learning, and LLM-oriented AI.",
+    ],
+    logo: "/education/logos/fast-nuces.png",
+    logoAlt: "FAST National University logo",
+    href: "https://nu.edu.pk/",
   },
 ]
 
