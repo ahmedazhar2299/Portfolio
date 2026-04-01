@@ -28,18 +28,7 @@ export const navSections = [
 export const introBadges = [
   { icon: "spark" as IconName, text: "Software Engineer" },
   { icon: "location" as IconName, text: "Los Angeles, California" },
-  { icon: "status" as IconName, text: "Open to AI + Backend Roles" },
-]
-
-export const aboutParagraphs = [
-  "I build backend and AI systems that stay reliable under production load, not just in demos.",
-  "My work centers on clear service boundaries, strong observability, and practical model integration that improves real user outcomes.",
-]
-
-export const nowList = [
-  "Growing distributed backend systems for high-volume product workflows.",
-  "Building retrieval and ranking pipelines for hiring and decision support use cases.",
-  "Pursuing an M.S. in Computer Science (AI) at California State University, Long Beach.",
+  { icon: "timeline" as IconName, text: "AI + Distributed Systems" },
 ]
 
 export const projectEntries = [

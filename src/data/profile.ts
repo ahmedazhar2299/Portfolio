@@ -39,7 +39,7 @@ export const profile = {
   github: "https://github.com/ahmedazhar2299",
   linkedin: "https://www.linkedin.com/in/ahmedazhar2299/",
   resume: "/resume/resume.pdf",
-  availability: "Open to high-impact software engineering and applied AI roles",
+  availability: "Focused on AI-native backend architecture and distributed systems engineering.",
   heroStatement:
     "I design and ship AI-native backend systems where reliability, speed, and product impact matter as much as model quality.",
   shortBio:

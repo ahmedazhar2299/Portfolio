@@ -4,12 +4,10 @@ import { Seo } from "./components/Seo"
 import { profile } from "./data/profile"
 import {
   type IconName,
-  aboutParagraphs,
   educationEntries,
   experienceEntries,
   introBadges,
   navSections,
-  nowList,
   projectEntries,
   stackGroups,
 } from "./data/portfolioSections"
@@ -361,45 +359,85 @@ export default function App() {
             >
               <div className="page-cover" aria-hidden="true" />
 
-              <div className="page-title-row">
-                <div className="page-icon">
-                  <Icon name="profile" />
-                </div>
-                <div>
-                  <h2>{profile.name}</h2>
-                  <p>{profile.heroStatement}</p>
-                </div>
-              </div>
-
-              <div className="badge-row">
-                {introBadges.map((badge) => (
-                  <span key={badge.text}>
-                    <Icon name={badge.icon} />
-                    {badge.text}
-                  </span>
-                ))}
-              </div>
-
-              <div className="about-layout">
-                <div className="about-copy">
-                  {aboutParagraphs.map((line) => (
-                    <p key={line}>{line}</p>
-                  ))}
+              <div className="about-sheet">
+                <div className="page-title-row">
+                  <div className="page-icon">
+                    <Icon name="profile" />
+                  </div>
+                  <div>
+                    <h2>{profile.name}</h2>
+                    <p>{profile.heroStatement}</p>
+                  </div>
                 </div>
 
-                <div className="callout">
-                  <p>
-                    <Icon name="status" />
-                    Currently
-                  </p>
-                  <ul>
-                    {nowList.map((item) => (
-                      <li key={item}>
-                        <Icon name="check" />
-                        {item}
-                      </li>
+                <div className="about-top-meta">
+                  <div className="badge-row">
+                    {introBadges.map((badge) => (
+                      <span key={badge.text}>
+                        <Icon name={badge.icon} />
+                        {badge.text}
+                      </span>
                     ))}
-                  </ul>
+                  </div>
+
+                  <div className="about-links" aria-label="Primary profile links">
+                    <a href={profile.github} target="_blank" rel="noreferrer" className="about-link">
+                      <Icon name="github" />
+                      GitHub
+                      <Icon name="external" />
+                    </a>
+                    <a href={profile.linkedin} target="_blank" rel="noreferrer" className="about-link">
+                      <Icon name="linkedin" />
+                      LinkedIn
+                      <Icon name="external" />
+                    </a>
+                    <a href={profile.resume} target="_blank" rel="noreferrer" className="about-link">
+                      <Icon name="resume" />
+                      Resume
+                      <Icon name="external" />
+                    </a>
+                    <a href={`mailto:${profile.email}`} className="about-link">
+                      <Icon name="mail" />
+                      Email
+                    </a>
+                  </div>
+                </div>
+
+                <p className="hero-support">{profile.shortBio}</p>
+
+                <div className="about-focus-grid">
+                  <article className="about-focus-card about-focus-card-primary">
+                    <p className="about-focus-label">
+                      <Icon name="stack" />
+                      Engineering Focus
+                    </p>
+                    <h3>Distributed Backend + AI Systems</h3>
+                    <p>
+                      Designing service boundaries, observability-first APIs, and model-aware backend workflows for
+                      production reliability.
+                    </p>
+                  </article>
+
+                  <article className="about-focus-card">
+                    <p className="about-focus-label">
+                      <Icon name="education" />
+                      Graduate Focus
+                    </p>
+                    <h3>M.S. Computer Science (AI)</h3>
+                    <p>At CSULB, deepening ML foundations, systems thinking, and practical distributed computing.</p>
+                  </article>
+
+                  <article className="about-focus-card">
+                    <p className="about-focus-label">
+                      <Icon name="timeline" />
+                      Research
+                    </p>
+                    <h3>Healthcare ML at Chapman</h3>
+                    <p>
+                      Research assistant work in stroke neurorehabilitation covering data collection, feature
+                      engineering, model development, and evaluation.
+                    </p>
+                  </article>
                 </div>
               </div>
             </motion.section>
@@ -709,7 +747,7 @@ export default function App() {
         </div>
 
         <footer className="footer-note">
-          <p>(c) {new Date().getFullYear()} {profile.name}. Built with React and Framer Motion.</p>
+          <p>(c) {new Date().getFullYear()} {profile.name}.</p>
         </footer>
       </div>
     </>
