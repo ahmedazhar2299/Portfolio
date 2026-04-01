@@ -35,11 +35,9 @@ export const projectEntries = [
   {
     title: "Federated Learning on CIFAR-10",
     subtitle: "Distributed model training across IID and non-IID clients",
-    summary:
-      "Built a Flower-based federated learning setup to compare global convergence under different client data distributions and training strategies.",
-    result:
-      "Tracks round-level global accuracy and highlights how decentralized collaboration outperforms isolated local training.",
-    tech: ["Python", "Flower", "TensorFlow", "Federated Learning"],
+    summary: "Evaluated federated training behavior across different client distributions using Flower + TensorFlow.",
+    result: "Built repeatable experiments for convergence, round-level accuracy, and training stability.",
+    tech: ["Python", "Flower", "TensorFlow"],
     image: "/projects/covers/federated-network.svg",
     imageFit: "contain",
     visual: "Distributed Graph",
@@ -49,11 +47,9 @@ export const projectEntries = [
   {
     title: "Pix2CT",
     subtitle: "GAN reconstruction and transfer learning for medical CT analysis",
-    summary:
-      "Combined Pix2Pix conditional GAN reconstruction with MobileNetV2-based classification for brain CT workflows in low-data settings.",
-    result:
-      "Delivers realistic reconstruction and diagnostic classification stages in one reproducible deep learning pipeline.",
-    tech: ["PyTorch", "TensorFlow", "Pix2Pix GAN", "MobileNetV2"],
+    summary: "Built a low-data medical imaging workflow with Pix2Pix reconstruction and MobileNetV2 classification.",
+    result: "Packaged reconstruction and diagnosis into one reproducible deep learning pipeline.",
+    tech: ["PyTorch", "Pix2Pix", "MobileNetV2"],
     image: "/projects/covers/medical-ct.jpg",
     imageFit: "cover",
     visual: "Medical CT",
@@ -63,11 +59,9 @@ export const projectEntries = [
   {
     title: "FFT-SIMD",
     subtitle: "High-performance transforms for large-scale polynomial computation",
-    summary:
-      "Implemented FFT and NTT workflows with SIMD acceleration to improve throughput for large integer polynomial multiplication.",
-    result:
-      "Demonstrates substantial speed improvements over scalar baselines using AVX/NEON vectorized compute paths.",
-    tech: ["C++", "FFT", "SIMD", "Performance Engineering"],
+    summary: "Implemented FFT/NTT workloads with SIMD acceleration for high-throughput polynomial operations.",
+    result: "Measured clear speedups versus scalar implementations across representative workloads.",
+    tech: ["C++", "FFT", "SIMD"],
     image: "/projects/covers/fft-spectrum.png",
     imageFit: "contain",
     visual: "Frequency Analysis",
@@ -77,11 +71,9 @@ export const projectEntries = [
   {
     title: "Sobel-Laplacian-SIMD",
     subtitle: "Edge detection kernels optimized for modern parallel hardware",
-    summary:
-      "Optimized Sobel and Laplacian image kernels with ARM NEON intrinsics to reduce branching and improve memory-locality in hot loops.",
-    result:
-      "Shows practical parallel systems optimization patterns for low-latency image processing workloads.",
-    tech: ["C", "ARM NEON", "Image Processing", "Systems Optimization"],
+    summary: "Optimized Sobel and Laplacian kernels with ARM NEON intrinsics and memory-locality improvements.",
+    result: "Created faster edge-detection kernels with practical low-latency systems patterns.",
+    tech: ["C", "ARM NEON", "Image Processing"],
     image: "/projects/covers/edge-detection.png",
     imageFit: "cover",
     visual: "Edge Detection",
@@ -111,10 +103,8 @@ export const experienceEntries: ExperienceEntry[] = [
     summary:
       "Designing ML workflows on wearable-sensor activity data to support clinically relevant, remote stroke rehabilitation monitoring.",
     highlights: [
-      "Collect and curate naturalistic movement data from stroke and healthy cohorts using L5/S1 wearable sensor setups.",
-      "Build feature-engineering and preprocessing workflows for multi-day time-series data, including segmentation and quality filtering.",
-      "Develop and evaluate activity-classification models (RNN and baseline models) for stroke-versus-healthy movement differentiation.",
-      "Translate model outputs into clinician-friendly analyses; related published dataset work in this research line reports up to 97.3% classification accuracy.",
+      "Built feature-engineering and preprocessing pipelines for wearable multi-day rehabilitation data.",
+      "Developed and evaluated activity-classification models for stroke-versus-healthy movement analysis.",
     ],
     logo: "/experience/logos/chapman.gif",
     logoAlt: "Chapman University logo",
@@ -128,10 +118,8 @@ export const experienceEntries: ExperienceEntry[] = [
     summary:
       "Owned backend architecture for attendance policy execution and AI-assisted hiring workflows on a high-throughput SaaS platform.",
     highlights: [
-      "Designed and rolled out a high-availability attendance policy microservice serving 5K+ employees across 40+ organizations and 100K+ requests/day.",
-      "Cut policy-evaluation latency by 80% through schema redesign, targeted indexing, query-plan tuning, and cache-aside reads.",
-      "Built a RAG-based resume-to-job matching engine processing 1K+ resumes/day and indexing 50K+ embeddings.",
-      "Added an offline evaluation harness with hybrid relevance scoring that improved top-K precision by 18%.",
+      "Launched a high-availability policy microservice serving 100K+ requests/day across 40+ organizations.",
+      "Reduced policy latency by 80% and shipped a RAG resume-to-job matcher with improved ranking precision.",
     ],
     logo: "/experience/logos/paismo.png",
     logoAlt: "Paismo logo",
@@ -145,10 +133,8 @@ export const experienceEntries: ExperienceEntry[] = [
     summary:
       "Built and operated backend services for a multi-tenant B2B GenAI email platform with strong tenant isolation and reliability guardrails.",
     highlights: [
-      "Supported 50+ enterprise tenants and 8K+ daily active users across LLM-powered, API-driven workflow surfaces.",
-      "Improved performance at 300K+ workflow executions/month using batching, pagination, connection pooling, and cache improvements.",
-      "Reduced end-to-end latency by 35% through profiling and targeted database/query optimizations.",
-      "Strengthened production operations with dashboards, alerts, and deploy checks, enabling 10+ safe deploys/week and 40% faster incident detection.",
+      "Built multi-tenant GenAI backend services supporting 50+ enterprise tenants and 8K+ daily active users.",
+      "Improved workflow latency by 35% and strengthened deployments with observability and alerting guardrails.",
     ],
     logo: "/experience/logos/xiq.svg",
     logoAlt: "xiQ logo",
@@ -162,9 +148,8 @@ export const experienceEntries: ExperienceEntry[] = [
     summary:
       "Shipped backend features for client-facing products with a focus on clean API contracts and dependable data modeling.",
     highlights: [
-      "Built production REST endpoints and relational data models used by web product teams.",
-      "Implemented validation, pagination, and consistent error contracts to simplify downstream frontend integration.",
-      "Contributed to maintainable service patterns that improved handoff quality for production delivery.",
+      "Built production REST endpoints and relational models for client-facing products.",
+      "Implemented validation, pagination, and stable error contracts for smoother frontend integration.",
     ],
     logo: "/experience/logos/tintash.svg",
     logoAlt: "Tintash logo",
@@ -191,11 +176,7 @@ export const educationEntries: EducationEntry[] = [
     school: "California State University, Long Beach",
     location: "Long Beach, California",
     note: "Graduate focus on AI systems, machine learning, and distributed software engineering.",
-    details: [
-      "Expected graduation: May 2027.",
-      "Current GPA: 4.0.",
-      "Relevant coursework: Distributed Computing, Machine Vision, Reinforcement Learning, and advanced AI topics.",
-    ],
+    details: ["Expected graduation: May 2027.", "Current GPA: 4.0, with advanced AI and distributed systems coursework."],
     logo: "/education/logos/csulb.png",
     logoAlt: "California State University, Long Beach logo",
     href: "https://www.csulb.edu/",
@@ -206,11 +187,7 @@ export const educationEntries: EducationEntry[] = [
     school: "National University of Computer and Emerging Sciences (FAST-NUCES)",
     location: "Lahore, Pakistan",
     note: "Strong foundation in computer science fundamentals, systems, and applied machine learning.",
-    details: [
-      "Graduated: July 2023.",
-      "Coursework: Data Structures and Algorithms, Operating Systems, Computer Networks, Databases, and Probability & Statistics.",
-      "Advanced study: Distributed Computing, Machine Vision, Reinforcement Learning, and LLM-oriented AI.",
-    ],
+    details: ["Graduated: July 2023.", "Core CS foundation across systems, algorithms, networks, and databases."],
     logo: "/education/logos/fast-nuces.png",
     logoAlt: "FAST National University logo",
     href: "https://nu.edu.pk/",
@@ -226,18 +203,18 @@ export type SkillGroup = {
 export const stackGroups: SkillGroup[] = [
   {
     title: "Backend + Distributed APIs",
-    note: "Reliable service design for high-volume, production-facing workflows.",
-    items: ["Node.js", "Django", "FastAPI", "REST APIs", "PostgreSQL", "Redis", "SQL"],
+    note: "Reliable service design for production workflows.",
+    items: ["Node.js", "FastAPI", "PostgreSQL", "Redis", "REST APIs"],
   },
   {
     title: "AI Engineering + ML Systems",
-    note: "Practical model pipelines with retrieval, evaluation, and measurable impact.",
-    items: ["Python", "RAG Pipelines", "Embeddings", "PyTorch", "TensorFlow", "OpenCV", "Evaluation Workflows"],
+    note: "Practical model pipelines with retrieval and evaluation.",
+    items: ["Python", "RAG Pipelines", "PyTorch", "TensorFlow", "Embeddings"],
   },
   {
     title: "Cloud + Delivery Engineering",
-    note: "Production operations, deployment safety, and observability.",
-    items: ["AWS", "Google Cloud", "Docker", "Git", "CI/CD", "Observability", "Runbooks", "Performance Tuning"],
+    note: "Deployment safety, performance, and observability.",
+    items: ["AWS", "Docker", "CI/CD", "Observability", "Performance Tuning"],
   },
 ]
 

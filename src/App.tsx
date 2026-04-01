@@ -22,14 +22,12 @@ const fadeUp = {
 type ContactFormState = {
   name: string
   email: string
-  subject: string
   message: string
 }
 
 const initialContactForm: ContactFormState = {
   name: "",
   email: "",
-  subject: "",
   message: "",
 }
 
@@ -217,13 +215,13 @@ export default function App() {
   const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const { name, email, subject, message } = contactForm
-    if (!name.trim() || !email.trim() || !subject.trim() || !message.trim()) {
+    const { name, email, message } = contactForm
+    if (!name.trim() || !email.trim() || !message.trim()) {
       setContactStatus("error")
       return
     }
 
-    const mailSubject = `[Portfolio] ${subject.trim()}`
+    const mailSubject = `[Portfolio] Message from ${name.trim()}`
     const mailBody = [
       `Hi ${profile.name},`,
       "",
@@ -330,21 +328,6 @@ export default function App() {
               </nav>
             </div>
 
-            <div className="rail-card quick-links">
-              <p className="rail-heading">Links</p>
-              <a href={profile.github} target="_blank" rel="noreferrer">
-                <Icon name="github" />
-                GitHub
-              </a>
-              <a href={profile.linkedin} target="_blank" rel="noreferrer">
-                <Icon name="linkedin" />
-                LinkedIn
-              </a>
-              <a href={`mailto:${profile.email}`}>
-                <Icon name="mail" />
-                Email
-              </a>
-            </div>
           </aside>
 
           <main className="document">
@@ -454,49 +437,45 @@ export default function App() {
               <SectionHeading
                 icon="timeline"
                 title="Experience"
-                note="Applied backend, GenAI, and research work across production engineering and healthcare ML."
+                note="A focused timeline of roles."
               />
 
-              <div className="experience-grid">
+              <div className="minimal-list">
                 {experienceEntries.map((entry, index) => (
                   <motion.article
                     key={`${entry.period}-${entry.company}-${entry.role}`}
-                    className="experience-card"
+                    className="minimal-item"
                     initial={{ opacity: 0, y: 14 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.4, delay: index * 0.04, ease: "easeOut" }}
                   >
-                    <header className="experience-head">
-                      <div className="experience-brand">
-                        <figure className="experience-logo">
+                    <header className="minimal-item-head">
+                      <div className="minimal-item-brand">
+                        <figure className="minimal-item-logo">
                           <img src={entry.logo} alt={entry.logoAlt} width={160} height={64} loading="lazy" />
                         </figure>
-                        <div className="experience-title">
+                        <div className="minimal-item-title">
                           <h3>{entry.role}</h3>
-                          <h4>{entry.company}</h4>
+                          <p>
+                            {entry.company} · {entry.location}
+                          </p>
                         </div>
                       </div>
 
-                      <div className="experience-meta">
-                        <p>{entry.period}</p>
-                        <span>{entry.location}</span>
-                      </div>
+                      <p className="minimal-item-meta">{entry.period}</p>
                     </header>
 
-                    <p className="experience-summary">{entry.summary}</p>
+                    <p className="minimal-item-summary">{entry.summary}</p>
 
-                    <ul className="experience-list">
-                      {entry.highlights.map((item) => (
-                        <li key={item}>
-                          <Icon name="check" />
-                          {item}
-                        </li>
+                    <div className="minimal-item-highlights">
+                      {entry.highlights.slice(0, 2).map((item) => (
+                        <span key={item}>{item}</span>
                       ))}
-                    </ul>
+                    </div>
 
                     {entry.href ? (
-                      <a href={entry.href} target="_blank" rel="noreferrer" className="experience-link">
+                      <a href={entry.href} target="_blank" rel="noreferrer" className="minimal-item-link">
                         Reference
                         <Icon name="external" />
                       </a>
@@ -518,44 +497,44 @@ export default function App() {
               <SectionHeading
                 icon="education"
                 title="Education"
-                note="Academic foundation in artificial intelligence, systems, and core computer science."
+                note="Academic milestones and focus areas."
               />
 
-              <div className="education-grid">
+              <div className="minimal-list">
                 {educationEntries.map((entry, index) => (
                   <motion.article
                     key={`${entry.period}-${entry.school}`}
-                    className="education-card"
+                    className="minimal-item"
                     initial={{ opacity: 0, y: 14 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.4, delay: index * 0.06, ease: "easeOut" }}
                   >
-                    <header className="education-head">
-                      <figure className="education-logo">
-                        <img src={entry.logo} alt={entry.logoAlt} width={220} height={70} loading="lazy" />
-                      </figure>
-                      <div className="education-meta">
-                        <p>{entry.period}</p>
-                        <span>{entry.location}</span>
+                    <header className="minimal-item-head">
+                      <div className="minimal-item-brand">
+                        <figure className="minimal-item-logo">
+                          <img src={entry.logo} alt={entry.logoAlt} width={220} height={70} loading="lazy" />
+                        </figure>
+                        <div className="minimal-item-title">
+                          <h3>{entry.degree}</h3>
+                          <p>
+                            {entry.school} · {entry.location}
+                          </p>
+                        </div>
                       </div>
+                      <p className="minimal-item-meta">{entry.period}</p>
                     </header>
 
-                    <h3>{entry.degree}</h3>
-                    <h4>{entry.school}</h4>
-                    <p className="education-note">{entry.note}</p>
+                    <p className="minimal-item-summary">{entry.note}</p>
 
-                    <ul className="education-list">
-                      {entry.details.map((item) => (
-                        <li key={item}>
-                          <Icon name="check" />
-                          {item}
-                        </li>
+                    <div className="minimal-item-highlights">
+                      {entry.details.slice(0, 2).map((item) => (
+                        <span key={item}>{item}</span>
                       ))}
-                    </ul>
+                    </div>
 
                     {entry.href ? (
-                      <a href={entry.href} target="_blank" rel="noreferrer" className="education-link">
+                      <a href={entry.href} target="_blank" rel="noreferrer" className="minimal-item-link">
                         Institution
                         <Icon name="external" />
                       </a>
@@ -577,20 +556,20 @@ export default function App() {
               <SectionHeading
                 icon="projects"
                 title="Projects"
-                note="Projects aligned with AI engineering and distributed systems."
+                note="My technical work in AI and systems."
               />
 
-              <div className="project-grid">
+              <div className="project-list-minimal">
                 {projectEntries.map((item, index) => (
                   <motion.article
                     key={item.title}
-                    className="project-card"
+                    className="project-item-minimal"
                     initial={{ opacity: 0, y: 14 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
                   >
-                    <div className="project-media">
+                    <figure className="project-thumb-minimal">
                       <img
                         src={item.image}
                         alt={`${item.title} visual`}
@@ -599,24 +578,23 @@ export default function App() {
                         loading="lazy"
                         className={item.imageFit === "contain" ? "is-contain" : ""}
                       />
-                      <span>{item.visual}</span>
-                    </div>
-                    <div className="project-body">
+                    </figure>
+
+                    <div className="project-content-minimal">
                       <h3>{item.title}</h3>
-                      <p className="project-subtitle">{item.subtitle}</p>
-                      <p>{item.summary}</p>
-                      <p className="project-result">{item.result}</p>
-                      <div className="tag-row">
-                        {item.tech.map((tech) => (
+                      <p className="project-subtitle-minimal">{item.subtitle}</p>
+                      <p className="project-summary-minimal">{item.summary}</p>
+                      <div className="project-tags-minimal">
+                        {item.tech.slice(0, 3).map((tech) => (
                           <span key={tech}>{tech}</span>
                         ))}
                       </div>
-                      <a href={item.href} target="_blank" rel="noreferrer">
-                        Source
-                        <Icon name="external" />
-                      </a>
-                      <small>{item.imageCredit}</small>
                     </div>
+
+                    <a href={item.href} target="_blank" rel="noreferrer" className="project-link-minimal">
+                      Source
+                      <Icon name="external" />
+                    </a>
                   </motion.article>
                 ))}
               </div>
@@ -631,28 +609,25 @@ export default function App() {
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              <SectionHeading icon="stack" title="Stack" note="Core tools and engineering areas I rely on most." />
+              <SectionHeading icon="stack" title="Stack" note="Core tools and technologies I reach for most." />
 
-              <div className="stack-grid">
+              <div className="stack-minimal-grid">
                 {stackGroups.map((group, index) => (
                   <motion.article
                     key={group.title}
-                    className="stack-card"
+                    className="stack-minimal-card"
                     initial={{ opacity: 0, y: 12 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.4, delay: index * 0.04, ease: "easeOut" }}
                   >
                     <h3>{group.title}</h3>
-                    <p className="stack-note">{group.note}</p>
-                    <ul>
+                    <p className="stack-minimal-note">{group.note}</p>
+                    <div className="stack-minimal-tags">
                       {group.items.map((item) => (
-                        <li key={item}>
-                          <Icon name="check" />
-                          {item}
-                        </li>
+                        <span key={item}>{item}</span>
                       ))}
-                    </ul>
+                    </div>
                   </motion.article>
                 ))}
               </div>
@@ -670,11 +645,11 @@ export default function App() {
               <SectionHeading
                 icon="mail"
                 title="Contact"
-                note="Send a direct note here. Links remain in the sidebar for quick access."
+                note="Reach out to me."
               />
 
               <div className="contact-compose">
-                <p className="contact-intro">Drop a concise message and your preferred email, and I will get back to you.</p>
+                <p className="contact-intro">Send a short message and your email for a reply.</p>
 
                 <form className="contact-form" onSubmit={handleContactSubmit}>
                   <div className="contact-row">
@@ -704,23 +679,11 @@ export default function App() {
                   </div>
 
                   <label className="contact-field">
-                    <span>Subject</span>
-                    <input
-                      name="subject"
-                      type="text"
-                      placeholder="Opportunity, project, or collaboration"
-                      value={contactForm.subject}
-                      onChange={handleContactChange}
-                      required
-                    />
-                  </label>
-
-                  <label className="contact-field">
                     <span>Message</span>
                     <textarea
                       name="message"
-                      rows={7}
-                      placeholder="Write your message..."
+                      rows={5}
+                      placeholder="Write a short message..."
                       value={contactForm.message}
                       onChange={handleContactChange}
                       required
@@ -731,7 +694,7 @@ export default function App() {
                     <button type="submit" className="contact-submit">
                       Send Message
                     </button>
-                    <p className="contact-hint">This opens your default email app with the message prefilled.</p>
+                    <p className="contact-hint">Opens your default email app.</p>
                   </div>
 
                   {contactStatus === "error" ? (
