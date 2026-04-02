@@ -1,21 +1,7 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="24"
-  height="24"
-  viewBox="0 0 24 24"
-  stroke-width="2"
-  stroke="currentColor"
-  fill="none"
-  stroke-linecap="round"
-  stroke-linejoin="round"
-  ><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path
-    d="M7 8l-4 4l4 4"></path><path d="M17 8l4 4l-4 4"></path><path
-    d="M14 4l-4 16"></path>
-    <style>
-        svg { color: #000; }
-        @media (prefers-color-scheme: dark) {
-            svg { color: #FFF; }
-        }
-    </style>
-    </svg
->
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="116" fill="#F7F3EC" />
+  <rect x="16" y="16" width="480" height="480" rx="100" stroke="#DDD6CC" stroke-width="8" />
+  <circle cx="256" cy="190" r="74" stroke="#1F1F1F" stroke-width="28" />
+  <path d="M134 364c0-64 54-104 122-104s122 40 122 104" stroke="#1F1F1F" stroke-width="28" stroke-linecap="round" />
+  <circle cx="394" cy="118" r="30" fill="#7CB5EC" />
+</svg>

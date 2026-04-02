@@ -7,7 +7,12 @@ type SeoProps = {
 }
 
 const SITE_URL = "https://muhammad-ahmed-dev.vercel.app"
+const SITE_NAME = "Muhammad Ahmed"
 const DEFAULT_IMAGE = `${SITE_URL}/portfolio-social.png`
+
+function composeTitle(title: string) {
+  return title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`
+}
 
 function upsertMetaByName(name: string, content: string) {
   let element = document.querySelector(`meta[name=\"${name}\"]`) as HTMLMetaElement | null
@@ -33,18 +38,23 @@ export function Seo({ title, description, pathname }: SeoProps) {
   useEffect(() => {
     const cleanPath = pathname.startsWith("/") ? pathname : `/${pathname}`
     const canonicalUrl = new URL(cleanPath, SITE_URL).toString()
+    const fullTitle = composeTitle(title)
 
-    document.title = `${title} | Muhammad Ahmed`
+    document.title = fullTitle
 
     upsertMetaByName("description", description)
-    upsertMetaByName("twitter:title", `${title} | Muhammad Ahmed`)
+    upsertMetaByName("application-name", SITE_NAME)
+    upsertMetaByName("apple-mobile-web-app-title", SITE_NAME)
+    upsertMetaByName("twitter:card", "summary_large_image")
+    upsertMetaByName("twitter:title", fullTitle)
     upsertMetaByName("twitter:description", description)
     upsertMetaByName("twitter:image", DEFAULT_IMAGE)
     upsertMetaByName("twitter:image:alt", "Muhammad Ahmed portfolio preview")
 
-    upsertMetaByProperty("og:title", `${title} | Muhammad Ahmed`)
+    upsertMetaByProperty("og:title", fullTitle)
     upsertMetaByProperty("og:description", description)
     upsertMetaByProperty("og:url", canonicalUrl)
+    upsertMetaByProperty("og:site_name", SITE_NAME)
     upsertMetaByProperty("og:image", DEFAULT_IMAGE)
     upsertMetaByProperty("og:image:secure_url", DEFAULT_IMAGE)
     upsertMetaByProperty("og:image:type", "image/png")

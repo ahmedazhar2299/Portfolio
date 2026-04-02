@@ -11,8 +11,8 @@ export function HomePage() {
   return (
     <div className="page">
       <Seo
-        title="Home"
-        description="A product-level portfolio by Muhammad Ahmed focused on AI systems, cloud architecture, and backend engineering."
+        title="Muhammad Ahmed | Software Engineer, AI & Distributed Systems"
+        description="I design and ship AI-native backend systems where reliability, speed, and product impact matter as much as model quality."
         pathname="/"
       />
 
