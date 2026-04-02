@@ -41,9 +41,9 @@ export const profile = {
   resume: "/resume/resume.pdf",
   availability: "Focused on AI-native backend architecture and distributed systems engineering.",
   heroStatement:
-    "I design and ship AI-native backend systems where reliability, speed, and product impact matter as much as model quality.",
+    "Engineer contributing to scalable AI-native backend systems, optimizing for reliability, performance, and impact",
   shortBio:
-    "From microservices to research-to-production ML workflows, I build platforms that convert complex ideas into measurable outcomes.",
+    "From microservices to research-to-production ML workflows, I contribute to systems that transform complex ideas into measurable outcomes, optimizing for scalability, reliability, and real-world product impact.",
 }
 
 export const storyChapters: StoryChapter[] = [

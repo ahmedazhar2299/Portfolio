@@ -397,7 +397,7 @@ export default function App() {
     <>
       <Seo
         title="Muhammad Ahmed | Software Engineer, AI & Distributed Systems"
-        description="I design and ship AI-native backend systems where reliability, speed, and product impact matter as much as model quality."
+        description="Engineer contributing to scalable AI-native backend systems, optimizing for reliability, performance, and impact"
         pathname="/"
       />
 
