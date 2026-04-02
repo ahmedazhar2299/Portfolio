@@ -508,6 +508,12 @@ export default function App() {
                     <div className="page-icon about-page-icon">
                       <Icon name="profile" />
                     </div>
+                    <figure className="about-mobile-portrait">
+                      <img src="/ahmed.webp" alt="Portrait of Muhammad Ahmed" width={160} height={200} loading="eager" />
+                      <span className="about-mobile-portrait-badge" aria-hidden="true">
+                        <Icon name="profile" />
+                      </span>
+                    </figure>
                   </div>
 
                   <div className="about-ribbon-copy">

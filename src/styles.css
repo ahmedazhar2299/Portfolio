@@ -666,6 +666,61 @@ a:focus-visible {
   align-items: flex-start;
 }
 
+.about-mobile-portrait {
+  display: none;
+  position: relative;
+  width: 88px;
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.12), transparent 60%),
+    linear-gradient(180deg, var(--surface-soft), var(--surface));
+  box-shadow:
+    var(--shadow),
+    0 16px 30px rgba(0, 0, 0, 0.18);
+}
+
+.about-mobile-portrait img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 18%;
+}
+
+.about-mobile-portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.2));
+  pointer-events: none;
+}
+
+.about-mobile-portrait-badge {
+  position: absolute;
+  right: 0.44rem;
+  bottom: 0.44rem;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  display: grid;
+  place-items: center;
+  z-index: 1;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(10px);
+}
+
+.about-mobile-portrait-badge .icon {
+  width: 0.86rem;
+  height: 0.86rem;
+  color: var(--accent);
+}
+
 .about-ribbon-copy {
   display: grid;
   grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
@@ -1777,6 +1832,25 @@ a:focus-visible {
     height: 30px;
   }
 
+  .about-ribbon {
+    grid-template-columns: 92px minmax(0, 1fr);
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .about-ribbon-mark {
+    padding-top: 0;
+    align-self: center;
+  }
+
+  .about-page-icon {
+    display: none;
+  }
+
+  .about-mobile-portrait {
+    display: block;
+  }
+
   .about-sheet {
     margin-top: -8px;
     padding: 0.82rem;
@@ -1799,7 +1873,12 @@ a:focus-visible {
     padding: 0.78rem 0.82rem 0.8rem;
   }
 
-  .about-ribbon-copy,
+  .about-ribbon-copy {
+    grid-template-columns: 1fr;
+    gap: 0.72rem;
+    align-content: center;
+  }
+
   .about-grid {
     grid-template-columns: 1fr;
     gap: 0.82rem;
@@ -1929,8 +2008,21 @@ a:focus-visible {
 
   .about-ribbon {
     margin-top: -0.58rem;
+    grid-template-columns: 78px minmax(0, 1fr);
     gap: 0.74rem;
     padding: 0.72rem 0.76rem 0.76rem;
+  }
+
+  .about-mobile-portrait {
+    width: 78px;
+    border-radius: 16px;
+  }
+
+  .about-mobile-portrait-badge {
+    width: 1.68rem;
+    height: 1.68rem;
+    right: 0.36rem;
+    bottom: 0.36rem;
   }
 
   .about-ribbon-copy {
@@ -1938,7 +2030,7 @@ a:focus-visible {
   }
 
   .about-ribbon-copy h2 {
-    font-size: clamp(1.9rem, 9.6vw, 2.44rem);
+    font-size: clamp(1.68rem, 8.6vw, 2.14rem);
     max-width: 100%;
   }
 
@@ -2259,7 +2351,7 @@ a:focus-visible {
 
   .about-ribbon {
     margin-top: -0.42rem;
-    grid-template-columns: 1fr;
+    grid-template-columns: 72px minmax(0, 1fr);
     gap: 0.56rem;
     padding: 0.68rem 0.72rem 0.72rem;
   }
@@ -2268,12 +2360,22 @@ a:focus-visible {
     padding-top: 0;
   }
 
+  .about-mobile-portrait {
+    width: 72px;
+    border-radius: 14px;
+  }
+
+  .about-mobile-portrait-badge {
+    width: 1.58rem;
+    height: 1.58rem;
+  }
+
   .about-ribbon-copy {
     gap: 0.56rem;
   }
 
   .about-ribbon-copy h2 {
-    font-size: clamp(1.72rem, 10vw, 2.08rem);
+    font-size: clamp(1.46rem, 8.8vw, 1.82rem);
     line-height: 0.98;
   }
 
