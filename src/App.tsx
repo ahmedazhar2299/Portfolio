@@ -149,12 +149,18 @@ function Icon({ name, className }: { name: IconName; className?: string }) {
 
 function SectionHeading({ icon, title, note }: { icon: IconName; title: string; note: string }) {
   return (
-    <header className="block-header">
-      <p className="block-label">
-        <Icon name={icon} />
-        {title}
-      </p>
-      <p>{note}</p>
+    <header className="block-header" data-title={title}>
+      <div className="block-topline" aria-hidden="true">
+        <span className="block-icon-badge">
+          <Icon name={icon} />
+        </span>
+        <span className="block-topline-rule" />
+        <span className="block-topline-dot" />
+      </div>
+      <div className="block-heading-copy">
+        <h2 className="block-title">{title}</h2>
+        <p className="block-note">{note}</p>
+      </div>
     </header>
   )
 }
