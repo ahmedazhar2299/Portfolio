@@ -106,8 +106,8 @@ export const experienceEntries: ExperienceEntry[] = [
       "Built feature-engineering and preprocessing pipelines for wearable multi-day rehabilitation data.",
       "Developed and evaluated activity-classification models for stroke-versus-healthy movement analysis.",
     ],
-    logo: "/experience/logos/chapman.gif",
-    logoAlt: "Chapman University logo",
+    logo: "/experience/logos/chapman-mark.png",
+    logoAlt: "Chapman University brand mark",
     href: "https://digitalcommons.chapman.edu/pt_data/3/",
   },
   {
@@ -177,8 +177,8 @@ export const educationEntries: EducationEntry[] = [
     location: "Long Beach, California",
     note: "Graduate focus on AI systems, machine learning, and distributed software engineering.",
     details: ["Expected graduation: May 2027.", "Current GPA: 4.0, with advanced AI and distributed systems coursework."],
-    logo: "/education/logos/csulb.png",
-    logoAlt: "California State University, Long Beach logo",
+    logo: "/education/logos/csulb-emblem.png",
+    logoAlt: "California State University, Long Beach LB mark",
     href: "https://www.csulb.edu/",
   },
   {
@@ -188,8 +188,8 @@ export const educationEntries: EducationEntry[] = [
     location: "Lahore, Pakistan",
     note: "Strong foundation in computer science fundamentals, systems, and applied machine learning.",
     details: ["Graduated: July 2023.", "Core CS foundation across systems, algorithms, networks, and databases."],
-    logo: "/education/logos/fast-nuces.png",
-    logoAlt: "FAST National University logo",
+    logo: "/education/logos/nuces-mark.png",
+    logoAlt: "National University of Computer and Emerging Sciences seal",
     href: "https://nu.edu.pk/",
   },
 ]

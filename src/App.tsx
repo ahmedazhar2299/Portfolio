@@ -459,10 +459,16 @@ export default function App() {
         <div className="workspace">
           <aside className="left-rail">
             <div className="rail-card profile-card">
-              <img src="/ahmed.webp" alt="Portrait of Muhammad Ahmed" width={360} height={420} loading="lazy" />
+              <div className="profile-card-visual">
+                <img src="/ahmed.webp" alt="Portrait of Muhammad Ahmed" width={360} height={460} loading="lazy" />
+              </div>
+              <span className="profile-card-label">Software Engineer</span>
               <h1>{profile.name}</h1>
-              <p>{profile.role}</p>
-              <small>{profile.location}</small>
+              <small className="profile-card-location">
+                <Icon name="location" />
+                {profile.location}
+              </small>
+              <span className="profile-card-note">{profile.availability}</span>
             </div>
 
             <div className="rail-card">

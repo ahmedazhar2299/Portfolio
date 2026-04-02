@@ -43,7 +43,7 @@ export const profile = {
   heroStatement:
     "I design and ship AI-native backend systems where reliability, speed, and product impact matter as much as model quality.",
   shortBio:
-    "From distributed services to research-to-production ML workflows, I build platforms that convert complex ideas into measurable outcomes.",
+    "From microservices to research-to-production ML workflows, I build platforms that convert complex ideas into measurable outcomes.",
 }
 
 export const storyChapters: StoryChapter[] = [
