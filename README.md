@@ -23,9 +23,4 @@ Professional portfolio website built with React, TypeScript, Vite, and Framer Mo
 - `robots.txt` and `sitemap.xml` in `public/`
 - Profile content sourced from:
   - GitHub public API (`github.com/ahmedazhar2299`)
-  - Resume (`/Users/ahmed/Documents/Interview/Resume/resume.pdf`)
   - Public LinkedIn URL (`linkedin.com/in/ahmedazhar2299`)
-
-## Deploy
-
-Deploy to Vercel as a standard Vite project.

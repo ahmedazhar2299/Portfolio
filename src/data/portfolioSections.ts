@@ -96,7 +96,7 @@ export type ExperienceEntry = {
 
 export const experienceEntries: ExperienceEntry[] = [
   {
-    period: "2025 - Present",
+    period: "2026 - Present",
     role: "Research Assistant, Machine Learning for Stroke Neurorehabilitation",
     company: "Chapman University",
     location: "Orange, California",

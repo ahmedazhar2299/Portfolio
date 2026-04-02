@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom"
-import { motion } from "framer-motion"
 import { PageIntro } from "../components/PageIntro"
 import { Reveal } from "../components/Reveal"
 import { Seo } from "../components/Seo"
 import { WorkCard } from "../components/WorkCard"
-import { caseStudies, principles, profile, profileStats } from "../data/profile"
+import { caseStudies, profile } from "../data/profile"
 
 const featuredStudies = caseStudies.slice(0, 3)
 
@@ -32,14 +31,6 @@ export function HomePage() {
         <Reveal className="glass-panel hero-note-card" delay={0.1}>
           <h2>Current Signal</h2>
           <p>{profile.shortBio}</p>
-          <div className="stat-grid">
-            {profileStats.map((stat) => (
-              <article key={stat.label}>
-                <span>{stat.label}</span>
-                <strong>{stat.value}</strong>
-              </article>
-            ))}
-          </div>
           <div className="inline-links">
             <Link to="/work">See Case Studies</Link>
             <Link to="/contact">Start Conversation</Link>
@@ -66,22 +57,6 @@ export function HomePage() {
           {featuredStudies.map((item) => (
             <Reveal key={item.slug}>
               <WorkCard item={item} />
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <Reveal>
-          <span className="eyebrow">Operating Principles</span>
-        </Reveal>
-        <div className="principle-grid">
-          {principles.map((principle, index) => (
-            <Reveal key={principle.title} delay={0.04 * index}>
-              <motion.article className="glass-panel principle-card" whileHover={{ y: -4 }}>
-                <h3>{principle.title}</h3>
-                <p>{principle.body}</p>
-              </motion.article>
             </Reveal>
           ))}
         </div>

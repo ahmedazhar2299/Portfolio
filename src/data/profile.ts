@@ -46,28 +46,6 @@ export const profile = {
     "From distributed services to research-to-production ML workflows, I build platforms that convert complex ideas into measurable outcomes.",
 }
 
-export const profileStats = [
-  { label: "Public Repositories", value: "27" },
-  { label: "GitHub Followers", value: "6" },
-  { label: "Master's GPA", value: "4.0" },
-  { label: "Largest Daily Throughput", value: "100K+ req/day" },
-]
-
-export const principles = [
-  {
-    title: "Systems Before Slides",
-    body: "I optimize for production behavior, observability, and failure tolerance instead of demo polish.",
-  },
-  {
-    title: "Research With Accountability",
-    body: "Every ML experiment is paired with evaluation harnesses, practical baselines, and rollback paths.",
-  },
-  {
-    title: "Performance Is Product",
-    body: "Latency, reliability, and deployment safety are product features, not afterthoughts.",
-  },
-]
-
 export const storyChapters: StoryChapter[] = [
   {
     period: "2024 - 2025",
