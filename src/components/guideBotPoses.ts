@@ -1,0 +1,261 @@
+import type { GuideEmotion } from "../data/guideBotMessages"
+
+export type RobotEyeStyle =
+  | "soft"
+  | "attentive"
+  | "steady"
+  | "studious"
+  | "inventive"
+  | "smile"
+  | "curious"
+  | "focused"
+  | "wide"
+  | "sleepy"
+  | "spark"
+  | "beam"
+  | "proud"
+export type RobotMouthStyle = "soft" | "grin" | "beam" | "tiny" | "flat" | "sleep" | "cat" | "o" | "smirk"
+
+export type RobotPose = {
+  eyeStyle: RobotEyeStyle
+  mouthStyle: RobotMouthStyle
+  headRotate: number
+  headLift: number
+  bodyLift: number
+  bodyRotate: number
+  leftArmRotate: number
+  rightArmRotate: number
+  antennaRotate: number
+  floatPath: number[]
+  floatDuration: number
+  faceGlow: number
+  blush: number
+}
+
+export const robotEmotionPoses: Record<GuideEmotion, RobotPose> = {
+  idle: {
+    eyeStyle: "soft",
+    mouthStyle: "soft",
+    headRotate: -4,
+    headLift: -1,
+    bodyLift: -1,
+    bodyRotate: 0,
+    leftArmRotate: -18,
+    rightArmRotate: 14,
+    antennaRotate: 0,
+    floatPath: [0, -4, 0, -2, 0],
+    floatDuration: 2.4,
+    faceGlow: 0.4,
+    blush: 0.12,
+  },
+  attentive: {
+    eyeStyle: "attentive",
+    mouthStyle: "soft",
+    headRotate: -6,
+    headLift: -2,
+    bodyLift: -1,
+    bodyRotate: 0,
+    leftArmRotate: -22,
+    rightArmRotate: 18,
+    antennaRotate: 2,
+    floatPath: [0, -5, 0, -2, 0],
+    floatDuration: 2.1,
+    faceGlow: 0.52,
+    blush: 0.18,
+  },
+  steady: {
+    eyeStyle: "steady",
+    mouthStyle: "flat",
+    headRotate: 4,
+    headLift: 0,
+    bodyLift: 0,
+    bodyRotate: 1,
+    leftArmRotate: -14,
+    rightArmRotate: 12,
+    antennaRotate: 0,
+    floatPath: [0, -2.5, 0],
+    floatDuration: 2.7,
+    faceGlow: 0.42,
+    blush: 0.05,
+  },
+  studious: {
+    eyeStyle: "studious",
+    mouthStyle: "tiny",
+    headRotate: -11,
+    headLift: -1,
+    bodyLift: -1,
+    bodyRotate: -2,
+    leftArmRotate: -28,
+    rightArmRotate: 6,
+    antennaRotate: -4,
+    floatPath: [0, -3.5, 0, -1.5, 0],
+    floatDuration: 2.25,
+    faceGlow: 0.5,
+    blush: 0.14,
+  },
+  inventive: {
+    eyeStyle: "inventive",
+    mouthStyle: "smirk",
+    headRotate: 11,
+    headLift: -2,
+    bodyLift: -2,
+    bodyRotate: 2,
+    leftArmRotate: -18,
+    rightArmRotate: 24,
+    antennaRotate: 6,
+    floatPath: [0, -4, 0, -2, 0],
+    floatDuration: 1.95,
+    faceGlow: 0.6,
+    blush: 0.18,
+  },
+  greet: {
+    eyeStyle: "beam",
+    mouthStyle: "cat",
+    headRotate: -10,
+    headLift: -4,
+    bodyLift: -4,
+    bodyRotate: -2,
+    leftArmRotate: -34,
+    rightArmRotate: 72,
+    antennaRotate: 8,
+    floatPath: [0, -8, 0, -3, 0],
+    floatDuration: 1.6,
+    faceGlow: 0.72,
+    blush: 0.36,
+  },
+  curious: {
+    eyeStyle: "curious",
+    mouthStyle: "o",
+    headRotate: -15,
+    headLift: -2,
+    bodyLift: -1,
+    bodyRotate: -3,
+    leftArmRotate: -38,
+    rightArmRotate: 8,
+    antennaRotate: -8,
+    floatPath: [0, -5, 0, -2, 0],
+    floatDuration: 1.95,
+    faceGlow: 0.58,
+    blush: 0.22,
+  },
+  guiding: {
+    eyeStyle: "soft",
+    mouthStyle: "cat",
+    headRotate: 5,
+    headLift: -2,
+    bodyLift: -2,
+    bodyRotate: 1,
+    leftArmRotate: -24,
+    rightArmRotate: 32,
+    antennaRotate: 6,
+    floatPath: [0, -5, 0, -2, 0],
+    floatDuration: 2,
+    faceGlow: 0.54,
+    blush: 0.18,
+  },
+  excited: {
+    eyeStyle: "wide",
+    mouthStyle: "cat",
+    headRotate: -6,
+    headLift: -4,
+    bodyLift: -4,
+    bodyRotate: -2,
+    leftArmRotate: -48,
+    rightArmRotate: 46,
+    antennaRotate: 12,
+    floatPath: [0, -12, 0, -5, 0],
+    floatDuration: 1.25,
+    faceGlow: 0.82,
+    blush: 0.34,
+  },
+  proud: {
+    eyeStyle: "proud",
+    mouthStyle: "grin",
+    headRotate: 10,
+    headLift: -1,
+    bodyLift: -1,
+    bodyRotate: 2,
+    leftArmRotate: -12,
+    rightArmRotate: 28,
+    antennaRotate: 4,
+    floatPath: [0, -5, 0],
+    floatDuration: 2.1,
+    faceGlow: 0.66,
+    blush: 0.24,
+  },
+  focused: {
+    eyeStyle: "focused",
+    mouthStyle: "flat",
+    headRotate: 2,
+    headLift: 0,
+    bodyLift: 0,
+    bodyRotate: 0,
+    leftArmRotate: -14,
+    rightArmRotate: 10,
+    antennaRotate: -3,
+    floatPath: [0, -3, 0],
+    floatDuration: 2.5,
+    faceGlow: 0.48,
+    blush: 0.08,
+  },
+  warm: {
+    eyeStyle: "smile",
+    mouthStyle: "cat",
+    headRotate: 12,
+    headLift: -2,
+    bodyLift: -2,
+    bodyRotate: 2,
+    leftArmRotate: -18,
+    rightArmRotate: 34,
+    antennaRotate: 4,
+    floatPath: [0, -5, 0, -2, 0],
+    floatDuration: 1.9,
+    faceGlow: 0.74,
+    blush: 0.32,
+  },
+  happy: {
+    eyeStyle: "beam",
+    mouthStyle: "cat",
+    headRotate: 12,
+    headLift: -2,
+    bodyLift: -2,
+    bodyRotate: 2,
+    leftArmRotate: -30,
+    rightArmRotate: 42,
+    antennaRotate: 8,
+    floatPath: [0, -8, 0, -4, 0],
+    floatDuration: 1.5,
+    faceGlow: 0.8,
+    blush: 0.42,
+  },
+  sleepy: {
+    eyeStyle: "sleepy",
+    mouthStyle: "sleep",
+    headRotate: -12,
+    headLift: 3,
+    bodyLift: 2,
+    bodyRotate: -4,
+    leftArmRotate: -32,
+    rightArmRotate: -4,
+    antennaRotate: -8,
+    floatPath: [0, -1.5, 0],
+    floatDuration: 3.2,
+    faceGlow: 0.24,
+    blush: 0.06,
+  },
+  celebrate: {
+    eyeStyle: "spark",
+    mouthStyle: "beam",
+    headRotate: -6,
+    headLift: -4,
+    bodyLift: -4,
+    bodyRotate: -2,
+    leftArmRotate: -68,
+    rightArmRotate: 68,
+    antennaRotate: 16,
+    floatPath: [0, -14, 0, -7, 0],
+    floatDuration: 0.96,
+    faceGlow: 0.9,
+    blush: 0.48,
+  },
+}

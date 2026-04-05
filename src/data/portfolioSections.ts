@@ -25,6 +25,8 @@ export const navSections = [
   { id: "contact", label: "Contact", icon: "mail" as IconName },
 ] as const
 
+export type PortfolioSectionId = (typeof navSections)[number]["id"]
+
 export const introBadges = [
   { icon: "spark" as IconName, text: "Software Engineer" },
   { icon: "location" as IconName, text: "Los Angeles, California" },

@@ -1,9 +1,11 @@
 import { motion, useReducedMotion } from "framer-motion"
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react"
+import { PortfolioGuideBot } from "./components/PortfolioGuideBot"
 import { Seo } from "./components/Seo"
 import { profile } from "./data/profile"
 import {
   type IconName,
+  type PortfolioSectionId,
   educationEntries,
   experienceEntries,
   navSections,
@@ -11,7 +13,7 @@ import {
   stackGroups,
 } from "./data/portfolioSections"
 
-type SectionId = (typeof navSections)[number]["id"]
+type SectionId = PortfolioSectionId
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -537,19 +539,19 @@ export default function App() {
                   </div>
 
                   <div className="about-minimal-links" aria-label="Primary profile links">
-                    <a href={profile.github} target="_blank" rel="noreferrer" className="minimal-item-link">
+                    <a href={profile.github} target="_blank" rel="noreferrer" className="minimal-item-link" data-guide-target="github">
                       GitHub
                       <Icon name="external" />
                     </a>
-                    <a href={profile.linkedin} target="_blank" rel="noreferrer" className="minimal-item-link">
+                    <a href={profile.linkedin} target="_blank" rel="noreferrer" className="minimal-item-link" data-guide-target="linkedin">
                       LinkedIn
                       <Icon name="external" />
                     </a>
-                    <a href={profile.resume} target="_blank" rel="noreferrer" className="minimal-item-link">
+                    <a href={profile.resume} target="_blank" rel="noreferrer" className="minimal-item-link" data-guide-target="resume">
                       Resume
                       <Icon name="external" />
                     </a>
-                    <a href={`mailto:${profile.email}`} className="minimal-item-link">
+                    <a href={`mailto:${profile.email}`} className="minimal-item-link" data-guide-target="email">
                       Email
                       <Icon name="mail" />
                     </a>
@@ -724,7 +726,7 @@ export default function App() {
                       </div>
                     </div>
 
-                    <a href={item.href} target="_blank" rel="noreferrer" className="project-link-minimal">
+                    <a href={item.href} target="_blank" rel="noreferrer" className="project-link-minimal" data-guide-target="project">
                       Source
                       <Icon name="external" />
                     </a>
@@ -824,7 +826,7 @@ export default function App() {
                   </label>
 
                   <div className="contact-actions">
-                    <button type="submit" className="contact-submit">
+                    <button type="submit" className="contact-submit" data-guide-target="contact">
                       Send Message
                     </button>
                     <p className="contact-hint">Opens your default email app.</p>
@@ -841,6 +843,8 @@ export default function App() {
             </motion.section>
           </main>
         </div>
+
+        <PortfolioGuideBot />
 
         <footer className="footer-note">
           <p>(c) {new Date().getFullYear()} {profile.name}.</p>

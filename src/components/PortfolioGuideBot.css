@@ -1,0 +1,484 @@
+:root {
+  --bot-shell-top: #eff8ff;
+  --bot-shell-mid: #c6e2ff;
+  --bot-shell-base: #7fb5f4;
+  --bot-body-top: #e3f2ff;
+  --bot-body-base: #aad0fb;
+  --bot-shell-stroke: rgba(255, 255, 255, 0.28);
+  --bot-fin-fill: #b7d7ff;
+  --bot-fin-stroke: rgba(236, 245, 255, 0.2);
+  --bot-band-fill: rgba(224, 240, 255, 0.18);
+  --bot-face-top: #11161c;
+  --bot-face-bottom: #05080d;
+  --bot-face-rim: rgba(232, 242, 255, 0.12);
+  --bot-gloss: rgba(255, 255, 255, 0.42);
+  --bot-mark: rgba(250, 252, 255, 0.98);
+  --bot-brow: rgba(234, 243, 255, 0.34);
+  --bot-shadow: rgba(72, 115, 174, 0.22);
+}
+
+[data-theme="dark"] {
+  --bot-shell-top: #fbfdff;
+  --bot-shell-mid: #dee6ef;
+  --bot-shell-base: #a9b3c0;
+  --bot-body-top: #f3f7fb;
+  --bot-body-base: #cad3de;
+  --bot-shell-stroke: rgba(89, 103, 124, 0.2);
+  --bot-fin-fill: #d8e0ea;
+  --bot-fin-stroke: rgba(110, 124, 143, 0.1);
+  --bot-band-fill: rgba(255, 255, 255, 0.06);
+  --bot-face-top: #0b0f15;
+  --bot-face-bottom: #04070c;
+  --bot-face-rim: rgba(255, 255, 255, 0.035);
+  --bot-gloss: rgba(255, 255, 255, 0.78);
+  --bot-mark: rgba(248, 250, 255, 0.98);
+  --bot-brow: rgba(255, 255, 255, 0.18);
+  --bot-shadow: rgba(4, 8, 15, 0.28);
+}
+
+.companion-bot-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 94;
+  pointer-events: none;
+}
+
+.companion-bot-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.companion-bot-stage {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.44rem;
+  pointer-events: auto;
+}
+
+.companion-bot-arrival {
+  position: relative;
+}
+
+.companion-bot-trigger {
+  position: relative;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  filter: drop-shadow(0 26px 42px rgba(3, 8, 18, 0.22));
+}
+
+.companion-bot-trigger:focus-visible {
+  outline: none;
+}
+
+.companion-bot {
+  width: 156px;
+  height: 206px;
+  position: relative;
+}
+
+.companion-bot-mobile {
+  width: 124px;
+  height: 166px;
+}
+
+.companion-bot-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 0.45rem;
+  width: 4.2rem;
+  height: 0.95rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, var(--bot-shadow), transparent 72%);
+  transform: translateX(-50%);
+  filter: blur(10px);
+}
+
+.companion-bot-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.companion-bot-stop-accent {
+  stop-color: var(--accent);
+}
+
+.companion-bot-stop-accent-soft {
+  stop-color: color-mix(in srgb, var(--accent) 42%, white 34%);
+}
+
+.companion-bot-stop-shell-top {
+  stop-color: var(--bot-shell-top);
+}
+
+.companion-bot-stop-shell-mid {
+  stop-color: var(--bot-shell-mid);
+}
+
+.companion-bot-stop-shell-base {
+  stop-color: var(--bot-shell-base);
+}
+
+.companion-bot-stop-body-top {
+  stop-color: var(--bot-body-top);
+}
+
+.companion-bot-stop-body-base {
+  stop-color: var(--bot-body-base);
+}
+
+.companion-bot-stop-face-top {
+  stop-color: var(--bot-face-top);
+}
+
+.companion-bot-stop-face-base {
+  stop-color: var(--bot-face-bottom);
+}
+
+.companion-bot-floor-shadow {
+  fill: var(--bot-shadow);
+  filter: blur(8px);
+}
+
+.companion-bot-head-shell,
+.companion-bot-arm-shell,
+.companion-bot-hand-shell,
+.companion-bot-foot-shell,
+.companion-bot-leg-stem,
+.companion-bot-body-shell {
+  fill: url(#companionBotShell);
+  stroke: var(--bot-shell-stroke);
+  stroke-width: 1.1;
+}
+
+.companion-bot-side-fin {
+  fill: var(--bot-fin-fill);
+  stroke: var(--bot-fin-stroke);
+  stroke-width: 0.9;
+}
+
+.companion-bot-head-band {
+  fill: var(--bot-band-fill);
+}
+
+.companion-bot-top-light {
+  opacity: 0.96;
+}
+
+.companion-bot-faceplate {
+  fill: url(#companionBotFaceGlass);
+  stroke: rgba(213, 225, 241, 0.06);
+  stroke-width: 1;
+}
+
+.companion-bot-face-rim {
+  fill: var(--bot-face-rim);
+}
+
+.companion-bot-face-ambient {
+  filter: blur(10px);
+}
+
+.companion-bot-cheek {
+  filter: blur(8px);
+}
+
+.companion-bot-gloss {
+  fill: var(--bot-gloss);
+}
+
+.companion-bot-body-panel {
+  fill: url(#companionBotBodySoft);
+  stroke: rgba(106, 122, 144, 0.16);
+  stroke-width: 0.9;
+}
+
+.companion-bot-body-panel-line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--accent) 38%, rgba(255, 255, 255, 0.42));
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.companion-bot-body-highlight {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.32);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.companion-bot-core-light {
+  fill: color-mix(in srgb, var(--accent) 68%, white 26%);
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--accent-soft) 44%, transparent));
+}
+
+.companion-bot-foot-sole,
+.companion-bot-brow,
+.companion-bot-mouth,
+.companion-bot-eye-line,
+.companion-bot-sparkles {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.companion-bot-brow {
+  stroke: var(--bot-brow);
+  stroke-width: 2.2;
+}
+
+.companion-bot-eye-solid,
+.companion-bot-eye-line,
+.companion-bot-mouth,
+.companion-bot-spark-orb {
+  color: var(--accent);
+}
+
+.companion-bot-eye-solid {
+  fill: var(--bot-mark);
+}
+
+.companion-bot-eye-line {
+  stroke: var(--bot-mark);
+  stroke-width: 4.2;
+}
+
+.companion-bot-eye-pupil {
+  fill: var(--bot-mark);
+}
+
+.companion-bot-mouth {
+  stroke: var(--bot-mark);
+  stroke-width: 3;
+}
+
+.companion-bot-greeting-word {
+  fill: var(--bot-mark);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.companion-bot-greeting-spark {
+  fill: color-mix(in srgb, var(--accent-soft) 70%, white 26%);
+  opacity: 0.92;
+}
+
+.companion-bot-foot-sole {
+  stroke: rgba(120, 138, 159, 0.48);
+  stroke-width: 1.9;
+}
+
+.companion-bot-sparkles {
+  stroke: color-mix(in srgb, var(--accent) 82%, white 14%);
+  stroke-width: 2.4;
+}
+
+.companion-bot-spark-orb {
+  fill: color-mix(in srgb, var(--accent-soft) 72%, white 8%);
+}
+
+.companion-bot-bubble {
+  display: none;
+}
+
+.companion-bot-bubble.is-left {
+  right: calc(100% - 1.2rem);
+}
+
+.companion-bot-bubble.is-right {
+  left: calc(100% - 1.2rem);
+}
+
+.companion-bot-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: 1rem;
+  width: 0.78rem;
+  height: 0.78rem;
+  background: color-mix(in srgb, var(--surface-soft) 98%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--border-strong) 88%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--border-strong) 88%, transparent);
+}
+
+.companion-bot-bubble.is-left::after {
+  right: -0.34rem;
+  transform: rotate(45deg);
+}
+
+.companion-bot-bubble.is-right::after {
+  left: -0.34rem;
+  transform: rotate(225deg);
+}
+
+.companion-bot-bubble-label {
+  display: inline-flex;
+  margin-bottom: 0.36rem;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.companion-bot-bubble p {
+  color: var(--text);
+  font-size: 0.8rem;
+  line-height: 1.42;
+  text-wrap: pretty;
+}
+
+.companion-bot-bubble-cta {
+  margin-top: 0.56rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 18%, var(--surface));
+  color: var(--accent);
+  font-size: 0.71rem;
+  font-weight: 600;
+  padding: 0.38rem 0.62rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.companion-bot-bubble-cta:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--accent) 28%, var(--surface));
+}
+
+.companion-bot-reaction {
+  transform-origin: center;
+}
+
+.companion-bot-reaction-heart path {
+  fill: color-mix(in srgb, var(--accent-soft) 68%, #ffd7e8 32%);
+  stroke: rgba(255, 255, 255, 0.42);
+  stroke-width: 1;
+}
+
+.companion-bot-reaction-document path:first-child {
+  fill: color-mix(in srgb, var(--surface-soft) 80%, white 12%);
+  stroke: color-mix(in srgb, var(--accent) 48%, rgba(255, 255, 255, 0.5));
+  stroke-width: 1.2;
+}
+
+.companion-bot-reaction-document path:not(:first-child) {
+  stroke: color-mix(in srgb, var(--accent) 72%, white 18%);
+  stroke-width: 1.4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.companion-bot-reaction-spark path {
+  stroke: color-mix(in srgb, var(--accent) 84%, white 14%);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.companion-bot-power {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 95%, transparent);
+  color: var(--text-soft);
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: var(--shadow);
+}
+
+.companion-bot-power svg,
+.companion-bot-restore svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.companion-bot-restore {
+  position: fixed;
+  right: max(0.9rem, env(safe-area-inset-right));
+  bottom: max(0.9rem, env(safe-area-inset-bottom));
+  z-index: 94;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 88%, transparent);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent-soft) 55%, transparent), transparent 54%),
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 96%, transparent), color-mix(in srgb, var(--surface-soft) 99%, transparent));
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.46rem;
+  min-height: 2.8rem;
+  padding: 0.42rem 0.74rem;
+  box-shadow: 0 14px 34px rgba(10, 12, 18, 0.16), var(--shadow);
+  cursor: pointer;
+}
+
+.companion-bot-restore span {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+@media (max-width: 840px) {
+  .companion-bot-bubble {
+    max-width: min(194px, 54vw);
+    bottom: calc(100% - 1rem);
+  }
+}
+
+@media (max-width: 680px) {
+  .companion-bot-bubble {
+    max-width: min(176px, 50vw);
+    padding: 0.64rem 0.68rem 0.68rem;
+    border-radius: 16px;
+  }
+
+  .companion-bot-bubble p {
+    font-size: 0.75rem;
+  }
+
+  .companion-bot-bubble-cta {
+    font-size: 0.67rem;
+    padding: 0.34rem 0.52rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .companion-bot-bubble {
+    max-width: min(160px, 48vw);
+    padding: 0.58rem 0.6rem 0.62rem;
+  }
+
+  .companion-bot-bubble-label {
+    font-size: 0.58rem;
+  }
+
+  .companion-bot-power {
+    width: 1.88rem;
+    height: 1.88rem;
+  }
+
+  .companion-bot-restore {
+    right: max(0.62rem, env(safe-area-inset-right));
+    bottom: max(0.62rem, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .companion-bot-trigger,
+  .companion-bot-bubble-cta {
+    transition: none;
+  }
+}
