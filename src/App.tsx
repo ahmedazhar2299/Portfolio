@@ -6,7 +6,6 @@ import {
   type IconName,
   educationEntries,
   experienceEntries,
-  introBadges,
   navSections,
   projectEntries,
   stackGroups,
@@ -493,73 +492,69 @@ export default function App() {
           <main className="document">
             <motion.section
               id="about"
-              className="doc-block about-block"
+              className="doc-block"
               variants={fadeUp}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              <div className="page-cover" aria-hidden="true" />
+              <SectionHeading
+                icon="profile"
+                title="About"
+                note="A quick profile of the systems, research, and engineering direction behind my work."
+              />
 
-              <div className="about-sheet">
-                <div className="about-ribbon">
-                  <div className="about-ribbon-mark">
-                    <div className="page-icon about-page-icon">
-                      <Icon name="profile" />
-                    </div>
-                    <figure className="about-mobile-portrait">
-                      <img src="/ahmed.webp" alt="Portrait of Muhammad Ahmed" width={160} height={200} loading="eager" />
-                      <span className="about-mobile-portrait-badge" aria-hidden="true">
+              <div className="minimal-list">
+                <article className="minimal-item about-minimal-item">
+                  <figure className="about-mobile-hero">
+                    <img src="/ahmed.webp" alt="Portrait of Muhammad Ahmed" width={720} height={520} loading="eager" />
+                  </figure>
+
+                  <header className="minimal-item-head">
+                    <div className="minimal-item-brand">
+                      <div className="minimal-item-logo about-minimal-logo" aria-hidden="true">
                         <Icon name="profile" />
-                      </span>
-                    </figure>
-                  </div>
-
-                  <div className="about-ribbon-copy">
-                    <h2>{profile.name}</h2>
-                    <p>{profile.heroStatement}</p>
-                  </div>
-                </div>
-
-                <div className="about-grid">
-                  <div className="about-copy">
-                    <p className="hero-support">{profile.shortBio}</p>
-                  </div>
-
-                  <aside className="about-ledger">
-                    <div className="about-token-column">
-                      {introBadges.map((badge) => (
-                        <span key={badge.text} className="about-token-item">
-                          <Icon name={badge.icon} />
-                          <span>{badge.text}</span>
-                        </span>
-                      ))}
+                      </div>
+                      <div className="minimal-item-title">
+                        <h3>{profile.name}</h3>
+                        <p>
+                          {profile.role} · {profile.location}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="about-link-row" aria-label="Primary profile links">
-                      <a href={profile.github} target="_blank" rel="noreferrer" className="about-link-minimal">
-                        <Icon name="github" />
-                        <span>GitHub</span>
-                        <Icon name="external" className="icon about-link-trail" />
-                      </a>
-                      <a href={profile.linkedin} target="_blank" rel="noreferrer" className="about-link-minimal">
-                        <Icon name="linkedin" />
-                        <span>LinkedIn</span>
-                        <Icon name="external" className="icon about-link-trail" />
-                      </a>
-                      <a href={profile.resume} target="_blank" rel="noreferrer" className="about-link-minimal">
-                        <Icon name="resume" />
-                        <span>Resume</span>
-                        <Icon name="external" className="icon about-link-trail" />
-                      </a>
-                      <a href={`mailto:${profile.email}`} className="about-link-minimal">
-                        <Icon name="mail" />
-                        <span>Email</span>
-                      </a>
-                    </div>
-                  </aside>
-                </div>
+                    <p className="minimal-item-meta">AI + Systems</p>
+                  </header>
+
+                  <p className="minimal-item-summary">{profile.heroStatement}</p>
+                  <p className="minimal-item-summary about-minimal-summary">{profile.shortBio}</p>
+
+                  <div className="minimal-item-highlights">
+                    <span>AI-native backend systems</span>
+                    <span>Distributed systems engineering</span>
+                    <span>Research-to-production ML</span>
+                  </div>
+
+                  <div className="about-minimal-links" aria-label="Primary profile links">
+                    <a href={profile.github} target="_blank" rel="noreferrer" className="minimal-item-link">
+                      GitHub
+                      <Icon name="external" />
+                    </a>
+                    <a href={profile.linkedin} target="_blank" rel="noreferrer" className="minimal-item-link">
+                      LinkedIn
+                      <Icon name="external" />
+                    </a>
+                    <a href={profile.resume} target="_blank" rel="noreferrer" className="minimal-item-link">
+                      Resume
+                      <Icon name="external" />
+                    </a>
+                    <a href={`mailto:${profile.email}`} className="minimal-item-link">
+                      Email
+                      <Icon name="mail" />
+                    </a>
+                  </div>
+                </article>
               </div>
             </motion.section>
 

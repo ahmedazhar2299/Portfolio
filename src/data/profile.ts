@@ -34,7 +34,7 @@ export const profile = {
   name: "Muhammad Ahmed",
   role: "Software Engineer",
   location: "Los Angeles, California",
-  email: "ahmed.azhar2299@gmail.com",
+  email: "Muhammad.Ahmed01@student.csulb.edu",
   phone: "+1 (562) 577-5028",
   github: "https://github.com/ahmedazhar2299",
   linkedin: "https://www.linkedin.com/in/ahmedazhar2299/",
@@ -250,8 +250,8 @@ export const experiments: Experiment[] = [
 export const contactChannels = [
   {
     label: "Email",
-    value: "ahmed.azhar2299@gmail.com",
-    href: "mailto:ahmed.azhar2299@gmail.com",
+    value: "Muhammad.Ahmed01@student.csulb.edu",
+    href: "mailto:Muhammad.Ahmed01@student.csulb.edu",
   },
   {
     label: "LinkedIn",
