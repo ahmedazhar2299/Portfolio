@@ -19,9 +19,9 @@ export type IconName =
 export const navSections = [
   { id: "about", label: "About", icon: "profile" as IconName },
   { id: "experience", label: "Experience", icon: "timeline" as IconName },
-  { id: "education", label: "Education", icon: "education" as IconName },
   { id: "projects", label: "Projects", icon: "projects" as IconName },
   { id: "stack", label: "Stack", icon: "stack" as IconName },
+  { id: "education", label: "Education", icon: "education" as IconName },
   { id: "contact", label: "Contact", icon: "mail" as IconName },
 ] as const
 
