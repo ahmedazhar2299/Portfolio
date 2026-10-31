@@ -1,124 +1,163 @@
-import { motion, useReducedMotion } from "framer-motion"
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react"
+import { useEffect, useRef, useState } from "react"
+import { Icon } from "./components/Icon"
 import { PortfolioGuideBot } from "./components/PortfolioGuideBot"
+import { ProjectDialog } from "./components/ProjectDialog"
+import { ProjectVisual } from "./components/ProjectVisual"
 import { Seo } from "./components/Seo"
-import { profile } from "./data/profile"
-import { type PortfolioSectionId, educationEntries, experienceEntries, navSections, projectEntries, stackGroups } from "./data/portfolioSections"
+import { profile, publicProfiles } from "./data/profile"
+import { awards, educationEntries, experienceEntries, moreProjects, navSections, projectEntries, projectFilters, publications, stackGroups, upcomingResearch, type PortfolioSectionId, type Project } from "./data/portfolioSections"
 
 type Theme = "light" | "dark"
-type ContactForm = { name: string; email: string; message: string }
-const emptyForm: ContactForm = { name: "", email: "", message: "" }
 
-function ArrowIcon() { return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4" /></svg> }
-function ExternalIcon() { return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4H4v12h12v-4M10 10l6-6M11 4h5v5" /></svg> }
-function ThemeIcon({ theme }: { theme: Theme }) {
-  return theme === "dark" ? <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.2A6.7 6.7 0 0 1 7.8 4 6.8 6.8 0 1 0 16 12.2Z" /></svg> : <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.2" /><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.3 4.3l1.4 1.4M14.3 14.3l1.4 1.4M4.3 15.7l1.4-1.4M14.3 5.7l1.4-1.4" /></svg>
+function SectionHeading({ label, title, copy, children }: { label: string; title: string; copy?: string; children?: React.ReactNode }) {
+  return <header className="section-heading"><div><p className="eyebrow">{label}</p><h2>{title}</h2>{copy && <p className="section-description">{copy}</p>}</div>{children}</header>
 }
-function SectionTitle({ kicker, title, copy }: { kicker: string; title: string; copy: string }) {
-  return <header className="section-title"><span>{kicker}</span><h2>{title}</h2><p>{copy}</p></header>
+
+function readTheme(): Theme {
+  try {
+    const saved = localStorage.getItem("portfolio-theme")
+    if (saved === "light" || saved === "dark") return saved
+  } catch { /* Use the light palette when storage is unavailable. */ }
+  return "light"
 }
 
 export default function App() {
-  const reduceMotion = useReducedMotion()
   const [activeSection, setActiveSection] = useState<PortfolioSectionId>("about")
+  const [theme, setTheme] = useState<Theme>(readTheme)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [form, setForm] = useState<ContactForm>(emptyForm)
-  const [formStatus, setFormStatus] = useState<"idle" | "error" | "ready">("idle")
-  const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem("portfolio-theme")
-    if (saved === "light" || saved === "dark") return saved
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-  })
+  const [filter, setFilter] = useState<(typeof projectFilters)[number]>("All work")
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle")
+  const [citationStatus, setCitationStatus] = useState("")
+  const copyTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const menuButton = useRef<HTMLButtonElement>(null)
+  const projects = projectEntries.filter(project => filter === "All work" || project.category === filter)
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
-    localStorage.setItem("portfolio-theme", theme)
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "light" ? "#f8fafd" : "#111318")
+    try { localStorage.setItem("portfolio-theme", theme) } catch { /* Theme still works without storage. */ }
   }, [theme])
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0]
       if (visible) setActiveSection(visible.target.id as PortfolioSectionId)
-    }, { rootMargin: "-18% 0px -62%", threshold: [0, 0.2, 0.5] })
-    navSections.forEach(({ id }) => { const section = document.getElementById(id); if (section) observer.observe(section) })
+    }, { rootMargin: "-100px 0px -55% 0px", threshold: 0 })
+    navSections.forEach(({ id }) => {
+      const section = document.getElementById(id)
+      if (section) observer.observe(section)
+    })
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    if (!menuOpen) return
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { setMenuOpen(false); menuButton.current?.focus() }
+    }
+    document.addEventListener("keydown", close)
+    return () => document.removeEventListener("keydown", close)
+  }, [menuOpen])
+
+  useEffect(() => () => clearTimeout(copyTimer.current), [])
+
   const navigate = (id: PortfolioSectionId) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" })
+    document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })
+    history.replaceState(null, "", `#${id}`)
     setMenuOpen(false)
   }
-  const onFormChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm((current) => ({ ...current, [event.target.name]: event.target.value })); setFormStatus("idle")
+
+  const copyEmail = async () => {
+    try { await navigator.clipboard.writeText(profile.email); setCopyStatus("copied") }
+    catch { setCopyStatus("error") }
+    clearTimeout(copyTimer.current)
+    copyTimer.current = setTimeout(() => setCopyStatus("idle"), 4000)
   }
-  const submitContact = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) { setFormStatus("error"); return }
-    const subject = encodeURIComponent(`Portfolio note from ${form.name.trim()}`)
-    const body = encodeURIComponent(`${form.message.trim()}\n\nFrom: ${form.name.trim()} (${form.email.trim()})`)
-    setFormStatus("ready"); window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`
+
+  const copyCitation = async (citation: string) => {
+    try { await navigator.clipboard.writeText(citation); setCitationStatus("Citation copied.") }
+    catch { setCitationStatus("Could not copy. The citation is available under Paper details.") }
   }
 
   return <div className="site-shell">
-    <Seo title="Muhammad Ahmed | Software Engineer" description={profile.heroStatement} pathname="/" />
+    <Seo title="Muhammad Ahmed | Software Engineer & Researcher" description={profile.heroStatement} pathname="/" />
+    <a className="skip-link" href="#main">Skip to content</a>
     <header className="site-header">
-      <a className="wordmark" href="#about" onClick={(event) => { event.preventDefault(); navigate("about") }} aria-label="Muhammad Ahmed, home"><span>MA</span><strong>Muhammad Ahmed</strong></a>
-      <nav className={menuOpen ? "site-nav is-open" : "site-nav"} aria-label="Main navigation">
-        {navSections.map((item) => <button key={item.id} className={activeSection === item.id ? "is-active" : ""} onClick={() => navigate(item.id)}>{item.label}</button>)}
-      </nav>
-      <div className="header-actions">
-        <button className="theme-toggle" onClick={() => setTheme(theme === "light" ? "dark" : "light")} aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}><ThemeIcon theme={theme} /></button>
-        <button className={menuOpen ? "menu-toggle is-open" : "menu-toggle"} onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label="Toggle navigation"><span /><span /></button>
+      <div className="header-inner">
+        <a className="wordmark" href="#about" aria-label="Muhammad Ahmed, home"><span className="brand-mark">a<span>.</span></span><span>Muhammad Ahmed<span className="wordmark-caption">Engineer & researcher</span></span></a>
+        <nav id="main-navigation" className={menuOpen ? "site-nav is-open" : "site-nav"} aria-label="Main navigation">
+          {navSections.map(item => <a key={item.id} href={`#${item.id}`} className={activeSection === item.id ? "is-active" : ""} aria-current={activeSection === item.id ? "location" : undefined} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
+        </nav>
+        <div className="header-actions"><button className="icon-button theme-toggle" onClick={() => setTheme(theme === "light" ? "dark" : "light")} aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}><Icon name={theme === "light" ? "moon" : "sun"} /></button><button ref={menuButton} className="icon-button menu-toggle" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}><Icon name={menuOpen ? "close" : "menu"} /></button></div>
       </div>
     </header>
 
-    <main>
+    <main id="main" tabIndex={-1}>
       <section id="about" className="hero section-shell">
-        <motion.div className="hero-copy" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
-          <p className="eyebrow"><span /> Software engineer in Los Angeles</p>
-          <h1>I build reliable systems for <em>ambitious ideas.</em></h1>
-          <p className="hero-lede">I work across AI, backend engineering, and distributed systems, turning research and product requirements into software that holds up in production.</p>
-          <div className="hero-actions"><button className="primary-button" onClick={() => navigate("projects")}>Explore my work <ArrowIcon /></button><a className="text-button" href={profile.resume} target="_blank" rel="noreferrer">View résumé <ExternalIcon /></a></div>
-          <div className="hero-proof" aria-label="Selected professional highlights"><div><strong>100K+</strong><span>daily requests supported</span></div><div><strong>80%</strong><span>latency reduction</span></div><div><strong>4.0</strong><span>graduate GPA</span></div></div>
-        </motion.div>
-        <motion.div className="hero-portrait" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.65, delay: 0.08 }}>
-          <div className="portrait-frame"><img src="/ahmed.webp" alt="Muhammad Ahmed" width="720" height="860" /></div>
-          <div className="portrait-note"><span>Currently</span><p>Researching machine learning for stroke rehabilitation at Chapman University.</p></div>
-        </motion.div>
+        <div className="hero-copy">
+          <p className="hero-greeting"><span className="greeting-line" /> Hi, I’m Ahmed.</p>
+          <h1>Building software.<br /><span>Advancing research.</span></h1>
+          <p className="hero-description">{profile.shortBio}</p>
+          <div className="hero-actions"><a className="button button-primary" href="#projects">Explore my work <Icon name="arrow" /></a><a className="button button-outlined" href={profile.resume} target="_blank" rel="noreferrer">View résumé <Icon name="download" /></a></div>
+          <p className="hero-location"><Icon name="location" /> Long Beach, California <span>·</span> M.S. Computer Science, CSULB</p>
+        </div>
+        <div className="hero-portrait">
+          <div className="portrait-frame"><img src="/ahmed.webp" alt="Muhammad Ahmed" width="1192" height="896" fetchPriority="high" /></div>
+          <div className="portrait-label"><span className="status-dot" /><span>A little curiosity. A lot of building.</span></div>
+          <span className="portrait-accent" aria-hidden="true"><Icon name="spark" /></span>
+        </div>
       </section>
 
-      <section id="experience" className="section-shell content-section">
-        <SectionTitle kicker="Experience" title="Work built around measurable outcomes." copy="A concise view of the teams, systems, and responsibilities that shaped my engineering practice." />
-        <div className="timeline">{experienceEntries.map((entry) => <article className="timeline-row" key={`${entry.company}-${entry.period}`}>
-          <p className="timeline-period">{entry.period}</p><div className="timeline-mark"><span /></div>
-          <div className="timeline-content"><header><div><h3>{entry.role}</h3><p>{entry.company} · {entry.location}</p></div><img src={entry.logo} alt="" width="100" height="48" loading="lazy" /></header><p>{entry.summary}</p><ul>{entry.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul></div>
+      <div className="section-shell current-strip">
+        <div className="current-label"><span className="status-dot" /> Currently</div>
+        <a href="#experience"><span className="current-icon"><Icon name="research" /></span><span><strong>ML for stroke mobility</strong><span>Chapman University</span></span><Icon name="arrow" /></a>
+        <a href="#experience"><span className="current-icon"><Icon name="code" /></span><span><strong>Computational science</strong><span>CSULB · CECM Lab</span></span><Icon name="arrow" /></a>
+      </div>
+
+      <section id="projects" className="section-shell content-section projects-section">
+        <SectionHeading label="Selected projects" title="A few things I’ve been building." copy="Across systems engineering, applied machine learning, and research."><a className="inline-link" href={profile.github} target="_blank" rel="noreferrer">All repositories <Icon name="external" /></a></SectionHeading>
+        <div className="project-toolbar"><div className="filter-group" role="group" aria-label="Filter projects">{projectFilters.map(item => <button key={item} className={filter === item ? "filter-chip is-selected" : "filter-chip"} onClick={() => setFilter(item)} aria-pressed={filter === item}>{filter === item && <Icon name="check" />}{item}</button>)}</div><span className="project-count" aria-live="polite">{projects.length} {projects.length === 1 ? "project" : "projects"}</span></div>
+        <div className="project-grid">{projects.map(project => <article className="project-card" key={project.id}>
+          <button className="project-open" onClick={() => setSelectedProject(project)} aria-label={`Explore ${project.label}`}>
+            <div className={`project-visual tone-${project.tone}`}><div className="project-visual-top"><span>{project.category}</span><span className="project-open-icon"><Icon name="arrow" /></span></div><ProjectVisual kind={project.visual} /></div>
+            <div className="project-copy"><p className="project-label">{project.label}</p><h3>{project.title}</h3><p className="project-description">{project.summary}</p><div className="project-metric"><strong>{project.metric}</strong><span>{project.metricLabel}</span></div><div className="project-card-footer"><span>{project.tech.join(" · ")}</span><span className="project-details-label">Explore <Icon name="arrow" /></span></div></div>
+          </button>
         </article>)}</div>
+        <div className="more-work"><p>Also on my workbench</p><div>{moreProjects.map(project => <a key={project.title} href={project.href} target="_blank" rel="noreferrer"><span><strong>{project.title}</strong><span>{project.description}</span></span><Icon name="external" /></a>)}</div></div>
       </section>
 
-      <section id="projects" className="section-shell content-section">
-        <SectionTitle kicker="Selected work" title="Systems, research, and experiments." copy="A few projects that show how I approach performance, machine learning, and dependable implementation." />
-        <div className="project-grid">{projectEntries.map((project, index) => <motion.a className="project-card" key={project.title} href={project.href} target="_blank" rel="noreferrer" whileHover={reduceMotion ? undefined : { y: -4 }}>
-          <figure><img src={project.image} alt="" className={project.imageFit === "contain" ? "contain" : ""} loading="lazy" /></figure>
-          <div className="project-card-copy"><div className="project-number">0{index + 1}</div><p className="project-label">{project.tech.join(" · ")}</p><h3>{project.title}</h3><p>{project.summary}</p><span>View repository <ArrowIcon /></span></div>
-        </motion.a>)}</div>
-      </section>
-
-      <section id="stack" className="section-shell content-section">
-        <SectionTitle kicker="Toolkit" title="Tools chosen for the problem." copy="My core stack spans service architecture, applied machine learning, and production delivery." />
-        <div className="stack-grid">{stackGroups.map((group, index) => <article className="stack-card" key={group.title}><span>0{index + 1}</span><h3>{group.title}</h3><p>{group.note}</p><ul>{group.items.map((item) => <li key={item}>{item}</li>)}</ul></article>)}</div>
-      </section>
-
-      <section id="education" className="section-shell content-section">
-        <SectionTitle kicker="Education" title="A foundation in computer science." copy="Formal study has supported the same thread running through my work: understanding systems deeply enough to improve them." />
-        <div className="education-list">{educationEntries.map((entry) => <article key={entry.school}><img src={entry.logo} alt="" width="76" height="76" loading="lazy" /><div><p>{entry.period}</p><h3>{entry.degree}</h3><span>{entry.school} · {entry.location}</span><p>{entry.note}</p></div></article>)}</div>
-      </section>
-
-      <section id="contact" className="contact-section"><div className="section-shell contact-inner">
-        <div className="contact-copy"><p className="eyebrow"><span /> Let’s talk</p><h2>Have a hard problem worth solving?</h2><p>I’m open to software engineering roles and thoughtful collaborations in AI systems, backend platforms, and applied research.</p><div className="contact-links"><a href={profile.github} target="_blank" rel="noreferrer">GitHub <ExternalIcon /></a><a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <ExternalIcon /></a></div></div>
-        <form className="contact-form" onSubmit={submitContact} noValidate><label><span>Name</span><input name="name" value={form.name} onChange={onFormChange} placeholder="Your name" /></label><label><span>Email</span><input name="email" type="email" value={form.email} onChange={onFormChange} placeholder="you@example.com" /></label><label><span>Message</span><textarea name="message" rows={4} value={form.message} onChange={onFormChange} placeholder="What would you like to build?" /></label><button className="primary-button" type="submit">Draft email <ArrowIcon /></button>{formStatus === "error" && <p className="form-message error" role="alert">Please complete all three fields.</p>}{formStatus === "ready" && <p className="form-message">Your email app should be open with a draft.</p>}</form>
+      <section id="experience" className="experience-section"><div className="section-shell content-section">
+        <SectionHeading label="Experience" title="From production to the research lab." copy="The teams I’ve worked with, and the problems I’ve helped solve." />
+        <div className="experience-list">{experienceEntries.map(entry => <details className="experience-item" key={entry.company} open={entry.current}>
+          <summary><span className="company-logo"><img src={entry.logo} alt="" width="48" height="48" loading="lazy" /></span><span className="experience-summary"><span className="experience-company">{entry.company}{entry.current && <span className="current-badge">Current</span>}</span><span className="experience-role">{entry.role}<span>{entry.team}</span></span></span><span className="experience-date">{entry.period}</span><span className="experience-expand"><Icon name="chevron" /></span></summary>
+          <div className="experience-body"><p className="experience-field">{entry.field}<span>{entry.location}</span></p><p>{entry.summary}</p><ul>{entry.highlights.map(highlight => <li key={highlight}>{highlight}</li>)}</ul><div className="project-tags">{entry.tech.map(item => <span key={item}>{item}</span>)}</div></div>
+        </details>)}</div>
+        <div className="impact-row" aria-label="Selected production experience"><div><strong>100K+</strong><span>daily requests at Paismo</span></div><div><strong>40%</strong><span>lower query latency at Paismo</span></div><div><strong>300K+</strong><span>monthly email workflow runs at xiQ</span></div></div>
       </div></section>
+
+      <section id="research" className="section-shell content-section research-section">
+        <SectionHeading label="Research & publications" title="Questions worth looking into." copy="Reliable AI-generated code, maintainable data systems, and movement after stroke."><a className="inline-link" href={profile.scholar} target="_blank" rel="noreferrer">Google Scholar <Icon name="external" /></a></SectionHeading>
+        <div className="publications">{publications.map((paper, index) => <article className="publication" key={paper.href}>
+          <div className="publication-index">0{index + 1}</div><div className="publication-body"><div className="publication-meta"><span>{paper.venue} {paper.year}</span><span>{paper.authorship}</span></div><h3><a href={paper.href} target="_blank" rel="noreferrer">{paper.shortTitle}<Icon name="external" /></a></h3><p>{paper.description}</p><details className="paper-details"><summary>Paper details <Icon name="chevron" /></summary><p>{paper.title}</p><p>{paper.citation}</p></details><div className="publication-actions"><a className="inline-link" href={paper.href} target="_blank" rel="noreferrer">Read paper <Icon name="arrow" /></a><button className="inline-link citation-button" onClick={() => copyCitation(paper.citation)}><Icon name="copy" /> Copy citation</button></div></div>
+        </article>)}</div>
+        <p className="citation-status" role="status">{citationStatus}</p>
+        <aside className="upcoming-research"><span className="upcoming-icon"><Icon name="research" /></span><div><p className="eyebrow">Looking ahead · {upcomingResearch.venue}</p><h3>{upcomingResearch.title}</h3><p>{upcomingResearch.note}</p></div><span className="upcoming-badge">Upcoming</span></aside>
+      </section>
+
+      <section id="education" className="about-section"><div className="section-shell content-section">
+        <SectionHeading label="A little more about me" title="Curiosity is the common thread." copy="I like understanding how things work, whether that means tracing a slow query, studying a movement signal, or finding a better algorithm." />
+        <div className="education-grid">{educationEntries.map(entry => <article className="education-card" key={entry.school}><div className="education-card-top"><img src={entry.logo} alt="" width="48" height="48" loading="lazy" /><span>{entry.period}</span></div><h3>{entry.degree}</h3><p className="education-emphasis">{entry.emphasis}</p><p className="education-school">{entry.school}</p><span className="achievement"><Icon name="school" />{entry.achievement}</span><p className="education-details">{entry.details}</p></article>)}</div>
+        <div className="awards">{awards.map(award => <div key={award.title}><Icon name="spark" /><p><strong>{award.title}</strong><span>{award.detail}</span></p></div>)}</div>
+        <div className="toolkit"><div><p className="eyebrow">My toolkit</p><h3>Different problems.<br />The right tools.</h3><a className="inline-link" href={profile.resume} target="_blank" rel="noreferrer">Full résumé <Icon name="arrow" /></a></div><dl>{stackGroups.map(group => <div key={group.title}><dt>{group.title}</dt><dd>{group.items}</dd></div>)}</dl></div>
+      </div></section>
+
+      <section id="contact" className="section-shell contact-section">
+        <div className="contact-card"><div className="contact-copy"><p className="eyebrow">Get in touch</p><h2>Let’s build something<br /><span>thoughtful.</span></h2><p>Have a role, a research question, or an interesting problem in mind? I’d be glad to hear about it.</p><div className="contact-actions"><a className="button button-primary" href={`mailto:${profile.email}`}>Say hello <Icon name="mail" /></a><button className="button button-outlined" onClick={copyEmail}><Icon name={copyStatus === "copied" ? "check" : "copy"} />{copyStatus === "copied" ? "Email copied" : "Copy email"}</button></div><p className="copy-status" role="status">{copyStatus === "error" ? `Copy unavailable. Email me at ${profile.email}` : <a href={`mailto:${profile.email}`}>{profile.email}</a>}</p></div><div className="contact-profiles">{publicProfiles.map(item => <a href={item.href} key={item.label} target="_blank" rel="noreferrer"><span><strong>{item.label}</strong><span>{item.description}</span></span><Icon name="external" /></a>)}</div></div>
+      </section>
     </main>
-    <footer className="site-footer"><p>© {new Date().getFullYear()} Muhammad Ahmed</p><button onClick={() => navigate("about")}>Back to top ↑</button></footer>
+    <footer className="site-footer section-shell"><a className="footer-brand" href="#about"><span className="brand-mark">a<span>.</span></span><span>Made with care, in Long Beach.</span></a><span>© {new Date().getFullYear()} Muhammad Ahmed</span><a href="#about" className="back-top">Back to top <Icon name="arrow" /></a></footer>
     <PortfolioGuideBot activeSection={activeSection} onNavigate={navigate} />
+    {selectedProject && <ProjectDialog project={selectedProject} onClose={() => setSelectedProject(null)} />}
   </div>
 }

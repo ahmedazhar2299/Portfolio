@@ -58,8 +58,8 @@ export function Seo({ title, description, pathname }: SeoProps) {
     upsertMetaByProperty("og:image", DEFAULT_IMAGE)
     upsertMetaByProperty("og:image:secure_url", DEFAULT_IMAGE)
     upsertMetaByProperty("og:image:type", "image/png")
-    upsertMetaByProperty("og:image:width", "1280")
-    upsertMetaByProperty("og:image:height", "1200")
+    upsertMetaByProperty("og:image:width", "1200")
+    upsertMetaByProperty("og:image:height", "630")
     upsertMetaByProperty("og:image:alt", "Muhammad Ahmed portfolio preview")
 
     let canonical = document.querySelector("link[rel='canonical']") as HTMLLinkElement | null

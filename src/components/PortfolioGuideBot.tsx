@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { navSections, type PortfolioSectionId } from "../data/portfolioSections"
 import "./PortfolioGuideBot.css"
 
@@ -7,26 +7,28 @@ type Props = { activeSection: PortfolioSectionId; onNavigate: (id: PortfolioSect
 type Mood = "hello" | "happy" | "wow" | "sleepy"
 
 const sectionNotes: Record<PortfolioSectionId, string> = {
-  about: "Hi, I’m Orbit. I can show you around, or you can poke my antenna. I’m resilient.",
-  experience: "This is the production trail. The numbers here describe scale and outcomes, not decoration.",
-  education: "A 4.0 graduate GPA and a computer science foundation. The learning loop stays active.",
-  projects: "These are hands-on builds. Pick a card to open the repository and inspect the implementation.",
-  stack: "Tools are grouped by the problems they solve, which is more useful than a very long logo wall.",
-  contact: "You made it. The form creates a ready-to-send email draft, so no message disappears into a void.",
+  about: "Hi, I’m Orbit. I can help you find Ahmed’s projects, research, or experience. My antenna also accepts high fives.",
+  experience: "Ahmed works in research at Chapman and CSULB. Before that, he built production systems at Paismo and xiQ.",
+  education: "Ahmed studies computer science at Cal State Long Beach, with an emphasis in AI and a 4.0 graduate GPA.",
+  projects: "Choose a project to explore its approach and implementation. You can also filter by systems, machine learning, or research.",
+  research: "Two IEEE COMPSAC publications cover reliable code generation and agentic ETL analysis. You can read the papers or copy a citation.",
+  contact: "Have something in mind? Send Ahmed an email, or find him on GitHub, LinkedIn, and Google Scholar.",
 }
 
 const facts = [
-  "Ahmed has built services handling more than 100,000 requests a day.",
-  "One backend redesign reduced policy evaluation latency by 80 percent.",
-  "The project mix runs from federated learning to SIMD optimization.",
+  "Ahmed optimized PostgreSQL queries at Paismo, reducing latency by 40 percent at more than 100,000 daily requests.",
+  "At xiQ, Ahmed helped scale asynchronous email workflows to more than 300,000 runs a month.",
+  "Ahmed’s work spans stroke mobility research, Python dependency graphs, and SIMD image processing.",
+  "Ahmed received the CSULB CECS Departmental Excellence Scholarship.",
   "Orbit’s official job title is Senior Navigation Bot. Self-appointed.",
 ]
 
-function Robot({ mood, highFives, onPoke }: { mood: Mood; highFives: number; onPoke: () => void }) {
+function Robot({ mood, highFives, onPoke, onToggle, open }: { mood: Mood; highFives: number; onPoke: () => void; onToggle: () => void; open: boolean }) {
+  const reduceMotion = useReducedMotion()
   const eyes = mood === "happy" ? <><path d="M35 50q7-8 14 0" /><path d="M65 50q7-8 14 0" /></> : mood === "sleepy" ? <><path d="M35 50h14" /><path d="M65 50h14" /></> : <><ellipse cx="42" cy="49" rx={mood === "wow" ? 6 : 5} ry={mood === "wow" ? 7 : 6} /><ellipse cx="72" cy="49" rx={mood === "wow" ? 6 : 5} ry={mood === "wow" ? 7 : 6} /></>
-  return <motion.div className="orbit-robot" animate={mood === "happy" ? { y: [0, -7, 0], rotate: [0, -2, 2, 0] } : { y: [0, -2, 0] }} transition={{ duration: mood === "happy" ? 0.55 : 2.8, repeat: mood === "happy" ? 0 : Infinity }}>
+  return <motion.div className="orbit-robot" animate={reduceMotion ? { y: 0, rotate: 0 } : mood === "happy" ? { y: [0, -7, 0], rotate: [0, -2, 2, 0] } : { y: [0, -2, 0] }} transition={{ duration: mood === "happy" ? 0.55 : 2.8, repeat: reduceMotion || mood === "happy" ? 0 : Infinity }}>
     <button className="antenna-button" onClick={(event) => { event.stopPropagation(); onPoke() }} aria-label="Poke Orbit’s antenna"><span /></button>
-    <svg viewBox="0 0 114 126" role="img" aria-label={`Orbit the robot is ${mood}`}>
+    <button className="orbit-body-trigger" onClick={onToggle} aria-expanded={open} aria-label={open ? "Close Orbit guide" : "Open Orbit guide"}><svg viewBox="0 0 114 126" aria-hidden="true">
       <ellipse className="orbit-shadow" cx="57" cy="119" rx="34" ry="5" />
       <path className="orbit-ear" d="M17 43c-8 2-9 22 1 25l5-2V44Z" /><path className="orbit-ear" d="M97 43c8 2 9 22-1 25l-5-2V44Z" />
       <rect className="orbit-head" x="20" y="25" width="74" height="58" rx="25" />
@@ -37,7 +39,7 @@ function Robot({ mood, highFives, onPoke }: { mood: Mood; highFives: number; onP
       <rect className="orbit-screen" x="43" y="88" width="28" height="16" rx="7" /><path className="orbit-heart" d="M51 95c0-4 5-5 6-1 1-4 6-3 6 1 0 4-6 7-6 7s-6-3-6-7Z" />
       <path className="orbit-arm" d="M34 89Q20 91 20 104" /><path className="orbit-arm" d="M80 89q14 2 14 15" />
       <path className="orbit-foot" d="M43 111v7H31" /><path className="orbit-foot" d="M71 111v7h12" />
-    </svg>
+    </svg></button>
     {highFives > 0 && <motion.span className="high-five-badge" initial={{ scale: 0 }} animate={{ scale: 1 }}>+{highFives}</motion.span>}
   </motion.div>
 }
@@ -50,6 +52,9 @@ export function PortfolioGuideBot({ activeSection, onNavigate }: Props) {
   const [message, setMessage] = useState(sectionNotes.about)
   const [factIndex, setFactIndex] = useState(0)
   const [highFives, setHighFives] = useState(0)
+  const moodTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+
+  useEffect(() => () => clearTimeout(moodTimer.current), [])
 
   useEffect(() => { setMessage(sectionNotes[activeSection]); setMood("hello") }, [activeSection])
   useEffect(() => {
@@ -60,10 +65,11 @@ export function PortfolioGuideBot({ activeSection, onNavigate }: Props) {
 
   const highFive = () => {
     setHighFives((count) => count + 1); setMood("happy"); setMessage("High five received. Excellent form.")
-    window.setTimeout(() => setMood("hello"), 900)
+    clearTimeout(moodTimer.current)
+    moodTimer.current = setTimeout(() => setMood("hello"), 900)
   }
   const nextFact = () => {
-    const next = (factIndex + 1) % facts.length; setFactIndex(next); setMessage(facts[next]); setMood("wow")
+    setMessage(facts[factIndex]); setFactIndex((factIndex + 1) % facts.length); setMood("wow")
   }
 
   if (hidden) return <button className="orbit-wake" onClick={() => { setHidden(false); setOpen(true) }} aria-label="Wake Orbit"><span>●</span> Wake Orbit</button>
@@ -78,9 +84,9 @@ export function PortfolioGuideBot({ activeSection, onNavigate }: Props) {
         <button className="orbit-hide" onClick={() => setHidden(true)}>Send Orbit to recharge</button>
       </motion.div>}
     </AnimatePresence>
-    <button className="orbit-trigger" onClick={() => { setOpen(!open); setMood("hello") }} aria-expanded={open} aria-label={open ? "Close Orbit guide" : "Open Orbit guide"}>
+    <div className="orbit-trigger">
       {!open && <span className="orbit-hint">Need a guide?</span>}
-      <Robot mood={mood} highFives={highFives} onPoke={highFive} />
-    </button>
+      <Robot mood={mood} highFives={highFives} onPoke={highFive} onToggle={() => { setOpen(!open); setMood("hello") }} open={open} />
+    </div>
   </aside>
 }

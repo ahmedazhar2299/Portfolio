@@ -1,7 +1,7 @@
 {
   "name": "Muhammad Ahmed",
   "short_name": "Muhammad Ahmed",
-  "description": "Portfolio of Muhammad Ahmed, a software engineer focused on AI-native backend systems and distributed systems engineering.",
+  "description": "Muhammad Ahmed, software engineer and researcher working on backend systems, applied machine learning, and scientific computing.",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -14,7 +14,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#171717",
-  "background_color": "#171717",
+  "theme_color": "#f8fafd",
+  "background_color": "#f8fafd",
   "display": "standalone"
 }

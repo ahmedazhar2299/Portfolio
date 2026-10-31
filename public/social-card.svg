@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f8fafd"/>
+  <rect x="60" y="60" width="1080" height="510" rx="40" fill="white" stroke="#dfe3eb"/>
+  <rect x="112" y="105" width="65" height="65" rx="21" fill="#d3e3fd"/>
+  <text x="132" y="151" font-family="Arial,sans-serif" font-size="46" fill="#0842a0">a</text><circle cx="160" cy="149" r="3" fill="#34a853"/>
+  <text x="196" y="133" font-family="Arial,sans-serif" font-size="22" fill="#202124">Muhammad Ahmed</text>
+  <text x="196" y="158" font-family="Arial,sans-serif" font-size="15" fill="#5d6572">Software engineer &amp; researcher</text>
+  <text x="112" y="285" font-family="Arial,sans-serif" font-size="65" letter-spacing="-2" fill="#202124">Building software.</text>
+  <text x="112" y="366" font-family="Arial,sans-serif" font-size="65" letter-spacing="-2" fill="#0b57d0">Advancing research.</text>
+  <text x="115" y="432" font-family="Arial,sans-serif" font-size="20" fill="#5d6572">Backend systems · Applied machine learning · Scientific computing</text>
+  <circle cx="122" cy="504" r="5" fill="#24824b"/><text x="139" y="510" font-family="Arial,sans-serif" font-size="16" fill="#5d6572">Long Beach, California</text>
+  <rect x="879" y="215" width="190" height="190" rx="62" fill="#e6eefc"/>
+  <path d="m927 284-28 26 28 26m94-52 28 26-28 26m-34-66-23 79" stroke="#3265ae" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+  <circle cx="1050" cy="411" r="27" fill="#e5efe8"/><path d="m1038 410 8 8 16-18" stroke="#3f7557" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
