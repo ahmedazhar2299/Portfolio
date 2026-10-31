@@ -86,7 +86,7 @@ export default function App() {
     <a className="skip-link" href="#main">Skip to content</a>
     <header className="site-header">
       <div className="header-inner">
-        <a className="wordmark" href="#about" aria-label="Muhammad Ahmed, home"><span className="brand-mark">a<span>.</span></span><span>Muhammad Ahmed<span className="wordmark-caption">Engineer & researcher</span></span></a>
+        <a className="wordmark" href="#about" aria-label="Muhammad Ahmed, home"><span className="brand-mark">a<span>.</span></span><span>Muhammad Ahmed<span className="wordmark-caption">Engineer by Profession | Researcher by Passion | Athlete by Lifestyle</span></span></a>
         <nav id="main-navigation" className={menuOpen ? "site-nav is-open" : "site-nav"} aria-label="Main navigation">
           {navSections.map(item => <a key={item.id} href={`#${item.id}`} className={activeSection === item.id ? "is-active" : ""} aria-current={activeSection === item.id ? "location" : undefined} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
         </nav>
