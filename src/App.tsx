@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import { Icon } from "./components/Icon"
-import { PortfolioGuideBot } from "./components/PortfolioGuideBot"
 import { ProjectDialog } from "./components/ProjectDialog"
 import { ProjectGallery } from "./components/ProjectGallery"
 import { DepthCard } from "./components/DepthCard"
@@ -63,12 +62,6 @@ export default function App() {
 
   useEffect(() => () => clearTimeout(copyTimer.current), [])
 
-  const navigate = (id: PortfolioSectionId) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })
-    history.replaceState(null, "", `#${id}`)
-    setMenuOpen(false)
-  }
-
   const copyEmail = async () => {
     try { await navigator.clipboard.writeText(profile.email); setCopyStatus("copied") }
     catch { setCopyStatus("error") }
@@ -81,7 +74,7 @@ export default function App() {
     catch { setCitationStatus("Could not copy. The citation is available under Paper details.") }
   }
 
-  return <div className="site-shell" data-active-section={activeSection}>
+  return <div className="site-shell">
     <Seo title="Muhammad Ahmed | Software Engineer & Researcher" description={profile.heroStatement} pathname="/" />
     <a className="skip-link" href="#main">Skip to content</a>
     <header className="site-header">
@@ -153,7 +146,6 @@ export default function App() {
       </section>
     </main>
     <footer className="site-footer section-shell"><a className="footer-brand" href="#about"><span className="brand-mark">a<span>.</span></span><span>Made with care, in Long Beach.</span></a><span>© {new Date().getFullYear()} Muhammad Ahmed</span><a href="#about" className="back-top">Back to top <Icon name="arrow" /></a></footer>
-    <PortfolioGuideBot activeSection={activeSection} onNavigate={navigate} />
     {selectedProject && <ProjectDialog project={selectedProject} onClose={() => setSelectedProject(null)} />}
   </div>
 }

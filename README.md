@@ -1,6 +1,6 @@
 # Muhammad Ahmed Portfolio
 
-A minimal, Material-inspired portfolio built with React 19, TypeScript, Vite, and Framer Motion. The interface uses a restrained blue palette, soft surfaces, responsive layouts, and light/dark themes.
+A minimal, Material-inspired portfolio built with React 19, TypeScript, and Vite. The interface uses a restrained blue palette, soft surfaces, responsive layouts, and light/dark themes.
 
 ## Development
 
@@ -17,7 +17,6 @@ The existing Vercel deployment remains the canonical site. Local development doe
 - `src/data/portfolioSections.ts`: projects, experience, publications, education, and skills.
 - `public/resume/resume.pdf`: the current résumé download.
 - `public/social-card.svg`: editable source for the 1200 × 630 social preview.
-- `src/components/PortfolioGuideBot.tsx`: the original SVG Orbit companion, with current facts and navigation.
 - `src/components/ProjectGallery.tsx`: filterable project cards.
 - `src/components/ProjectVisual.tsx`: static SVG diagrams for the six project workflows.
 - `src/components/ProjectDialog.tsx`: native project detail dialogs.
