@@ -1,46 +1,106 @@
 import type { ProjectVisual as Visual } from "../data/portfolioSections"
 
-// Structural illustrations, rather than simulated result plots.
+function Arrow({ x, y, length = 32 }: { x: number; y: number; length?: number }) {
+  return <path className="diagram-route" d={`M${x} ${y}h${length}m-6-5 6 5-6 5`} />
+}
+
+function Tile({ x, y, width, label, accent = false }: { x: number; y: number; width: number; label: string; accent?: boolean }) {
+  return <g>
+    <rect className={accent ? "diagram-accent" : "diagram-node"} x={x} y={y} width={width} height="38" rx="8" />
+    <text className={accent ? "diagram-accent-text" : undefined} x={x + width / 2} y={y + 24} textAnchor="middle">{label}</text>
+  </g>
+}
+
+// Static schematics explain each workflow without suggesting measured results.
 export function ProjectVisual({ kind }: { kind: Visual }) {
-  return <svg className="project-illustration" viewBox="0 0 460 224" fill="none" aria-hidden="true">
+  return <svg className="project-illustration" viewBox="0 0 460 224" fill="none" aria-hidden="true" focusable="false">
+    <rect className="diagram-panel" x="24" y="22" width="412" height="180" rx="14" />
     {kind === "graph" && <>
-      <path className="diagram-line" d="M83 68h74q20 0 20 20v48q0 20 20 20h36m-56-47h90q18 0 18-18V68h59M84 156h73m111 0h76" />
-      <path className="diagram-route" d="M83 68h74q20 0 20 20v48q0 20 20 20h147" />
-      {[[45, 45, "package"], [45, 134, "v1.0"], [211, 134, "v1.1"], [307, 45, "v2.0"], [307, 134, "v2.1"]].map(([x, y, label]) => <g key={label}><rect className="diagram-node" x={x} y={y} width="104" height="45" rx="13" /><text x={Number(x) + 52} y={Number(y) + 27} textAnchor="middle">{label}</text></g>)}
-      <circle className="diagram-fill" cx="177" cy="68" r="6" /><circle className="diagram-fill" cx="285" cy="156" r="6" />
-      <path className="diagram-check" d="m377 143 5 5 9-10" />
+      <text className="diagram-heading" x="44" y="49">Package dependencies</text>
+      <text className="diagram-caption" x="416" y="49" textAnchor="end">Python</text>
+      <path className="diagram-line" d="M99 96v-14h262v14M230 134v16h131v-16" />
+      <Arrow x={150} y={115} length={29} /><Arrow x={281} y={115} length={29} />
+      <Tile x={48} y={96} width={102} label="Current" />
+      <Tile x={179} y={96} width={102} label="Compatible" accent />
+      <Tile x={310} y={96} width={102} label="Target" />
+      <circle className="diagram-fill" cx="230" cy="82" r="3" />
+      <path className="diagram-route" d="m46 175 4 4 8-9" />
+      <text className="diagram-caption" x="68" y="180">Version-aware upgrade paths</text>
     </>}
     {kind === "signal" && <>
-      <rect className="diagram-panel" x="62" y="32" width="99" height="158" rx="22" />
-      <path className="diagram-line" d="M95 44h32M100 177h23" />
-      <path className="diagram-route" d="M74 116h11l7-23 9 49 10-65 11 49 8-22 8 12h12" />
-      <path className="diagram-line" d="M184 55h201M184 109h201M184 163h201M206 39v141m54-141v141m54-141v141m54-141v141" opacity=".32" />
-      <path className="diagram-route" d="m183 115 13-5 11-30 9 46 10-19 10 4 11-35 12 58 12-20 12-4 12-43 12 70 13-24 12-4 12-36 11 51 13-14 11-2" />
-      <circle className="diagram-fill" cx="385" cy="108" r="5" />
+      <text className="diagram-heading" x="44" y="49">Motion signals</text>
+      <text className="diagram-caption" x="416" y="49" textAnchor="end">IMU</text>
+      {[83, 115, 147].map((y, i) => <g key={y}>
+        <text className="diagram-caption" x="46" y={y + 4}>{["x", "y", "z"][i]}</text>
+        <path className="diagram-grid-line" d={`M70 ${y}h342`} />
+      </g>)}
+      {[128, 196, 264, 332, 400].map(x => <path className="diagram-grid-line" key={x} d={`M${x} 66v93`} />)}
+      <path className="diagram-route" d="M70 83h16q8 0 13-11t13 0 13 11 13-11 13 0 13 11 13-11 13 0 13 11 13-11 13 0 13 11 13-11 13 0 13 11 13-11 13 0 13 11 13-11 13 0h14" />
+      <path className="diagram-route diagram-secondary" d="M70 115h16q8 0 13 8t13 0 13-8 13 8 13 0 13-8 13 8 13 0 13-8 13 8 13 0 13-8 13 8 13 0 13-8 13 8 13 0 13-8 13 8 13 0h14" />
+      <path className="diagram-route" d="M70 147h16q8 0 13-6t13 0 13 6 13-6 13 0 13 6 13-6 13 0 13 6 13-6 13 0 13 6 13-6 13 0 13 6 13-6 13 0 13 6 13-6 13 0h14" />
+      <text className="diagram-caption" x="44" y="182">Wearable + phone</text>
+      <Arrow x={218} y={177} length={28} />
+      <text className="diagram-caption" x="268" y="182">Gait features</text>
     </>}
     {kind === "simd" && <>
-      <text x="86" y="45" textAnchor="middle">scalar</text><text x="295" y="45" textAnchor="middle">vectorized</text>
-      {[0, 1, 2, 3].map(row => <g key={row}><rect className="diagram-node" x="62" y={62 + row * 34} width="48" height="23" rx="6" /><rect className={row === 1 ? "diagram-fill" : "diagram-node"} x="196" y={62 + row * 34} width="43" height="23" rx="6" /><rect className="diagram-node" x="246" y={62 + row * 34} width="43" height="23" rx="6" /><rect className="diagram-node" x="296" y={62 + row * 34} width="43" height="23" rx="6" /><rect className="diagram-node" x="346" y={62 + row * 34} width="43" height="23" rx="6" /></g>)}
-      <path className="diagram-route" d="M132 113h39m-8-7 8 7-8 7" />
+      <text className="diagram-heading" x="44" y="49">Sobel / Laplacian</text>
+      <text className="diagram-caption" x="416" y="49" textAnchor="end">ARM NEON</text>
+      {Array.from({ length: 25 }, (_, i) => {
+        const row = Math.floor(i / 5), col = i % 5
+        const inside = row >= 1 && row <= 3 && col >= 1 && col <= 3
+        const edge = inside && (row === 1 || row === 3 || col === 1 || col === 3)
+        return <g key={i}>
+          <rect className={inside ? "diagram-pixel-dark" : "diagram-pixel"} x={66 + col * 17} y={67 + row * 17} width="14" height="14" rx="2" />
+          <rect className={edge ? "diagram-pixel-dark" : "diagram-pixel"} x={310 + col * 17} y={67 + row * 17} width="14" height="14" rx="2" />
+        </g>
+      })}
+      <Arrow x={162} y={106} length={27} />
+      <rect className="diagram-node" x="203" y="72" width="91" height="68" rx="9" />
+      {[0, 1, 2, 3].map(i => <rect className="diagram-accent" key={i} x={214 + i * 18} y="85" width="12" height="28" rx="3" />)}
+      <text className="diagram-caption" x="248" y="130" textAnchor="middle">128 bit</text>
+      <text className="diagram-caption" x="107" y="181" textAnchor="middle">Pixels</text>
+      <text className="diagram-caption" x="248" y="181" textAnchor="middle">Parallel kernels</text>
+      <text className="diagram-caption" x="351" y="181" textAnchor="middle">Edges</text>
     </>}
     {kind === "shield" && <>
-      <rect className="diagram-panel" x="58" y="56" width="118" height="112" rx="15" />
-      <path className="diagram-line" d="M75 80h48m-48 17h82m-82 17h68m-68 17h54M176 112h63" />
-      <path className="diagram-shield" d="m299 35 64 25v51c0 37-35 64-64 79-29-15-64-42-64-79V60l64-25Z" />
-      <path className="diagram-route" d="m277 110 16 17 31-34" />
-      <circle className="diagram-node" cx="377" cy="168" r="20" /><path className="diagram-route" d="M377 160v10m0 5v1" />
+      <text className="diagram-heading" x="44" y="49">Listing risk assessment</text>
+      <Tile x={44} y={71} width={141} label="Listing text" />
+      <Tile x={44} y={125} width={141} label="Listing data" />
+      <path className="diagram-line" d="M185 90h25q10 0 10 10v34q0 10-10 10h-25" />
+      <Arrow x={220} y={114} length={26} />
+      <rect className="diagram-node" x="262" y="71" width="154" height="92" rx="10" />
+      <text className="diagram-heading" x="339" y="100" textAnchor="middle">XGBoost</text>
+      <path className="diagram-grid-line" d="M278 113h122" />
+      <text x="339" y="141" textAnchor="middle">Risk score</text>
+      <text className="diagram-caption" x="44" y="184">Text + structured features</text>
     </>}
     {kind === "imaging" && <>
-      {[66, 279].map((x, i) => <g key={x}><rect className="diagram-panel" x={x} y="36" width="115" height="140" rx="15" /><ellipse className="diagram-node" cx={x + 57} cy="104" rx="38" ry="46" /><path className="diagram-line" d={`M${x + 57} 66v75m-7-67q-31 20-12 49m25-49q31 20 12 49m-39-23 14 8m12 0 14-8`} opacity={i ? 1 : .35} /><text x={x + 57} y="202" textAnchor="middle">{i ? "reconstruction" : "input"}</text></g>)}
-      <path className="diagram-route" d="M202 106h55m-9-8 9 8-9 8" /><text x="230" y="89" textAnchor="middle">GAN</text>
+      <text className="diagram-heading" x="44" y="49">Image reconstruction</text>
+      <text className="diagram-caption" x="416" y="49" textAnchor="end">Pix2CT</text>
+      <Tile x={44} y={81} width={101} label="CT input" />
+      <Arrow x={155} y={100} length={22} />
+      <Tile x={187} y={81} width={101} label="Pix2Pix" accent />
+      <Arrow x={298} y={100} length={22} />
+      <Tile x={330} y={81} width={86} label="Output" />
+      <path className="diagram-line" d="M94 119v40h57" />
+      <Tile x={151} y={140} width={137} label="MobileNetV2" />
+      <Arrow x={298} y={159} length={22} />
+      <text className="diagram-caption" x="330" y="164">Classify</text>
     </>}
     {kind === "queue" && <>
-      <rect className="diagram-node" x="36" y="75" width="83" height="69" rx="16" /><text x="77" y="115" textAnchor="middle">SVG</text>
-      <path className="diagram-route" d="M130 109h41m-7-7 7 7-7 7m119 0h40m-7-7 7 7-7 7" />
-      <rect className="diagram-panel" x="181" y="55" width="100" height="109" rx="17" />
-      {[77, 100, 123].map(y => <rect className="diagram-node" key={y} x="199" y={y} width="64" height="13" rx="5" />)}
-      <rect className="diagram-node" x="340" y="75" width="83" height="69" rx="16" /><path className="diagram-route" d="M361 123V96h40v27m-46 0h52m-26-37v15m-7 7h14" />
-      <text x="230" y="194" textAnchor="middle">asynchronous job queue</text>
+      <text className="diagram-heading" x="44" y="49">SVG to physical print</text>
+      <rect className="diagram-node" x="44" y="72" width="84" height="80" rx="9" />
+      <path className="diagram-route" d="M61 90h49v35H61zM68 116l10-17 11 13 8-8 7 12" />
+      <text className="diagram-caption" x="86" y="141" textAnchor="middle">SVG</text>
+      <Arrow x={138} y={111} length={24} />
+      <rect className="diagram-node" x="174" y="72" width="112" height="80" rx="9" />
+      {[0, 1, 2].map(i => <rect className="diagram-accent" key={i} x={188 + i * 29} y="86" width="22" height="26" rx="4" />)}
+      <text x="230" y="138" textAnchor="middle">SQS queue</text>
+      <Arrow x={296} y={111} length={24} />
+      <rect className="diagram-node" x="332" y="72" width="84" height="80" rx="9" />
+      <path className="diagram-route" d="M348 119V89h52v30m-59 0h66m-33-30v17m-5 6h10" />
+      <text className="diagram-caption" x="374" y="141" textAnchor="middle">Print</text>
+      <text className="diagram-caption" x="44" y="182">Django</text><text className="diagram-caption" x="230" y="182" textAnchor="middle">S3 + SQS + RDS</text><text className="diagram-caption" x="416" y="182" textAnchor="end">G-code</text>
     </>}
   </svg>
 }

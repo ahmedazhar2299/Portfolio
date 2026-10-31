@@ -15,30 +15,21 @@ The existing Vercel deployment remains the canonical site. Local development doe
 
 - `src/data/profile.ts`: identity, contact details, and public profiles.
 - `src/data/portfolioSections.ts`: projects, experience, publications, education, and skills.
-- `public/resume/resume.pdf`: the supplied October 2026 résumé.
+- `public/resume/resume.pdf`: the current résumé download.
 - `public/social-card.svg`: editable source for the 1200 × 630 social preview.
 - `src/components/PortfolioGuideBot.tsx`: the original SVG Orbit companion, with current facts and navigation.
+- `src/components/ProjectGallery.tsx`: filterable project cards.
+- `src/components/ProjectVisual.tsx`: static SVG diagrams for the six project workflows.
+- `src/components/ProjectDialog.tsx`: native project detail dialogs.
 
 Project cards support category filtering and native accessible detail dialogs. Experience entries expand independently. Publication records link to their DOI and support citation copying. Contact uses direct email links and clipboard copying, with a visible fallback when clipboard access is unavailable.
 
-## Sources reviewed
+## Hero portrait
 
-Content was reconciled on October 31, 2026. The supplied `Ahmed_SDE_Resume.pdf` is the primary source for employment dates, achievements, project measurements, and education. Public repositories provide implementation details.
+The introduction is paired with the original rounded portrait, a yellow sparkle accent, and the caption “A little curiosity. A lot of building.” The layout adapts to light and dark themes and mobile screens. The hero has no 3D renderer or animation controls.
 
-| Source | Use and limitations |
-| --- | --- |
-| [GitHub profile](https://github.com/ahmedazhar2299) and public repositories | Reviewed the repository inventory and READMEs for MyWalkSentinel, CounterfeitGuard, Sobel–Laplacian SIMD, Pix2CT, federated learning, FFT-SIMD, and Campaign_Manager. Forks are not presented as original work. |
-| [LinkedIn](https://www.linkedin.com/in/ahmedazhar2299/) | Reviewed publicly indexed profile content. Direct access is restricted. Activity liked by the profile owner is not treated as their own employment or achievement. |
-| [Google Scholar](https://scholar.google.com/citations?user=I05_ZfIAAAAJ) | Profile URL verified from the résumé. Profile contents are access-limited and are not represented as independently reviewed. |
-| [LLM code generation paper](https://doi.org/10.1109/COMPSAC69091.2026.00285) | Title, authorship, publication date, and pages verified against the Crossref DOI record. |
-| [AURA paper](https://doi.org/10.1109/COMPSAC69091.2026.00490) | Full published title, authorship, publication date, and pages verified against the Crossref DOI record. |
+## Project visuals
 
-## Content decisions
+Project covers use static, flat SVG diagrams in the portfolio’s blue, green, yellow, and purple palette. Each diagram explains its project’s workflow: dependency resolution, motion signals, vectorized edge detection, listing risk assessment, image reconstruction, or print queues. The same diagrams appear in project details. They illustrate structure and processing, rather than presenting measured results. Project previews have no animation, WebGL renderer, or playback controls.
 
-- Updated Paismo figures to more than 30 enterprise organizations and 40% lower query latency, replacing older claims.
-- Added the CSULB CECM Lab appointment, current Chapman work, publications, scholarship, and hackathon award.
-- The dependency resolver and RoboInk have complete project summaries without invented public repository links.
-- Clinical ICC values are described as agreement/reliability measures. Research prototypes are not described as clinically validated products.
-- The World Physiotherapy Congress 2027 entry is separated from published papers and labeled upcoming. No acceptance or presentation status is inferred.
-- SIMD speedup and other résumé-reported measurements retain their workload context.
-- No live GitHub API or third-party profile scraping runs in visitors’ browsers.
+Publication paper stacks and education-card depth use CSS, with pointer motion disabled for reduced-motion preferences and touch devices.

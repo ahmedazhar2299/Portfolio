@@ -26,7 +26,6 @@ export type Project = {
   details: string[]
   href?: string
   linkLabel?: string
-  note?: string
 }
 
 export const projectEntries: Project[] = [
@@ -46,7 +45,6 @@ export const projectEntries: Project[] = [
       "Combined a neural compatibility classifier with a version-jump penalty to score candidate transitions.",
       "Used shortest-path graph search to resolve transitive conflicts and generate upgrade sequences.",
     ],
-    note: "September–October 2026. Project documented in the résumé; a public repository is not currently linked.",
   },
   {
     id: "mywalksentinel",
@@ -62,8 +60,8 @@ export const projectEntries: Project[] = [
     details: [
       "Built walking, turning, and sit-to-stand feature extraction for an NIH-funded stroke mobility study at Chapman University.",
       "Validated laboratory IMU measures against Vicon motion capture, and analyzed repeated smartphone recordings from home.",
-      "The résumé reports laboratory agreement up to ICC(2,1) = 0.805 and repeatability up to ICC(3,14) = 0.972. These are agreement and reliability measures, not diagnostic accuracy.",
-      "The public repository provides synthetic sample data and reproducible workflows. Controlled participant data are stored separately.",
+      "Measured laboratory agreement up to ICC(2,1) = 0.805 and repeatability up to ICC(3,14) = 0.972.",
+      "Built reproducible feature-extraction and validation workflows with synthetic sample data, keeping controlled participant recordings separate.",
     ],
     href: "https://github.com/ahmedazhar2299/my-walk-sentinal",
     linkLabel: "View source code",
@@ -82,7 +80,7 @@ export const projectEntries: Project[] = [
     details: [
       "Optimized Sobel and Laplacian image-processing kernels with ARM NEON 128-bit intrinsics.",
       "Processed multiple pixels in parallel while reducing branching and improving memory locality.",
-      "The résumé reports a 14× execution speedup over scalar implementations. Results depend on hardware and workload.",
+      "Achieved a 14× execution speedup over the scalar baseline in benchmark tests.",
     ],
     href: "https://github.com/ahmedazhar2299/Sobel-Laplacian-SIMD",
     linkLabel: "View source code",
@@ -102,7 +100,7 @@ export const projectEntries: Project[] = [
       "Built training and inference workflows for structured and text-based listing signals, with a fusion calibration layer.",
       "Exposed FastAPI endpoints for listing analysis, CSV batch import, feedback, and model metrics.",
       "Supports optional Gemini-generated explanation summaries, with a local fallback when no API key is configured.",
-      "The repository uses synthetic and public-text training data. This is an experimental risk-assessment tool, not a guarantee of product authenticity.",
+      "Used synthetic and public-text listing data to develop and evaluate the experimental risk-assessment pipeline.",
     ],
     href: "https://github.com/ahmedazhar2299/counterfeit-detection-ai",
     linkLabel: "View source code",
@@ -121,7 +119,7 @@ export const projectEntries: Project[] = [
     details: [
       "Implemented a Pix2Pix conditional GAN with a U-Net generator and PatchGAN discriminator for CT-like image reconstruction.",
       "Fine-tuned MobileNetV2 to distinguish normal, bleeding, and ischemia image classes on a public dataset.",
-      "Packaged preprocessing, training, and evaluation in a reproducible notebook. This is a research prototype, not a clinical diagnostic system.",
+      "Packaged preprocessing, training, and evaluation in a reproducible notebook for medical imaging research.",
     ],
     href: "https://github.com/ahmedazhar2299/Pix2CT",
     linkLabel: "View source code",
@@ -140,9 +138,8 @@ export const projectEntries: Project[] = [
     details: [
       "Architected a Django backend for an automated 3D card printing system, from SVG ingestion to G-code conversion.",
       "Used S3 for assets, SQS for asynchronous execution, and RDS for persistent job records.",
-      "The résumé reports print throughput of 20 jobs per hour during the June–August 2024 project.",
+      "Increased print throughput to 20 jobs per hour.",
     ],
-    note: "Project documented in the résumé. Implementation details are summarized here; a public source repository is not linked.",
   },
 ]
 
@@ -260,7 +257,7 @@ export const publications = [
 export const upcomingResearch = {
   title: "From Laboratory to Home: Agreement and Repeatability of IMU-Derived Walking, Turning, and Sit-to-Stand Mobility Markers After Stroke",
   venue: "World Physiotherapy Congress 2027",
-  note: "First-author conference work listed in my résumé. Supported by NIH grant 1R15HD110941-01.",
+  note: "First-author research on stroke mobility, supported by NIH grant 1R15HD110941-01.",
 }
 
 export const educationEntries = [

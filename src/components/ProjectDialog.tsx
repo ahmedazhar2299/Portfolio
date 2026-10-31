@@ -18,7 +18,8 @@ export function ProjectDialog({ project, onClose }: { project: Project; onClose:
       if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) onClose()
     }
   }}>
-    <div className={`dialog-visual tone-${project.tone}`}><ProjectVisual kind={project.visual} /><button className="icon-button dialog-close" onClick={onClose} aria-label="Close project details" autoFocus><Icon name="close" /></button></div>
+    <div className={`dialog-project-visual tone-${project.tone}`}><ProjectVisual kind={project.visual} /></div>
+    <button className="icon-button dialog-close" onClick={onClose} aria-label="Close project details" autoFocus><Icon name="close" /></button>
     <div className="dialog-copy">
       <p className="eyebrow">{project.category} / {project.label}</p>
       <h2 id="project-dialog-title">{project.title}</h2>
@@ -26,7 +27,6 @@ export function ProjectDialog({ project, onClose }: { project: Project; onClose:
       <div className="project-tags">{project.tech.map(item => <span key={item}>{item}</span>)}</div>
       <h3>Inside the project</h3>
       <ul>{project.details.map(detail => <li key={detail}>{detail}</li>)}</ul>
-      {project.note && <p className="project-note">{project.note}</p>}
       <div className="dialog-actions">{project.href && <a className="button button-primary" href={project.href} target="_blank" rel="noreferrer">{project.linkLabel} <Icon name="external" /></a>}<button className="button button-text" onClick={onClose}>Back to projects</button></div>
     </div>
   </dialog>
